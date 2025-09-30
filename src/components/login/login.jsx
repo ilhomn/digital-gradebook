@@ -1,12 +1,14 @@
 import React, { useState } from "react";
+import IP from "../../config";
 import "./login.css";
 
 function Login() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     try {
-      const response = await fetch("http://192.168.0.110:3000/login", {
+      const response = await fetch(`${IP}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: login, password }),
@@ -27,7 +29,7 @@ function Login() {
   };
 
   return (
-    <div className="login">
+    <form className="login" onSubmit={handleLogin}>
       <span className="login__title">Digital gradebook</span>
 
       <input
@@ -44,8 +46,8 @@ function Login() {
         onChange={(e) => setPassword(e.target.value)}
       />
 
-      <button onClick={handleLogin}>Log in</button>
-    </div>
+      <button>Log in</button>
+    </form>
   );
 }
 
