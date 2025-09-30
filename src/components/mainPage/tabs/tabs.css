@@ -1,0 +1,37 @@
+.tabs-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+.tabs {
+  background: url("img/bcg.png");
+  background-size: auto 100%;
+
+  color: black;
+  display: flex;
+  height: 100px;
+  width: 200px;
+  border: 1px solid #c89b3c;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 20px;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  z-index: 9;
+}
+.tabs:hover {
+  transform: translateY(-1px);
+  box-shadow: 5px 5px 30px #bfa353;
+}
+
+.teacher {
+  align-self: flex-end;
+}

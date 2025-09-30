@@ -1,0 +1,18 @@
+.main-page {
+  background: url("img/gpt.png") no-repeat center;
+  background-size: contain;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  padding: 20px;
+  min-height: 500px;
+  width: 1200px;
+  background: rgba(218, 202, 168, 0.3);
+  border-radius: 15px;
+  border: 1px solid #c89b3c;
+  place-items: center;
+}

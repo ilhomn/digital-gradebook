@@ -5,7 +5,7 @@
   align-items: center;
   height: 100vh;
   gap: 10px;
-  background: url("img/bcg.jpg");
+  background: url("img/bcg.jpg") no-repeat center;
 }
 
 .login__title {
