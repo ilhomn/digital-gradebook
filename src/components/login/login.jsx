@@ -10,18 +10,6 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("token");
-
-      fetch(`${IP}/get-user-data`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          token: token,
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => console.log("User data:", data));
-
       const response = await fetch(`${IP}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

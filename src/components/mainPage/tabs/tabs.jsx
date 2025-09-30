@@ -1,37 +1,42 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import IP from "../../../config";
 import "./tabs.css";
 
 function Tabs() {
+  const [teacher, setTeacher] = useState("");
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    fetch(`${IP}/get-user-data`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        token: token,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("User data:", data);
+        if (data.data && data.data.length > 0) {
+          setTeacher(data.data[0]);
+        }
+      });
+  }, [token]);
+
+  if (!teacher) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <div className="tabs-container">
-      <div className="tabs">
-        <span className="group">초급 1B-3</span>
-        <span className="teacher">선생님</span>
-      </div>
-      <div className="tabs">
-        <span className="group">초급 1B-3</span>
-        <span className="teacher">선생님</span>
-      </div>
-      <div className="tabs">
-        <span className="group">초급 1B-3</span>
-        <span className="teacher">선생님</span>
-      </div>
-      <div className="tabs">
-        <span className="group">초급 1B-3</span>
-        <span className="teacher">선생님</span>
-      </div>
-      <div className="tabs">
-        <span className="group">초급 1B-3</span>
-        <span className="teacher">선생님</span>
-      </div>
-      <div className="tabs">
-        <span className="group">초급 1B-3</span>
-        <span className="teacher">선생님</span>
-      </div>{" "}
-      <div className="tabs">
-        <span className="group">초급 1B</span>
-        <span className="teacher">선생님</span>
-      </div>
+      {teacher.groups.map((group, index) => (
+        <div key={index} className="tabs">
+          <span className="group">{group}</span>
+          <span className="teacher">
+            {teacher.first_name} {teacher.last_name}
+          </span>
+        </div>
+      ))}
     </div>
   );
 }
