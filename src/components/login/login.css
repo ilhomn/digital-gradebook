@@ -6,6 +6,8 @@
   height: 100vh;
   gap: 10px;
   background: url("img/bcg.jpg") no-repeat center;
+  background-size: cover;
+  border: 1px solid #c89b3c;
 }
 
 .login__title {
