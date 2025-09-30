@@ -24,7 +24,7 @@ function Tabs() {
   }, [token]);
 
   if (!teacher) {
-    return <p>Loading...</p>;
+    return <p className="load">Loading...</p>;
   }
 
   return (

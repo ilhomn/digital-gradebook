@@ -1,0 +1,107 @@
+.adminPanel {
+  background: url("img/gpt.png") no-repeat center;
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  background: rgba(218, 202, 168, 0.3);
+  border: 2px solid #c89b3c;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  gap: 20px;
+}
+.title {
+  color: #795813;
+  font-family: "Almendra";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  font-size: 40px;
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+}
+
+.inp1,
+.inp2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* центрируем инпуты по вертикали */
+  align-items: center; /* по горизонтали */
+  gap: 15px;
+}
+
+.inp3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.inp3 {
+  height: 140px;
+  display: flex;
+  flex-direction: column; /* элементы сверху вниз */
+  justify-content: space-between; /* input сверху, button снизу */
+  align-items: center; /* выравнивание по центру */
+  padding: 10px;
+}
+
+.inp3 input {
+  border-radius: 8px;
+  border: 1px solid #c89b3c;
+  padding: 5px 10px;
+  margin-top: 10px;
+}
+
+.inp3 button {
+  width: 150px;
+  height: 35px;
+  border-radius: 8px;
+  border: 1px solid #c89b3c;
+  background-color: #bfa353;
+  color: white;
+  cursor: pointer;
+}
+
+.inp3 button:hover {
+  background-color: #927a38;
+  box-shadow: 0 0 10px #bfa353;
+}
+
+.inp1 input,
+.inp2 input,
+.inp3 input {
+  width: 250px;
+  height: 35px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid #c89b3c;
+  background-color: white;
+  color: black;
+}
+.adminPanel input:focus {
+  outline: none;
+  box-shadow: 0 0 20px #bfa353;
+}
+.label {
+  color: #795813;
+  font-family: "Almendra";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  /* font-size: 40px; */
+}
+input::placeholder {
+  color: #5e4f26; /* золотистый */
+  opacity: 1; /* делаем его полностью непрозрачным */
+  font-style: italic; /* можно добавить стиль */
+}
