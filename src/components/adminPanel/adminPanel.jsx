@@ -9,7 +9,7 @@ function AdminPanel() {
     english_last_name: "",
     korean_last_name: "",
     username: "",
-    groups: [], // 👈 заменили group на groups
+    groups: [],
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -17,7 +17,6 @@ function AdminPanel() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Если меняем поле groups, преобразуем в массив (по запятой)
     if (name === "groups") {
       setFormData({
         ...formData,
