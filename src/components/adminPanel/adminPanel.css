@@ -1,11 +1,10 @@
 .adminPanel {
   background: url("img/gpt.png") no-repeat center;
   background-size: cover;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
 }
 
 .container {
@@ -18,7 +17,6 @@
   align-items: center;
   padding: 20px;
   gap: 20px;
-  max-width: 1200px;
 }
 .title {
   color: #a77d22;
@@ -27,13 +25,6 @@
   font-weight: 400;
   font-display: swap;
   font-size: 40px;
-}
-
-.subtitle {
-  color: #a77d22;
-  font-family: "Almendra";
-  font-size: 24px;
-  margin-bottom: 10px;
 }
 
 .row {
