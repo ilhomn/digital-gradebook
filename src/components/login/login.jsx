@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import IP from "../../config";
+import IP, { getUserData } from "../../config";
 import "./login.css";
 
 function Login() {
@@ -24,10 +24,12 @@ function Login() {
         if (data.token) {
           localStorage.setItem("token", data.token);
 
-          // редирект по роли
-          if (data.role === "teacher") {
+          const userData = await getUserData(data.token);
+          console.log(userData);
+
+          if (userData.status === "teacher") {
             navigate("/mainPage");
-          } else if (data.role === "admin") {
+          } else if (userData.status === "admin") {
             navigate("/adminPanel");
           } else {
             alert("Неизвестная роль пользователя");
