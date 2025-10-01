@@ -7,6 +7,7 @@ function Login() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -18,16 +19,27 @@ function Login() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Login successful");
+        console.log("Login successful:", data);
+
         if (data.token) {
           localStorage.setItem("token", data.token);
-          navigate("/MainePage");
+
+          // редирект по роли
+          if (data.role === "teacher") {
+            navigate("/mainPage");
+          } else if (data.role === "admin") {
+            navigate("/adminPanel");
+          } else {
+            alert("Неизвестная роль пользователя");
+          }
         }
       } else {
         console.error("Login failed");
+        alert("Неверный логин или пароль");
       }
     } catch (error) {
       console.error("Error during login:", error);
+      alert("Ошибка при авторизации");
     }
   };
 
@@ -49,7 +61,7 @@ function Login() {
         onChange={(e) => setPassword(e.target.value)}
       />
 
-      <button>Log in</button>
+      <button type="submit">Log in</button>
     </form>
   );
 }
