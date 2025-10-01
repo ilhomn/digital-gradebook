@@ -19,7 +19,7 @@
   gap: 20px;
 }
 .title {
-  color: #795813;
+  color: #a77d22;
   font-family: "Almendra";
   font-style: normal;
   font-weight: 400;
@@ -36,9 +36,9 @@
 .inp2 {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* центрируем инпуты по вертикали */
-  align-items: center; /* по горизонтали */
-  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
 .inp3 {
@@ -49,9 +49,9 @@
 .inp3 {
   height: 140px;
   display: flex;
-  flex-direction: column; /* элементы сверху вниз */
-  justify-content: space-between; /* input сверху, button снизу */
-  align-items: center; /* выравнивание по центру */
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px;
 }
 
@@ -59,10 +59,9 @@
   border-radius: 8px;
   border: 1px solid #c89b3c;
   padding: 5px 10px;
-  margin-top: 10px;
 }
 
-.inp3 button {
+.submit {
   width: 150px;
   height: 35px;
   border-radius: 8px;
@@ -72,9 +71,12 @@
   cursor: pointer;
 }
 
-.inp3 button:hover {
+.submit:hover {
   background-color: #927a38;
   box-shadow: 0 0 10px #bfa353;
+}
+.submit:active {
+  color: rgb(198, 193, 193);
 }
 
 .inp1 input,
@@ -97,11 +99,23 @@
   font-family: "Almendra";
   font-style: normal;
   font-weight: 400;
-  font-display: swap;
-  /* font-size: 40px; */
 }
 input::placeholder {
-  color: #5e4f26; /* золотистый */
-  opacity: 1; /* делаем его полностью непрозрачным */
-  font-style: italic; /* можно добавить стиль */
+  color: #5e4f26;
+  font-style: italic;
+}
+.toggle-btn {
+  margin-top: 50px;
+  margin-left: 220px;
+  position: absolute;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+.toggle-btn {
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
 }

@@ -4,20 +4,34 @@ import "./adminPanel.css";
 
 function AdminPanel() {
   const [formData, setFormData] = useState({
-    englishFirstName: "",
-    koreanFirstName: "",
-    englishLastName: "",
-    koreanLastName: "",
+    english_first_name: "",
+    korean_first_name: "",
+    english_last_name: "",
+    korean_last_name: "",
     username: "",
-    group: "",
+    groups: [], // 👈 заменили group на groups
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    // Если меняем поле groups, преобразуем в массив (по запятой)
+    if (name === "groups") {
+      setFormData({
+        ...formData,
+        [name]: value
+          .split(",")
+          .map((g) => g.trim())
+          .filter(Boolean),
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -34,12 +48,12 @@ function AdminPanel() {
         console.log("Registration successful:", data);
         alert("Пользователь успешно зарегистрирован!");
         setFormData({
-          englishFirstName: "",
-          koreanFirstName: "",
-          englishLastName: "",
-          koreanLastName: "",
+          english_first_name: "",
+          korean_first_name: "",
+          english_last_name: "",
+          korean_last_name: "",
           username: "",
-          group: "",
+          groups: [],
           password: "",
         });
       } else {
@@ -48,6 +62,7 @@ function AdminPanel() {
       }
     } catch (error) {
       console.error("Error during request:", error);
+      alert("Ошибка соединения с сервером!");
     }
   };
 
@@ -61,18 +76,18 @@ function AdminPanel() {
             <label className="label">English First Name</label>
             <input
               type="text"
-              name="englishFirstName"
+              name="english_first_name"
               placeholder="English First Name"
-              value={formData.englishFirstName}
+              value={formData.english_first_name}
               onChange={handleChange}
             />
 
             <label className="label">Korean First Name</label>
             <input
               type="text"
-              name="koreanFirstName"
+              name="korean_first_name"
               placeholder="Korean First Name"
-              value={formData.koreanFirstName}
+              value={formData.korean_first_name}
               onChange={handleChange}
             />
 
@@ -90,42 +105,51 @@ function AdminPanel() {
             <label className="label">English Last Name</label>
             <input
               type="text"
-              name="englishLastName"
+              name="english_last_name"
               placeholder="English Last Name"
-              value={formData.englishLastName}
+              value={formData.english_last_name}
               onChange={handleChange}
             />
 
             <label className="label">Korean Last Name</label>
             <input
               type="text"
-              name="koreanLastName"
+              name="korean_last_name"
               placeholder="Korean Last Name"
-              value={formData.koreanLastName}
+              value={formData.korean_last_name}
               onChange={handleChange}
             />
 
-            <label className="label">Group</label>
+            <label className="label">Groups (comma separated)</label>
             <input
               type="text"
-              name="group"
-              placeholder="Group"
-              value={formData.group}
+              name="groups"
+              placeholder="e.g. A, B, C"
+              value={formData.groups.join(", ")}
               onChange={handleChange}
             />
           </div>
         </div>
 
-        <div className="inp3">
+        <div className="inp3 password-wrapper">
           <label className="label">Password</label>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="password"
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
           />
-          <button type="submit">Submit</button>
+          <button
+            type="button"
+            className="toggle-btn"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? "🙈" : "👁️"}
+          </button>
+          <button className="submit" type="submit">
+            Submit
+          </button>
         </div>
       </div>
     </form>
