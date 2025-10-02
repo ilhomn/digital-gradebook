@@ -33,7 +33,7 @@ function Tabs() {
         <div key={index} className="tabs">
           <span className="group">{group}</span>
           <span className="teacher">
-            {teacher.first_name} {teacher.last_name}
+            {teacher.korean_first_name} {teacher.korean_last_name}
           </span>
         </div>
       ))}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import IP, { getUserData } from "../../config";
 import "./login.css";
@@ -44,6 +44,11 @@ function Login() {
       alert("Ошибка при авторизации");
     }
   };
+
+  useEffect(() => {
+    // Clear any lingering token when the login page loads
+    localStorage.removeItem("token");
+  }, []);
 
   return (
     <form className="login" onSubmit={handleLogin}>

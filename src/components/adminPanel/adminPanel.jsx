@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import IP from "../../config";
 import "./adminPanel.css";
 
 function AdminPanel() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!window.localStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, [navigate]);
+
   const [formData, setFormData] = useState({
     english_first_name: "",
     korean_first_name: "",
     english_last_name: "",
     korean_last_name: "",
     username: "",
-    groups: [], // 👈 заменили group на groups
+    groups: [],
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -17,7 +26,6 @@ function AdminPanel() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Если меняем поле groups, преобразуем в массив (по запятой)
     if (name === "groups") {
       setFormData({
         ...formData,
@@ -46,7 +54,6 @@ function AdminPanel() {
       if (response.ok) {
         const data = await response.json();
         console.log("Registration successful:", data);
-        alert("Пользователь успешно зарегистрирован!");
         setFormData({
           english_first_name: "",
           korean_first_name: "",
@@ -58,17 +65,32 @@ function AdminPanel() {
         });
       } else {
         console.error("Registration error");
-        alert("Ошибка регистрации!");
       }
     } catch (error) {
       console.error("Error during request:", error);
-      alert("Ошибка соединения с сервером!");
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="adminPanel">
       <div className="container">
+        <button
+          className="log-out
+         "
+          onClick={() => {
+            localStorage.removeItem("token");
+
+            navigate("/");
+          }}
+        >
+          <img
+            className="log-img"
+            width="39"
+            height="39"
+            src="public\img\icons8-log-out-color-32.png"
+            alt="exit"
+          />
+        </button>
         <span className="title">Admin Panel</span>
 
         <div className="row">

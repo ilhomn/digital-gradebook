@@ -119,3 +119,21 @@ input::placeholder {
   cursor: pointer;
   font-size: 18px;
 }
+.log-out {
+  position: absolute;
+  margin-bottom: 450px;
+  margin-right: 1100px;
+  height: 39px;
+  width: 39px;
+  border-radius: 100px;
+  border: none;
+  background-color: #c89c3c00;
+  cursor: pointer;
+}
+.log-img {
+  border-radius: 8px;
+}
+.log-img:hover {
+  transform: translateY(-1px);
+  box-shadow: 5px 5px 30px #bfa353;
+}
