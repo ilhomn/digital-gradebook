@@ -1,4 +1,4 @@
-const IP = "http://192.168.0.109:3000";
+const IP = "http://192.168.0.119:3000";
 
 export const getUserData = async (token) => {
   try {
@@ -13,7 +13,11 @@ export const getUserData = async (token) => {
     if (response.ok) {
       const data = await response.json();
 
-      return data.data[0];
+      if (data.data && data.data.length > 0) {
+        return data.data[0];
+      } else {
+        return "Error: No user data found";
+      }
     } else {
       return "Error";
     }

@@ -28,7 +28,7 @@ function MainPage() {
             className="log-img"
             width="39"
             height="39"
-            src="public\img\icons8-log-out-color-32.png"
+            src="/img/icons8-log-out-color-32.png"
             alt="exit"
           />
         </button>
