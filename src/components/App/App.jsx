@@ -14,6 +14,7 @@ import Navbar from "../adminPanel/navbarAdminPanel/Navbar";
 import MainPageAdmin from "../adminPanel/mainPageAdmin/MainPageAdmin";
 import CreateUser from "../adminPanel/createUser/CreateUser";
 import CreateGroup from "../adminPanel/createGroup/CreateGroup";
+import ManageGroup from "../adminPanel/manageGroup/ManageGroup";
 
 function App() {
   return (

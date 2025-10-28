@@ -10,7 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "js-year-calendar": "^2.0.0",
+    "prop-types": "^15.8.1",
     "react": "^19.1.1",
+    "react-calendar": "^6.0.0",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.3"
   },
