@@ -1,0 +1,52 @@
+.MainPageAdmin {
+  background: url("/img/studentsListBCG.png") no-repeat center center / cover;
+  background-color: #fef6e3;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+}
+.navbar {
+  position: absolute;
+  margin-bottom: 41%;
+}
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+  margin: auto;
+  border: 1px solid #c89b3c;
+  flex-wrap: wrap;
+}
+.createGroup,
+.createUser,
+.manageGroup,
+.sendExsel,
+.dataBase {
+  color: black;
+  display: flex;
+  height: 100px;
+  width: 200px;
+  border: 1px solid #c89b3c;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 17.5px;
+  align-items: center;
+  justify-content: center;
+  color: #978041;
+}
+.createGroup:hover,
+.createUser:hover,
+.manageGroup:hover,
+.sendExsel:hover,
+.dataBase:hover {
+  transform: translateY(-1px);
+  box-shadow: 5px 5px 30px #bfa353;
+  color: #796735;
+  cursor: pointer;
+}

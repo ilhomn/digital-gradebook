@@ -1,0 +1,82 @@
+.manageGroupPage {
+  background: url("/img/studentsListBCG.png") no-repeat center center / cover;
+  background-color: #fef6e3;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+}
+
+.container {
+  margin-top: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 40px 60px;
+  border: 1px solid rgba(200, 155, 60, 0.4);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.container input {
+  color: #2e2e2e;
+  font-family: "Poppins", sans-serif;
+  width: 320px;
+  padding: 12px 15px;
+  border: 2px solid #c89b3c;
+  border-radius: 10px;
+  outline: none;
+  background-color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.container input:focus {
+  border-color: #b3862e;
+  box-shadow: 0 0 8px rgba(200, 155, 60, 0.3);
+  transform: scale(1.02);
+}
+
+.container button {
+  margin-top: 15px;
+  width: 200px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #c89b3c, #e0b44d);
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+.container button:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #d4a63f, #f0c85c);
+  box-shadow: 0 4px 12px rgba(200, 155, 60, 0.3);
+}
+
+.container button:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 6px rgba(200, 155, 60, 0.3);
+}
+
+@media (max-width: 600px) {
+  .container {
+    width: 90%;
+    padding: 25px;
+  }
+
+  .container input {
+    width: 100%;
+  }
+
+  .container button {
+    width: 100%;
+  }
+}

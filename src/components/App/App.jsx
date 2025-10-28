@@ -8,8 +8,12 @@ import {
 
 import Login from "../login/Login";
 import MainPage from "../mainPage/main/MainPage";
-import AdminPanel from "../adminPanel/AdminPanel";
+
 import StudentsList from "../studentsList/StudentsList";
+import Navbar from "../adminPanel/navbarAdminPanel/Navbar";
+import MainPageAdmin from "../adminPanel/mainPageAdmin/MainPageAdmin";
+import CreateUser from "../adminPanel/createUser/CreateUser";
+import CreateGroup from "../adminPanel/createGroup/CreateGroup";
 
 function App() {
   return (
