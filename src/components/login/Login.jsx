@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import IP, { getUserData } from "../../config";
-import "./login.css";
+import "./Login.css";
 
 function Login() {
   const [login, setLogin] = useState("");

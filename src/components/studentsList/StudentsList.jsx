@@ -1,5 +1,5 @@
 import React from "react";
-import "./studentsList.css";
+import "./StudentsList.css";
 
 const days = [
   "01",

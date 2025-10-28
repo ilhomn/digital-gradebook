@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // ← импортируем navigate
 import IP from "../../../config";
-import "./tabs.css";
+import "./Tabs.css";
 
 function Tabs() {
   const [teacher, setTeacher] = useState("");

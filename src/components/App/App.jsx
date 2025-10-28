@@ -6,10 +6,10 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import Login from "../login/login";
-import MainPage from "../mainPage/main/mainPage";
-import AdminPanel from "../adminPanel/adminPanel";
-import StudentsList from "../studentsList/studentsList";
+import Login from "../login/Login";
+import MainPage from "../mainPage/main/MainPage";
+import AdminPanel from "../adminPanel/AdminPanel";
+import StudentsList from "../studentsList/StudentsList";
 
 function App() {
   return (

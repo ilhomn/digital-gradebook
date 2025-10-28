@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import "./mainPage.css";
-import Tabs from "../tabs/tabs";
+import "./MainPage.css";
+import Tabs from "../tabs/Tabs";
 import { useNavigate } from "react-router-dom";
 
 function MainPage() {

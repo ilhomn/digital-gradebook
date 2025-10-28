@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import IP from "../../config";
-import "./adminPanel.css";
+import "./AdminPanel.css";
 
 function AdminPanel() {
   const navigate = useNavigate();
