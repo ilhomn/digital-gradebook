@@ -11,20 +11,24 @@
   position: absolute;
   margin-bottom: 41%;
 }
-.container {
+.containerAdmin {
+  border-radius: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 70%;
-  margin: auto;
   border: 1px solid #c89b3c;
   flex-wrap: wrap;
+  min-height: 500px;
+  background: rgba(218, 202, 168, 0.3);
+  border-radius: 15px;
 }
 .createGroup,
 .createUser,
 .manageGroup,
 .sendExsel,
 .dataBase {
+  text-decoration: none;
   color: black;
   display: flex;
   height: 100px;

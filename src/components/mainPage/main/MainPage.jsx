@@ -15,7 +15,7 @@ function MainPage() {
   return (
     <div className="main-page">
       <div className="container">
-        <button
+        <span
           className="log-out
          "
           onClick={() => {
@@ -31,7 +31,7 @@ function MainPage() {
             src="/img/icons8-log-out-color-32.png"
             alt="exit"
           />
-        </button>
+        </span>
         <Tabs />
       </div>
     </div>

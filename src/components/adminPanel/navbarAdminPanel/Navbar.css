@@ -45,3 +45,17 @@
   color: #c89b3c;
   transform: translateY(-2px);
 }
+.navList a {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+}
+
+.navList a li {
+  transition: all 0.3s ease;
+}
+
+.navList a li:hover {
+  color: #c89b3c;
+  transform: translateY(-2px);
+}
