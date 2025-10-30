@@ -13,7 +13,7 @@
 .login__title {
   font-size: 40px;
   font-weight: 700;
-  color: rgb(0, 0, 0);
+  color: rgb(40, 17, 17);
   font-family: "Almendra", serif;
   font-weight: 400;
   font-style: normal;
@@ -50,9 +50,62 @@
   font-family: "Almendra", serif;
   font-weight: 400;
   font-style: normal;
+  transition: all 0.3s ease;
 }
 .login button:hover {
   background-color: #927a38;
   outline: none;
   box-shadow: 5px 5px 30px #bfa353;
+}
+
+.logiin {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  height: 350px;
+  width: 350px;
+  background: #fff8e7;
+  overflow: hidden;
+}
+
+.logiin::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 12px;
+  background: conic-gradient(
+    from 0deg,
+    #c89b3c,
+    #f5e6b3,
+    #c89b3c,
+    #f5e6b3,
+    #c89b3c
+  );
+  animation: spin 10s linear infinite;
+  z-index: 0;
+}
+
+.logiin::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  background: #fff8e7;
+  border-radius: 8px;
+  z-index: 1;
+}
+
+.logiin * {
+  position: relative;
+  z-index: 2;
+  color: #000000;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

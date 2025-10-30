@@ -1,3 +1,12 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .main-page {
   background: url("img/gpt.png") no-repeat center;
   background-size: cover;
@@ -5,6 +14,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 .container {
@@ -29,6 +39,7 @@
 }
 .log-img {
   border-radius: 8px;
+  transition: all 0.3s ease;
 }
 .log-img:hover {
   transform: translateY(-1px);

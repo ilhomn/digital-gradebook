@@ -52,23 +52,25 @@ function Login() {
 
   return (
     <form className="login" onSubmit={handleLogin}>
-      <span className="login__title">Digital gradebook</span>
+      <div className="logiin">
+        <span className="login__title">Digital gradebook</span>
 
-      <input
-        type="text"
-        placeholder="Login"
-        value={login}
-        onChange={(e) => setLogin(e.target.value)}
-      />
+        <input
+          type="text"
+          placeholder="Login"
+          value={login}
+          onChange={(e) => setLogin(e.target.value)}
+        />
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-      <button type="submit">Log in</button>
+        <button type="submit">Log in</button>
+      </div>
     </form>
   );
 }

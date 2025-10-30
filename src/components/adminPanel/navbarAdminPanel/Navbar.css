@@ -59,3 +59,6 @@
   color: #c89b3c;
   transform: translateY(-2px);
 }
+.active {
+  color: #c89b3c;
+}
