@@ -1,51 +1,35 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // ← импортируем navigate
-import IP from "../../../config";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./Tabs.css";
 
-function Tabs() {
-  const [teacher, setTeacher] = useState("");
-  const token = localStorage.getItem("token");
-  const navigate = useNavigate(); // ← создаём navigate
+function Tabs({ groups = [], role = "", nameTeacher = "" }) {
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch(`${IP}/get-user-data`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        token: token,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("User data:", data);
-        if (data.data && data.data.length > 0) {
-          setTeacher(data.data[0]);
-        }
-      });
-  }, [token]);
-
-  if (!teacher) {
-    return <p className="load">Loading...</p>;
-  }
-
-  // Обработчик клика на вкладку
-  const goToStudentsList = () => {
-    navigate("/studentsList");
+  const goToStudentsList = (groupId) => {
+    navigate("/studentsList", { state: { groupId } });
   };
+
+  if (!groups || groups.length === 0) {
+    return <p className="load">Нет групп для отображения</p>;
+  }
 
   return (
     <div className="tabs-container">
-      {teacher.groups.map((group, index) => (
+      {groups.map((group, index) => (
         <div
           key={index}
           className="tabs"
-          onClick={goToStudentsList} // ← добавляем клик
-          style={{ cursor: "pointer" }} // чтобы курсор менялся на pointer
+          onClick={() => goToStudentsList(group.id)}
+          style={{ cursor: "pointer" }}
         >
-          <span className="group">{group}</span>
+          <span className="group">{group.name}</span>
+
           <span className="teacher">
-            {teacher.korean_first_name} {teacher.korean_last_name}
+            {role === "admin"
+              ? `${group.teacher_first_name || ""} ${
+                  group.teacher_last_name || ""
+                }`
+              : nameTeacher || "—"}
           </span>
         </div>
       ))}

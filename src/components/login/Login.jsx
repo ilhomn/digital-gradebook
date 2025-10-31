@@ -46,7 +46,6 @@ function Login() {
   };
 
   useEffect(() => {
-    // Clear any lingering token when the login page loads
     localStorage.removeItem("token");
   }, []);
 
