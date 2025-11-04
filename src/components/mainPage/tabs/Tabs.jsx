@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Tabs.css";
 
-function Tabs({ groups = [], role = "", nameTeacher = "" }) {
+function Tabs({ groups }) {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(groups);
+  }, [groups]);
 
   const goToStudentsList = (groupId) => {
     navigate("/studentsList", { state: { groupId } });
@@ -24,13 +28,7 @@ function Tabs({ groups = [], role = "", nameTeacher = "" }) {
         >
           <span className="group">{group.name}</span>
 
-          <span className="teacher">
-            {role === "admin"
-              ? `${group.teacher_first_name || ""} ${
-                  group.teacher_last_name || ""
-                }`
-              : nameTeacher || "—"}
-          </span>
+          <span className="teacher">{group.teacher}</span>
         </div>
       ))}
     </div>

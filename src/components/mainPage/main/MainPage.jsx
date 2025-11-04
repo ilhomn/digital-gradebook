@@ -19,7 +19,6 @@ function MainPage() {
 
     const fetchData = async () => {
       try {
-        // Получаем данные пользователя
         const userRes = await fetch(`${IP}/get-user-data`, {
           headers: {
             "Content-Type": "application/json",
@@ -36,22 +35,16 @@ function MainPage() {
         const userData = userJson.data ? userJson.data[0] : {};
         setUserRole(userData.status || "");
 
-        // ✅ если это учитель — сохраняем его имя
         if (userData.status === "teacher") {
-          setNameTeacher(
-            `${userData.korean_first_name || userData.first_name || ""} ${
-              userData.korean_last_name || userData.last_name || ""
-            }`
-          );
+          const firstName =
+            userData.korean_first_name || userData.first_name || "";
+          const lastName =
+            userData.korean_last_name || userData.last_name || "";
+          setNameTeacher([firstName, lastName].filter(Boolean).join(" "));
         }
 
-        // ✅ выбираем нужный эндпоинт
-        const groupsEndpoint =
-          userData.status === "admin"
-            ? "/get-all-groups"
-            : "/get-teacher-groups";
+        const groupsEndpoint = "/get-all-groups";
 
-        // Получаем группы
         const groupsRes = await fetch(`${IP}${groupsEndpoint}`, {
           headers: {
             "Content-Type": "application/json",
@@ -64,7 +57,6 @@ function MainPage() {
         const groupsJson = await groupsRes.json();
         console.log("Ответ от сервера групп:", groupsJson);
 
-        // ✅ если сервер возвращает { data: [...] } — достаём data, иначе сам объект
         setGroups(groupsJson.data || groupsJson || []);
       } catch (error) {
         console.error("Ошибка загрузки данных:", error);

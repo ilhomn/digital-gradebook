@@ -1,11 +1,62 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css"; // стили календаря
+import "react-calendar/dist/Calendar.css";
 import "./ManageGroup.css";
 import Navbar from "../navbarAdminPanel/Navbar";
+import IP from "../../../config";
 
 const ManageGroup = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date()); // состояние выбранной даты
+  const [selectedDates, setSelectedDates] = useState([]);
+  const [groupName, setGroupName] = useState("");
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) setToken(storedToken);
+  }, []);
+
+  const handleDateClick = (date) => {
+    const dateStr = date.toDateString();
+
+    if (selectedDates.find((d) => d.toDateString() === dateStr)) {
+      setSelectedDates((prev) =>
+        prev.filter((d) => d.toDateString() !== dateStr)
+      );
+    } else {
+      setSelectedDates((prev) => [...prev, date]);
+    }
+  };
+
+  const handleSave = async () => {
+    if (!groupName) {
+      alert("Введите название группы!");
+      return;
+    }
+    if (selectedDates.length === 0) {
+      alert("Выберите хотя бы одну дату!");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${IP}/save-dates`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          token: token,
+        },
+        body: JSON.stringify({
+          group: groupName,
+          dates: selectedDates.map((d) => d.toISOString().slice(0, 10)),
+        }),
+      });
+
+      const data = await response.json();
+      alert(data.message || "Даты успешно сохранены!");
+    } catch (err) {
+      console.error(err);
+      alert("Ошибка отправки данных на сервер");
+    }
+  };
 
   return (
     <div className="manageGroupPage">
@@ -13,22 +64,31 @@ const ManageGroup = () => {
         <Navbar />
       </div>
       <div className="container">
-        <input type="text" placeholder="Group" className="groupInput" />
+        <input
+          type="text"
+          placeholder="Group"
+          className="groupInput"
+          value={groupName}
+          onChange={(e) => setGroupName(e.target.value)}
+        />
 
-        {/* Календарь */}
         <div className="calendarContainer">
           <Calendar
-            onChange={setSelectedDate} // обновляем выбранную дату
-            value={selectedDate} // текущее значение
-            minDate={new Date()} // запрет выбора прошлых дат
-            view="month" // показываем один месяц
+            onClickDay={handleDateClick}
+            value={new Date()}
+            // minDate={new Date()}
+            selectRange={false}
+            tileClassName={({ date }) =>
+              selectedDates.find(
+                (d) => d.toDateString() === date.toDateString()
+              )
+                ? "selected-date"
+                : null
+            }
           />
         </div>
 
-        {/* Кнопка */}
-        <button onClick={() => console.log("Selected date:", selectedDate)}>
-          Manage Group
-        </button>
+        <button onClick={handleSave}>Manage Group</button>
       </div>
     </div>
   );
