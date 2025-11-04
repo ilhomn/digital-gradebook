@@ -38,7 +38,7 @@ const ManageGroup = () => {
     }
 
     try {
-      const response = await fetch(`${IP}/save-dates`, {
+      const response = await fetch(`${IP}/create-time-slot`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -56,6 +56,7 @@ const ManageGroup = () => {
       console.error(err);
       alert("Ошибка отправки данных на сервер");
     }
+    console.log(selectedDates);
   };
 
   return (
