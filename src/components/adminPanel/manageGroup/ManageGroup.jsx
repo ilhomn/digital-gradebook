@@ -7,7 +7,7 @@ import IP from "../../../config";
 
 const ManageGroup = () => {
   const [selectedDates, setSelectedDates] = useState([]);
-  const [groupName, setGroupName] = useState("");
+  const [days, setdays] = useState("");
   const [token, setToken] = useState("");
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const ManageGroup = () => {
   };
 
   const handleSave = async () => {
-    if (!groupName) {
+    if (!days) {
       alert("Введите название группы!");
       return;
     }
@@ -37,16 +37,20 @@ const ManageGroup = () => {
       return;
     }
 
+    const datesToSend = selectedDates.map((d) => d.toISOString().slice(0, 10));
+
+    console.log("Отправляемые даты:", datesToSend, days);
+
     try {
-      const response = await fetch(`${IP}/create-time-slot`, {
+      const response = await fetch(`${IP}/create-timeslot`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           token: token,
         },
         body: JSON.stringify({
-          group: groupName,
-          dates: selectedDates.map((d) => d.toISOString().slice(0, 10)),
+          name: days,
+          timeslot: datesToSend,
         }),
       });
 
@@ -56,7 +60,6 @@ const ManageGroup = () => {
       console.error(err);
       alert("Ошибка отправки данных на сервер");
     }
-    console.log(selectedDates);
   };
 
   return (
@@ -69,8 +72,8 @@ const ManageGroup = () => {
           type="text"
           placeholder="Days of the week"
           className="groupInput"
-          value={groupName}
-          onChange={(e) => setGroupName(e.target.value)}
+          value={days}
+          onChange={(e) => setdays(e.target.value)}
         />
 
         <div className="calendarContainer">
