@@ -66,7 +66,7 @@ const ManageGroup = () => {
       <div className="container">
         <input
           type="text"
-          placeholder="Group"
+          placeholder="Days of the week"
           className="groupInput"
           value={groupName}
           onChange={(e) => setGroupName(e.target.value)}
