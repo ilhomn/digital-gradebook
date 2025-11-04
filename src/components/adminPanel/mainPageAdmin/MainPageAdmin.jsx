@@ -51,7 +51,7 @@ const MainPageAdmin = () => {
           Manage Group
         </Link>
         <div className="sendExsel">Send Exsel</div>
-        <div className="dataBase">Data Base</div>
+        <div className="dataBase">DataBase</div>
       </div>
       <div className="groups-container">
         {groups.map((group, index) => (
@@ -61,7 +61,6 @@ const MainPageAdmin = () => {
             onClick={() => goToStudentsList(group.name)}
           >
             <span className="group-name">{group.name}</span>
-            {/* Add more group details if available */}
           </div>
         ))}
       </div>

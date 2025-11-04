@@ -48,7 +48,7 @@ const CreateGroup = () => {
       <div className="navbar">
         <Navbar />
       </div>
-      <div className="container">
+      <div className="containAdmin">
         <input
           type="text"
           placeholder="Group name"
