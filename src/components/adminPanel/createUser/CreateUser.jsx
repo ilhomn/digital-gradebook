@@ -7,24 +7,39 @@ const CreateUser = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
-  const [group, setGroup] = useState("");
+  const [groupName, setGroupName] = useState("");
   const [status, setStatus] = useState("");
   const [token, setToken] = useState("");
+  const [groups, setGroups] = useState([]);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) setToken(storedToken);
   }, []);
 
-  const hendlCreatUser = async () => {
-    if (!username || !password || !fullName || !group || !status) {
-      alert("Хотябы мяу мяу скажи!");
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (!storedToken) return;
+
+    fetch(`${IP}/get-groups`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        token: storedToken,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setGroups(data.data))
+      .catch((err) => console.error("Не удалось получить группы", err));
+  }, []);
+
+  const handleCreateUser = async () => {
+    if (!username || !password || !fullName || !status) {
+      alert("Пожалуйста, заполните все поля!");
       return;
     }
 
     try {
-      console.log(username);
-
       const response = await fetch(`${IP}/create-user`, {
         method: "POST",
         headers: {
@@ -35,12 +50,10 @@ const CreateUser = () => {
           username,
           password,
           fullname: fullName,
-          groups: `${[group]}`,
+          groupName,
           status,
         }),
       });
-
-      console.log(username, password, fullName, group, status);
 
       const data = await response.json();
       alert(data.message || "Пользователь успешно создан!");
@@ -48,7 +61,7 @@ const CreateUser = () => {
       setUsername("");
       setPassword("");
       setFullName("");
-      setGroup("");
+      setGroupName("");
       setStatus("");
     } catch (err) {
       console.error(err);
@@ -81,24 +94,35 @@ const CreateUser = () => {
           onChange={(e) => setFullName(e.target.value)}
         />
 
-        <input
-          type="text"
-          placeholder="Group"
-          value={group}
-          onChange={(e) => setGroup(e.target.value)}
-        />
+        <select
+          value={groupName}
+          onChange={(e) => setGroupName(e.target.value)}
+        >
+          <option value="">Groups</option>
+          {groups.length > 0 ? (
+            groups.map((group, idx) => (
+              <option key={idx} value={group.name}>
+                {group.name}
+              </option>
+            ))
+          ) : (
+            <option disabled>Не удалось получить группы</option>
+          )}
+        </select>
+
         <select
           id="status"
           value={status}
           onChange={(e) => setStatus(e.target.value)}
         >
           <option value="" disabled>
-            Select status
+            Status
           </option>
           <option value="teacher">Teacher</option>
           <option value="admin">Admin</option>
         </select>
-        <button onClick={hendlCreatUser}>Create User</button>
+
+        <button onClick={handleCreateUser}>Create User</button>
       </div>
     </div>
   );

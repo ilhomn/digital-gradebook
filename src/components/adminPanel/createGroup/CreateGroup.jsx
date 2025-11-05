@@ -8,15 +8,34 @@ const CreateGroup = () => {
   const [teacher, setTeacher] = useState("");
   const [amount, setAmount] = useState("");
   const [token, setToken] = useState("");
+  const [timeSlots, setTimeSlots] = useState([]);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) setToken(storedToken);
   }, []);
+  useEffect(() => {
+    if (!token) return;
+
+    fetch(`${IP}/get-timeslots`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        token: token,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setTimeSlots(data.data);
+        console.log(data);
+      })
+      .catch((err) => console.error("Не удалось получить таймслоты", err));
+  }, [token]);
 
   const handleCreateGroup = async () => {
-    if (!groupName || !teacher || !amount) {
-      alert("Хотябы мяу мяу скажи!");
+    if (!selectedTimeSlot || !teacher || !amount) {
+      alert("Пожалуйста, заполните все поля!");
       return;
     }
 
@@ -28,7 +47,7 @@ const CreateGroup = () => {
           token: token,
         },
         body: JSON.stringify({
-          groupName,
+          groupName: selectedTimeSlot,
           teacher,
           amount: Number(amount),
         }),
@@ -47,6 +66,7 @@ const CreateGroup = () => {
       setGroupName("");
       setTeacher("");
       setAmount("");
+      setSelectedTimeSlot("");
     } catch (err) {
       console.error(err);
       alert("Ошибка при создании группы");
@@ -59,15 +79,27 @@ const CreateGroup = () => {
         <Navbar />
       </div>
       <div className="containAdmin">
-        <select
+        <input
+          placeholder="Group Name"
+          className="groupname"
           value={groupName}
           onChange={(e) => setGroupName(e.target.value)}
+        />
+
+        <select
+          value={selectedTimeSlot}
+          onChange={(e) => setSelectedTimeSlot(e.target.value)}
         >
-          <option value="">Groups</option>
-          <option value="세종 1 (초급 1A-1)">세종 1 (초급 1A-1)</option>
-          <option value="세종 2 (초급 1B-3)">세종 2 (초급 1B-3)</option>
-          <option value="세종 3 (중급 2A-2)">세종 3 (중급 2A-2)</option>
-          <option value="세종 4 (중급 2B-1)">세종 4 (중급 2B-1)</option>
+          <option value="">Time slots</option>
+          {timeSlots.length > 0 ? (
+            timeSlots.map((slot, idx) => (
+              <option key={idx} value={slot}>
+                {slot.name}
+              </option>
+            ))
+          ) : (
+            <option disabled>Не удалось получить таймслоты</option>
+          )}
         </select>
 
         <input
@@ -79,7 +111,7 @@ const CreateGroup = () => {
 
         <input
           type="text"
-          placeholder="Amount"
+          placeholder="Number of Students"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
         />
