@@ -18,25 +18,29 @@ const CreateUser = () => {
 
   const hendlCreatUser = async () => {
     if (!username || !password || !fullName || !group || !status) {
-      alert("Заполните все поля!");
+      alert("Хотябы мяу мяу скажи!");
       return;
     }
 
     try {
+      console.log(username);
+
       const response = await fetch(`${IP}/create-user`, {
         method: "POST",
         headers: {
-          "Conitent-Type": "application/json",
+          "Content-Type": "application/json",
           token: token,
         },
         body: JSON.stringify({
           username,
           password,
-          fullName,
-          group,
+          fullname: fullName,
+          groups: `${[group]}`,
           status,
         }),
       });
+
+      console.log(username, password, fullName, group, status);
 
       const data = await response.json();
       alert(data.message || "Пользователь успешно создан!");

@@ -29,7 +29,7 @@ const ManageGroup = () => {
 
   const handleSave = async () => {
     if (!days) {
-      alert("Введите название группы!");
+      alert("Хотябы мяу мяу скажи!");
       return;
     }
     if (selectedDates.length === 0) {

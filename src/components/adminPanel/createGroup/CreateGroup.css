@@ -81,3 +81,36 @@
     width: 100%;
   }
 }
+.containAdmin select {
+  color: #2e2e2e;
+  font-family: "Poppins", sans-serif;
+  width: 320px;
+  padding: 12px 15px;
+  border: 2px solid #c89b3c;
+  border-radius: 10px;
+  outline: none;
+  background-color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background: #fff
+    url("data:image/svg+xml;utf8,<svg fill='%23c89b3c' height='24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>")
+    no-repeat right 12px center;
+  background-size: 20px;
+  padding-right: 40px;
+}
+
+.containAdmin select:focus {
+  border-color: #b3862e;
+  box-shadow: 0 0 8px rgba(200, 155, 60, 0.3);
+  transform: scale(1.02);
+}
+
+.containAdmin option {
+  font-family: "Poppins", sans-serif;
+  background-color: #fff;
+  color: #2e2e2e;
+}
