@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./StudentsList.css";
 
 const days = [
@@ -33,6 +33,23 @@ const students = [
 ];
 
 function StudentsList() {
+  const [attendance, setAttendance] = useState({});
+
+  const handleCellClick = (student, day) => {
+    const current = attendance[student]?.[day] || "";
+    let next;
+    if (current === "") next = "n";
+    else if (current === "n") next = "l";
+    else next = "";
+    setAttendance((prev) => ({
+      ...prev,
+      [student]: {
+        ...prev[student],
+        [day]: next,
+      },
+    }));
+  };
+
   return (
     <div className="students-list">
       <div className="studentItems">
@@ -41,17 +58,23 @@ function StudentsList() {
             <thead>
               <tr>
                 <th>Student</th>
-                {days.map((day, index) => (
-                  <th key={index}>{day}</th>
+                {days.map((day) => (
+                  <th key={day}>{day}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {students.map((student, index) => (
-                <tr key={index}>
+              {students.map((student) => (
+                <tr key={student}>
                   <td className="student-name">{student}</td>
-                  {days.map((day, index) => (
-                    <td key={index} className="student-day"></td>
+                  {days.map((day) => (
+                    <td
+                      key={day}
+                      className="student-day"
+                      onClick={() => handleCellClick(student, day)}
+                    >
+                      {attendance[student]?.[day]}
+                    </td>
                   ))}
                 </tr>
               ))}

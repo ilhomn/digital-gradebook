@@ -15,6 +15,7 @@ const CreateGroup = () => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) setToken(storedToken);
   }, []);
+
   useEffect(() => {
     if (!token) return;
 
@@ -27,15 +28,20 @@ const CreateGroup = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setTimeSlots(data.data);
-        console.log(data);
+        if (data?.data) setTimeSlots(data.data);
+        else console.error("Не удалось получить таймслоты", data);
       })
       .catch((err) => console.error("Не удалось получить таймслоты", err));
   }, [token]);
 
   const handleCreateGroup = async () => {
-    if (!selectedTimeSlot || !teacher || !amount) {
+    if (!groupName || !selectedTimeSlot || !teacher || !amount) {
       alert("Пожалуйста, заполните все поля!");
+      return;
+    }
+
+    if (isNaN(Number(amount)) || Number(amount) <= 0) {
+      alert("Введите корректное число студентов");
       return;
     }
 
@@ -50,9 +56,10 @@ const CreateGroup = () => {
           name: groupName,
           teacher,
           amount: Number(amount),
-          timeSlot: selectedTimeSlot,
+          days: selectedTimeSlot.split(',').map(Number),
         }),
       });
+      console.log(groupName, teacher, amount, selectedTimeSlot);
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -61,7 +68,7 @@ const CreateGroup = () => {
         return;
       }
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
       alert(data.message || "Группа успешно создана!");
 
       setGroupName("");
@@ -89,17 +96,19 @@ const CreateGroup = () => {
 
         <select
           value={selectedTimeSlot}
-          onChange={(e) => setSelectedTimeSlot(e.target.value)}
+          onChange={(e) => {
+            setSelectedTimeSlot(e.target.value);
+          }}
         >
           <option value="">Time slots</option>
           {timeSlots.length > 0 ? (
-            timeSlots.map((slot, idx) => (
-              <option key={idx} value={slot}>
+            timeSlots.map((slot) => (
+              <option key={slot.id} value={slot.timeslot}>
                 {slot.name}
               </option>
             ))
           ) : (
-            <option disabled>Не удалось получить таймслоты</option>
+            <option disabled>Failed to fetch time slots</option>
           )}
         </select>
 
@@ -111,10 +120,11 @@ const CreateGroup = () => {
         />
 
         <input
-          type="text"
+          type="number"
           placeholder="Number of Students"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
+          min="1"
         />
 
         <button onClick={handleCreateGroup}>Create Group</button>
@@ -124,4 +134,3 @@ const CreateGroup = () => {
 };
 
 export default CreateGroup;
-``;

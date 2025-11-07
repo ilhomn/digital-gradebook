@@ -7,7 +7,7 @@ import IP from "../../../config";
 
 const ManageGroup = () => {
   const [selectedDates, setSelectedDates] = useState([]);
-  const [days, setdays] = useState("");
+  const [days, setDays] = useState("");
   const [token, setToken] = useState("");
 
   useEffect(() => {
@@ -17,7 +17,6 @@ const ManageGroup = () => {
 
   const handleDateClick = (date) => {
     const dateStr = date.toDateString();
-
     if (selectedDates.find((d) => d.toDateString() === dateStr)) {
       setSelectedDates((prev) =>
         prev.filter((d) => d.toDateString() !== dateStr)
@@ -29,7 +28,7 @@ const ManageGroup = () => {
 
   const handleSave = async () => {
     if (!days) {
-      alert("Хотябы мяу мяу скажи!");
+      alert("Хотя бы укажи день!");
       return;
     }
     if (selectedDates.length === 0) {
@@ -37,9 +36,11 @@ const ManageGroup = () => {
       return;
     }
 
-    const datesToSend = selectedDates.map((d) => d.toISOString().slice(0, 10));
+    const datesToSend = selectedDates.map((d) =>
+      parseInt(d.toISOString().slice(0, 10).replace(/-/g, ""))
+    );
 
-    console.log("Отправляемые даты:", datesToSend, days);
+    console.log("Отправляемые даты:", datesToSend, "Days:", days);
 
     try {
       const response = await fetch(`${IP}/create-timeslot`, {
@@ -73,14 +74,13 @@ const ManageGroup = () => {
           placeholder="Days of the week"
           className="groupInput"
           value={days}
-          onChange={(e) => setdays(e.target.value)}
+          onChange={(e) => setDays(e.target.value)}
         />
 
         <div className="calendarContainer">
           <Calendar
             onClickDay={handleDateClick}
             value={new Date()}
-            // minDate={new Date()}
             selectRange={false}
             tileClassName={({ date }) =>
               selectedDates.find(

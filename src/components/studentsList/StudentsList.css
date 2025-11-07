@@ -68,3 +68,14 @@ tr:hover {
 .studentItems::-webkit-scrollbar-track {
   background: #fef6e3;
 }
+.student-day {
+  cursor: pointer;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  transition: background 0.2s;
+}
+
+.student-day:hover {
+  background-color: rgba(200, 155, 60, 0.15);
+}
