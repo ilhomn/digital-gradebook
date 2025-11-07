@@ -47,9 +47,10 @@ const CreateGroup = () => {
           token: token,
         },
         body: JSON.stringify({
-          groupName: selectedTimeSlot,
+          name: groupName,
           teacher,
           amount: Number(amount),
+          timeSlot: selectedTimeSlot,
         }),
       });
 
@@ -123,3 +124,4 @@ const CreateGroup = () => {
 };
 
 export default CreateGroup;
+``;
