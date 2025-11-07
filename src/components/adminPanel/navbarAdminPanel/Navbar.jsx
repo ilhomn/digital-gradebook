@@ -41,7 +41,7 @@ const Navbar = () => {
               location.pathname === "/adminPanel/manage-group" ? "active" : ""
             }
           >
-            Manage Group
+            Create time Slots
           </Link>
         </li>
       </ul>

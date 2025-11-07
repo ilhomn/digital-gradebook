@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import "./ManageGroup.css";
+import "./CreateTimeSlots.css";
 import Navbar from "../navbarAdminPanel/Navbar";
 import IP from "../../../config";
 
-const ManageGroup = () => {
+const CreateTimeSlots = () => {
   const [selectedDates, setSelectedDates] = useState([]);
   const [days, setDays] = useState("");
   const [token, setToken] = useState("");
@@ -92,10 +92,10 @@ const ManageGroup = () => {
           />
         </div>
 
-        <button onClick={handleSave}>Manage Group</button>
+        <button onClick={handleSave}>Create time Slots</button>
       </div>
     </div>
   );
 };
 
-export default ManageGroup;
+export default CreateTimeSlots;

@@ -17,7 +17,7 @@ const MainPageAdmin = () => {
           Create Group
         </Link>
         <Link to="/adminPanel/manage-group" className="manageGroup">
-          Manage Group
+          Create Time Slots
         </Link>
         <div className="sendExsel">Send Exsel</div>
         <div className="dataBase">DataBase</div>
