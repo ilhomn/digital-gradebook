@@ -25,7 +25,7 @@ function Login() {
           localStorage.setItem("token", data.token);
 
           const userData = await getUserData(data.token);
-          console.log(userData);
+          console.log("userData: ", userData);
 
           if (userData.status === "teacher") {
             navigate("/mainPage");

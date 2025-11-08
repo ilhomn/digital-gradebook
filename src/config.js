@@ -13,8 +13,8 @@ export const getUserData = async (token) => {
     if (response.ok) {
       const data = await response.json();
 
-      if (data.data && data.data.length > 0) {
-        return data.data[0];
+      if (data) {
+        return data.data;
       } else {
         return "Error: No user data found";
       }

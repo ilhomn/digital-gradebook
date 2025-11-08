@@ -16,6 +16,7 @@ import CreateGroup from "../adminPanel/createGroup/CreateGroup";
 import CreateTimeSlots from "../adminPanel/CreateTimeSlots/CreateTimeSlots";
 import ProtectedRoute from "../ProtectedRoute";
 import UpdateUser from "../adminPanel/updateUser/UpdateUser";
+import UpdateGroup from "../adminPanel/updateGroup/UpdateGroup";
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
           <Route path="create-group" element={<CreateGroup />} />
           <Route path="create-time-slots" element={<CreateTimeSlots />} />
           <Route path="update-user" element={<UpdateUser />} />
+          <Route path="update-group" element={<UpdateGroup />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

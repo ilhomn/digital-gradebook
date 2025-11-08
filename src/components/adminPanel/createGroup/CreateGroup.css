@@ -7,7 +7,9 @@
   align-items: center;
   font-family: "Poppins", sans-serif;
 }
-
+.navbar {
+  margin-right: 1px;
+}
 .containAdmin {
   margin-top: 160px;
   display: flex;

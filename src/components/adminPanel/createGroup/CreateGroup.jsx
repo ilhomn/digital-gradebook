@@ -5,7 +5,6 @@ import IP from "../../../config";
 
 const CreateGroup = () => {
   const [groupName, setGroupName] = useState("");
-  const [teacher, setTeacher] = useState("");
   const [amount, setAmount] = useState("");
   const [token, setToken] = useState("");
   const [timeSlots, setTimeSlots] = useState([]);
@@ -35,7 +34,7 @@ const CreateGroup = () => {
   }, [token]);
 
   const handleCreateGroup = async () => {
-    if (!groupName || !selectedTimeSlot || !teacher || !amount) {
+    if (!groupName || !selectedTimeSlot || !amount) {
       alert("Пожалуйста, заполните все поля!");
       return;
     }
@@ -54,12 +53,10 @@ const CreateGroup = () => {
         },
         body: JSON.stringify({
           name: groupName,
-          teacher,
           amount: Number(amount),
           days: selectedTimeSlot.split(",").map(Number),
         }),
       });
-      console.log(groupName, teacher, amount, selectedTimeSlot);
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -72,7 +69,6 @@ const CreateGroup = () => {
       alert(data.message || "Группа успешно создана!");
 
       setGroupName("");
-      setTeacher("");
       setAmount("");
       setSelectedTimeSlot("");
     } catch (err) {
@@ -96,9 +92,7 @@ const CreateGroup = () => {
 
         <select
           value={selectedTimeSlot}
-          onChange={(e) => {
-            setSelectedTimeSlot(e.target.value);
-          }}
+          onChange={(e) => setSelectedTimeSlot(e.target.value)}
         >
           <option value="">Time slots</option>
           {timeSlots.length > 0 ? (
@@ -111,13 +105,6 @@ const CreateGroup = () => {
             <option disabled>Failed to fetch time slots</option>
           )}
         </select>
-
-        <input
-          type="text"
-          placeholder="Teacher"
-          value={teacher}
-          onChange={(e) => setTeacher(e.target.value)}
-        />
 
         <input
           type="number"

@@ -88,7 +88,7 @@ const Navbar = () => {
                 <Link to="/adminPanel/create-group">Create Group</Link>
               </li>
               <li onClick={() => setIsGroupDropdownOpen(false)}>
-                <Link to="/adminPanel/">Update Group</Link>
+                <Link to="/adminPanel/update-group">Update Group</Link>
               </li>
             </ul>
           )}
