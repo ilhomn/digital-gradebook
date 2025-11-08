@@ -1,4 +1,4 @@
-.createUserPage {
+.updateUserPage {
   background: url("/img/studentsListBCG2.png") no-repeat center center / cover;
   background-color: #fef6e3;
   min-height: 100vh;
@@ -8,7 +8,7 @@
   font-family: "Poppins", sans-serif;
 }
 
-.contaiAdmin {
+.contiAdmin {
   margin-top: 100px;
   display: flex;
   flex-direction: column;
@@ -22,8 +22,8 @@
   background: rgba(218, 202, 168, 0.3);
 }
 
-.contaiAdmin input,
-.contaiAdmin select {
+.contiAdmin input,
+.contiAdmin select {
   color: #2e2e2e;
   font-family: "Poppins", sans-serif;
   width: 320px;
@@ -36,12 +36,12 @@
   transition: all 0.3s ease;
   cursor: pointer;
 }
-.contaiAdmin select {
+.contiAdmin select {
   width: 354px;
 }
 
-.contaiAdmin input:focus,
-.contaiAdmin select:focus {
+.contiAdmin input:focus,
+.contiAdmin select:focus {
   border-color: #b3862e;
   box-shadow: 0 0 8px rgba(200, 155, 60, 0.3);
   transform: scale(1.02);
@@ -93,6 +93,8 @@
   font-weight: 500;
   border: 1px solid #c89b3c;
   transition: all 0.2s ease;
+  position: relative;
+  width: 333px;
 }
 
 .groupTag:hover {
@@ -100,18 +102,24 @@
 }
 
 .groupTag .removeGroupBtn {
-  margin-left: 63%;
-  position: absolute;
+  margin: 0;
+  position: static;
   background: #c89b3c;
   color: #fff;
-  border: 10px solid #c89b3c;
-  border-radius: 40%;
-  width: 25px;
-  height: 25px;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
   font-size: 0.7rem;
+  line-height: 1;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.groupTag .removeGroupBtn:hover {
+  background-color: #a37b2d;
 }

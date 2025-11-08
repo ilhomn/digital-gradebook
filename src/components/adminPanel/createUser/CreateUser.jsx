@@ -75,8 +75,7 @@ const CreateUser = () => {
   return (
     <div className="createUserPage">
       <Navbar />
-
-      <div className="containAdmin">
+      <div className="contaiAdmin">
         <input
           type="text"
           placeholder="Username"

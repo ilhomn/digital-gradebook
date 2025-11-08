@@ -56,7 +56,7 @@ const CreateGroup = () => {
           name: groupName,
           teacher,
           amount: Number(amount),
-          days: selectedTimeSlot.split(',').map(Number),
+          days: selectedTimeSlot.split(",").map(Number),
         }),
       });
       console.log(groupName, teacher, amount, selectedTimeSlot);

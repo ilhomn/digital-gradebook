@@ -1,5 +1,5 @@
 .manageGroupPage {
-  background: url("/img/studentsListBCG.png") no-repeat center center / cover;
+  background: url("/img/studentsListBCG2.png") no-repeat center center / cover;
   background-color: #fef6e3;
   min-height: 100vh;
   display: flex;
@@ -8,7 +8,7 @@
   font-family: "Poppins", sans-serif;
 }
 .containAdmin {
-  margin-top: 120px;
+  margin-top: 160px;
   display: flex;
   flex-direction: column;
   align-items: center;
