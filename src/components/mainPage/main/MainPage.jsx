@@ -26,13 +26,21 @@ function MainPage() {
           },
         });
 
-        if (!userRes.ok)
-          throw new Error("Не удалось получить данные пользователя");
+        if (!userRes.ok) {
+          throw new Error("Failed to fetch user data");
+        }
 
         const userJson = await userRes.json();
-        console.log("Ответ от /get-user-data:", userJson);
+        console.log("Response from /get-user-data:", userJson);
 
-        const userData = userJson.data ? userJson.data[0] : {};
+        const userData = Array.isArray(userJson.data)
+          ? userJson.data[0]
+          : userJson.data || {};
+
+        if (!userData || typeof userData !== "object") {
+          throw new Error("Invalid user data format");
+        }
+
         setUserRole(userData.status || "");
 
         if (userData.status === "teacher") {
@@ -43,24 +51,24 @@ function MainPage() {
           setNameTeacher([firstName, lastName].filter(Boolean).join(" "));
         }
 
-        const groupsEndpoint = "/get-all-groups";
-
-        const groupsRes = await fetch(`${IP}${groupsEndpoint}`, {
+        const groupsRes = await fetch(`${IP}/get-groups`, {
           headers: {
             "Content-Type": "application/json",
             token: token,
           },
         });
 
-        if (!groupsRes.ok) throw new Error("Не удалось получить группы");
+        if (!groupsRes.ok) {
+          throw new Error("Failed to fetch groups");
+        }
 
         const groupsJson = await groupsRes.json();
-        console.log("Ответ от сервера групп:", groupsJson);
+        console.log("Response from /get-groups:", groupsJson);
 
         setGroups(groupsJson.data || groupsJson || []);
       } catch (error) {
-        console.error("Ошибка загрузки данных:", error);
-        alert("Ошибка при загрузке данных");
+        console.error("Data loading error:", error);
+        alert("Error loading data. Please try again later.");
       }
     };
 
@@ -81,7 +89,7 @@ function MainPage() {
             width="39"
             height="39"
             src="/img/icons8-log-out-color-32.png"
-            alt="exit"
+            alt="logout"
           />
         </span>
 

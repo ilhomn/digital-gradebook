@@ -27,8 +27,8 @@ function Tabs({ groups }) {
           style={{ cursor: "pointer" }}
         >
           <span className="group">{group.name}</span>
-
           <span className="teacher">{group.teacher}</span>
+          {/* {console.log(group._name)} */}
         </div>
       ))}
     </div>

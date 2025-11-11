@@ -11,7 +11,7 @@
   margin-right: 0px;
 }
 .containAdmin {
-  margin-top: 160px;
+  margin-top: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -163,6 +163,4 @@
 .calendarContainer .selected-date {
   background-color: #c68c29;
   color: white;
-  /* border-radius: 50%; */
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); */
 }

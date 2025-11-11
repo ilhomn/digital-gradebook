@@ -17,6 +17,7 @@ import CreateTimeSlots from "../adminPanel/CreateTimeSlots/CreateTimeSlots";
 import ProtectedRoute from "../ProtectedRoute";
 import UpdateUser from "../adminPanel/updateUser/UpdateUser";
 import UpdateGroup from "../adminPanel/updateGroup/UpdateGroup";
+import UploadStudents from "../adminPanel/uploadStudents/UploadStudents";
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
           <Route path="create-time-slots" element={<CreateTimeSlots />} />
           <Route path="update-user" element={<UpdateUser />} />
           <Route path="update-group" element={<UpdateGroup />} />
+          <Route path="upload-students" element={<UploadStudents />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

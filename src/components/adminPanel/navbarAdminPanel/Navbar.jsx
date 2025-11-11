@@ -70,6 +70,9 @@ const Navbar = () => {
               <li onClick={() => setIsUserDropdownOpen(false)}>
                 <Link to="/adminPanel/update-user">Update User</Link>
               </li>
+              <li>
+                <Link to="/adminPanel/upload-students">Upload Students</Link>
+              </li>
             </ul>
           )}
         </li>

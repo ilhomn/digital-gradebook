@@ -60,12 +60,12 @@ const CreateUser = () => {
       const data = await response.json();
       alert(data.message || "Пользователь успешно создан!");
 
-      setUsername("");
-      setPassword("");
-      setFullNameKorean("");
-      setFullNameEnglish("");
-      setSelectedGroups([]);
-      setStatus("");
+      // setUsername("");
+      // setPassword("");
+      // setFullNameKorean("");
+      // setFullNameEnglish("");
+      // setSelectedGroups([]);
+      // setStatus("");
     } catch (err) {
       console.error(err);
       alert("Ошибка при создании пользователя");
