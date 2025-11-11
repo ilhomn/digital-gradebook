@@ -15,7 +15,9 @@ const MainPageAdmin = () => {
         <Link to="/admin-panel/manage-group" className="manageGroup">
           Create Time Slots
         </Link>
-        <div className="sendExsel">Send Exsel</div>
+        <Link to="/admin-panel/upload-students" className="dataBase">
+          Upload Students
+        </Link>
         <div className="dataBase">DataBase</div>
       </div>
     </div>

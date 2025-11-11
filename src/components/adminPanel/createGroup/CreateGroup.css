@@ -1,5 +1,6 @@
 .createGroupPage {
   background: url("/img/studentsListBCG2.png") no-repeat center center / cover;
+  background-size: contain;
   background-color: #fef6e3;
   min-height: 100vh;
   display: flex;

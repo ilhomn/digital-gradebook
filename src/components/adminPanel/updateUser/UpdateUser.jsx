@@ -74,8 +74,12 @@ const UpdateUser = () => {
           setNewUsername(user.username || "");
 
           setPassword("");
-          setFullNameKorean(user.fullname_korean || "");
-          setFullNameEnglish(user.fullname_english || "");
+          setFullNameKorean(
+            `${user.korean_last_name} ${user.korean_first_name}`
+          );
+          setFullNameEnglish(
+            `${user.english_last_name} ${user.english_first_name}`
+          );
           setSelectedGroups(user.groups || []);
           setStatus(user.status || "");
         } else {

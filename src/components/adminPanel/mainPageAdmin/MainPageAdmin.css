@@ -9,6 +9,7 @@
 
 .MainPageAdmin {
   background: url("/img/studentsListBCG2.png") no-repeat center center / cover;
+  background-size: contain;
   background-color: #fef6e3;
   height: 100vh;
   display: flex;

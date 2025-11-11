@@ -1,83 +1,75 @@
-/* Сброс отступов и базовые настройки */
-* {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Poppins", sans-serif;
-  height: 100%;
-}
-
-/* Контейнер страницы (без лишнего отступа сверху) */
 .containerUploadStudents {
-  background: url("/img/studentsListBCG2.png") no-repeat center center / cover;
-  background-color: #fef6e3;
+  background: url("/img/studentsListBCG2.png") no-repeat center;
+  background-size: contain;
   width: 100%;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-  padding-top: 20px; /* можно убрать или подогнать под navbar */
-}
-
-/* Навбар фиксируем сверху */
-.navbar {
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-}
-
-/* Контент формы, с учётом фиксированного navbar */
-.itemUploadStudents {
-  margin-top: 100px; /* отступ, чтобы форма не накладывалась на navbar */
-  border: 2px solid #c89b3c;
-  border-radius: 15px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  background: rgba(218, 202, 168, 0.3);
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 30px;
-  width: 350px;
-  gap: 20px;
 }
 
-/* Input файл */
-.itemUploadStudents input {
-  width: 100%;
-  padding: 12px 15px;
+.itemUploadStudents {
   border: 2px solid #c89b3c;
-  border-radius: 10px;
-  outline: none;
-  background-color: #fff;
-  font-size: 1rem;
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+  background: rgba(218, 202, 168, 0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  padding: 40px 50px;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  transition: all 0.3s ease;
+}
+
+.itemUploadStudents.dragOver {
+  border-color: #b3862e;
+  background: rgba(218, 202, 168, 0.5);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+
+.fileInput {
+  display: none;
+}
+
+.dropZone {
+  width: 100%;
+  padding: 40px;
+  border: 2px dashed #c89b3c;
+  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.15);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #333;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.itemUploadStudents input:focus {
+.dropZone:hover {
+  background-color: rgba(255, 255, 255, 0.25);
   border-color: #b3862e;
-  box-shadow: 0 0 8px rgba(200, 155, 60, 0.3);
-  transform: scale(1.02);
 }
 
-/* Кнопка */
+.fileName {
+  margin-top: 15px;
+  font-size: 0.95rem;
+  color: #333;
+  text-align: center;
+  word-wrap: break-word;
+}
+
 .itemUploadStudents button {
-  width: 190px;
-  padding: 12px 20px;
+  padding: 12px 25px;
+  border-radius: 12px;
   border: 2px solid #c89b3c;
-  border-radius: 10px;
   background-color: #c89b3c;
   color: white;
-  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -85,35 +77,5 @@ body {
 .itemUploadStudents button:hover {
   background-color: #b3862e;
   transform: scale(1.05);
-}
-
-/* Скрываем стандартный input */
-.fileInput {
-  display: none;
-}
-
-/* Лейбл для выбора файла */
-.fileLabel {
-  padding: 12px 20px;
-  border: 2px solid #c89b3c;
-  border-radius: 10px;
-  background-color: #c89b3c;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.fileLabel:hover {
-  background-color: #b3862e;
-  transform: scale(1.05);
-}
-
-.fileName {
-  margin-top: 10px;
-  font-size: 0.95rem;
-  color: #333;
-  text-align: center;
-  max-width: 250px;
-  word-wrap: break-word;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }

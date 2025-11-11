@@ -9,7 +9,7 @@
 
 .main-page {
   background: url("img/gpt2.png") no-repeat center;
-  background-size: cover;
+  background-size: contain;
   height: 100vh;
   display: flex;
   justify-content: center;
