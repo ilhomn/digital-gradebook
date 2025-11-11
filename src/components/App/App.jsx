@@ -18,7 +18,6 @@ import ProtectedRoute from "../ProtectedRoute";
 import UpdateUser from "../adminPanel/updateUser/UpdateUser";
 import UpdateGroup from "../adminPanel/updateGroup/UpdateGroup";
 import UploadStudents from "../adminPanel/uploadStudents/UploadStudents";
-
 function App() {
   return (
     <Router>

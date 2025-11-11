@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./UpdateGroup.css";
-import Navbar from "../navbarAdminPanel/Navbar";
 import IP from "../../../config";
 
 const UpdateGroup = () => {
@@ -90,7 +89,7 @@ const UpdateGroup = () => {
         }
       } catch (err) {
         console.error("Error fetching group details:", err);
-        alert("Error loading group data.");
+        // alert("Error loading group data.");
       } finally {
         setGroupLoading(false);
       }
@@ -165,9 +164,6 @@ const UpdateGroup = () => {
 
   return (
     <div className="updateGroupPage">
-      <div className="navbar">
-        <Navbar />
-      </div>
       <div className="containAdmin">
         <select
           value={selectedGroupId}

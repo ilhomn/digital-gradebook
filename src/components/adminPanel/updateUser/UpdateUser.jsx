@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./UpdateUser.css";
-import Navbar from "../navbarAdminPanel/Navbar";
 import IP from "../../../config";
 
 const UpdateUser = () => {
@@ -165,8 +164,6 @@ const UpdateUser = () => {
 
   return (
     <div className="updateUserPage">
-      <Navbar />
-
       <div className="contiAdmin">
         <select
           value={selectedUsername}

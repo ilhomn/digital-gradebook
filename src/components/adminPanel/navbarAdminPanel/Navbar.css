@@ -1,9 +1,9 @@
 .navbarAdminPanel {
+  margin-top: 20px;
   width: 100%;
   display: flex;
   justify-content: center;
-  position: relative;
-  z-index: 99999; /* поверх всего */
+  position: absolute;
 }
 
 .navList {

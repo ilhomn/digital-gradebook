@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./CreateUser.css";
-import Navbar from "../navbarAdminPanel/Navbar";
 import IP from "../../../config";
 
 const CreateUser = () => {
@@ -74,7 +73,6 @@ const CreateUser = () => {
 
   return (
     <div className="createUserPage">
-      <Navbar />
       <div className="contaiAdmin">
         <input
           type="text"

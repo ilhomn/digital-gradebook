@@ -11,7 +11,6 @@
   margin-right: 1px;
 }
 .containAdmin {
-  margin-top: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -86,7 +85,7 @@
 .containAdmin select {
   color: #2e2e2e;
   font-family: "Poppins", sans-serif;
-  width: 355px;
+  width: 320px;
   padding: 12px 15px;
   border: 2px solid #c89b3c;
   border-radius: 10px;

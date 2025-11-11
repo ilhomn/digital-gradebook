@@ -1,6 +1,5 @@
 import React from "react";
 import "./UploadStudents.css";
-import Navbar from "../navbarAdminPanel/Navbar";
 import IP from "../../../config";
 
 function UploadStudents() {
@@ -43,9 +42,6 @@ function UploadStudents() {
 
   return (
     <>
-      <div className="navbar">
-        <Navbar />
-      </div>
       <div className="containerUploadStudents">
         <div className="itemUploadStudents">
           <input

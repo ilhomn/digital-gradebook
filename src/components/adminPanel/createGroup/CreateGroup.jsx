@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./CreateGroup.css";
-import Navbar from "../navbarAdminPanel/Navbar";
 import IP from "../../../config";
 
 const CreateGroup = () => {
@@ -79,9 +78,6 @@ const CreateGroup = () => {
 
   return (
     <div className="createGroupPage">
-      <div className="navbar">
-        <Navbar />
-      </div>
       <div className="containAdmin">
         <input
           placeholder="Group Name"

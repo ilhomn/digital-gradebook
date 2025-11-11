@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./CreateTimeSlots.css";
-import Navbar from "../navbarAdminPanel/Navbar";
 import IP from "../../../config";
 
 const CreateTimeSlots = () => {
@@ -65,9 +64,6 @@ const CreateTimeSlots = () => {
 
   return (
     <div className="manageGroupPage">
-      <div className="navbar">
-        <Navbar />
-      </div>
       <div className="containAdmin">
         <input
           type="text"
