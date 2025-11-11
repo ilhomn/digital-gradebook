@@ -34,7 +34,7 @@ function App() {
         />
 
         <Route
-          path="/students-list"
+          path="/students-list/:id"
           element={
             <ProtectedRoute>
               <StudentsList />
@@ -58,7 +58,6 @@ function App() {
           <Route path="update-group" element={<UpdateGroup />} />
           <Route path="upload-students" element={<UploadStudents />} />
         </Route>
-
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

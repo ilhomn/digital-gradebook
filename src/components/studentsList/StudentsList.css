@@ -80,3 +80,27 @@ tr:hover {
 .student-day:hover {
   background-color: rgba(200, 155, 60, 0.15);
 }
+.save-button {
+  margin-top: 20px;
+  padding: 12px 30px;
+  background-color: #c89b3c; /* цвет шапки таблицы */
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.save-button:hover {
+  background-color: #b27f2f; /* немного темнее при наведении */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.save-button:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}

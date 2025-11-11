@@ -10,7 +10,7 @@ function Tabs({ groups }) {
   }, [groups]);
 
   const goToStudentsList = (groupId) => {
-    navigate("/students-list", { state: { groupId } });
+    navigate("/students-list/" + groupId);
   };
 
   if (!groups || groups.length === 0) {
