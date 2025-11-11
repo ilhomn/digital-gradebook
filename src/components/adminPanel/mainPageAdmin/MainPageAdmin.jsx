@@ -6,13 +6,13 @@ const MainPageAdmin = () => {
   return (
     <div className="MainPageAdmin">
       <div className="containerAdmin">
-        <Link to="/adminPanel/create-user" className="createUser">
+        <Link to="/admin-panel/create-user" className="createUser">
           Create User
         </Link>
-        <Link to="/adminPanel/create-group" className="createGroup">
+        <Link to="/admin-panel/create-group" className="createGroup">
           Create Group
         </Link>
-        <Link to="/adminPanel/manage-group" className="manageGroup">
+        <Link to="/admin-panel/manage-group" className="manageGroup">
           Create Time Slots
         </Link>
         <div className="sendExsel">Send Exsel</div>

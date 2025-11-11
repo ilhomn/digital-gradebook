@@ -33,22 +33,22 @@ const Navbar = () => {
   }, []);
 
   const isGroupActive =
-    location.pathname.startsWith("/adminPanel/create-group") ||
-    location.pathname.startsWith("/adminPanel/manage-group") ||
-    location.pathname.startsWith("/adminPanel/update-group");
+    location.pathname.startsWith("/admin-panel/create-group") ||
+    location.pathname.startsWith("/admin-panel/manage-group") ||
+    location.pathname.startsWith("/admin-panel/update-group");
 
   const isUserActive =
-    location.pathname.startsWith("/adminPanel/create-user") ||
-    location.pathname.startsWith("/adminPanel/manage-user") ||
-    location.pathname.startsWith("/adminPanel/update-user");
+    location.pathname.startsWith("/admin-panel/create-user") ||
+    location.pathname.startsWith("/admin-panel/manage-user") ||
+    location.pathname.startsWith("/admin-panel/update-user");
 
   return (
-    <nav className="navbarAdminPanel">
+    <nav className="navbaradmin-panel">
       <ul className="navList">
         <li>
           <Link
-            to="/mainPage"
-            className={location.pathname === "/mainPage" ? "active" : ""}
+            to="/main-page"
+            className={location.pathname === "/main-page" ? "active" : ""}
           >
             Home
           </Link>
@@ -65,13 +65,13 @@ const Navbar = () => {
           {isUserDropdownOpen && (
             <ul className="dropdown-menu">
               <li onClick={() => setIsUserDropdownOpen(false)}>
-                <Link to="/adminPanel/create-user">Create User</Link>
+                <Link to="/admin-panel/create-user">Create User</Link>
               </li>
               <li onClick={() => setIsUserDropdownOpen(false)}>
-                <Link to="/adminPanel/update-user">Update User</Link>
+                <Link to="/admin-panel/update-user">Update User</Link>
               </li>
               <li>
-                <Link to="/adminPanel/upload-students">Upload Students</Link>
+                <Link to="/admin-panel/upload-students">Upload Students</Link>
               </li>
             </ul>
           )}
@@ -88,10 +88,10 @@ const Navbar = () => {
           {isGroupDropdownOpen && (
             <ul className="dropdown-menu">
               <li onClick={() => setIsGroupDropdownOpen(false)}>
-                <Link to="/adminPanel/create-group">Create Group</Link>
+                <Link to="/admin-panel/create-group">Create Group</Link>
               </li>
               <li onClick={() => setIsGroupDropdownOpen(false)}>
-                <Link to="/adminPanel/update-group">Update Group</Link>
+                <Link to="/admin-panel/update-group">Update Group</Link>
               </li>
             </ul>
           )}
@@ -99,9 +99,9 @@ const Navbar = () => {
 
         <li>
           <Link
-            to="/adminPanel/create-time-slots"
+            to="/admin-panel/create-time-slots"
             className={
-              location.pathname === "/adminPanel/create-time-slots"
+              location.pathname === "/admin-panel/create-time-slots"
                 ? "active"
                 : ""
             }

@@ -28,9 +28,9 @@ function Login() {
           console.log("userData: ", userData);
 
           if (userData.status === "teacher") {
-            navigate("/mainPage");
+            navigate("/main-page");
           } else if (userData.status === "admin") {
-            navigate("/adminPanel");
+            navigate("/admin-panel");
           } else {
             alert("Неизвестная роль пользователя");
           }

@@ -25,7 +25,7 @@ function App() {
         <Route path="/" element={<Login />} />
 
         <Route
-          path="/mainPage"
+          path="/main-page"
           element={
             <ProtectedRoute>
               <MainPage />
@@ -34,7 +34,7 @@ function App() {
         />
 
         <Route
-          path="/studentsList"
+          path="/students-list"
           element={
             <ProtectedRoute>
               <StudentsList />
@@ -43,7 +43,7 @@ function App() {
         />
 
         <Route
-          path="/adminPanel"
+          path="/admin-panel"
           element={
             <ProtectedRoute>
               <AdminPanel />
