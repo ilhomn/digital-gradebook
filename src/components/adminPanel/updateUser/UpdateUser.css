@@ -37,7 +37,9 @@
   transition: all 0.3s ease;
   cursor: pointer;
 }
-
+.contiAdmin select {
+  width: 350px;
+}
 .contiAdmin input:focus,
 .contiAdmin select:focus {
   border-color: #b3862e;

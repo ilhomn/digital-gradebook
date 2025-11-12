@@ -37,6 +37,9 @@
   transition: all 0.3s ease;
   cursor: pointer;
 }
+.contaiAdmin select {
+  width: 350px;
+}
 
 .contaiAdmin input:focus,
 .contaiAdmin select:focus {

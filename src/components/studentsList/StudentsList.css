@@ -81,6 +81,7 @@ tr:hover {
   background-color: rgba(200, 155, 60, 0.15);
 }
 .save-button {
+  margin-left: 90%;
   margin-top: 20px;
   padding: 12px 30px;
   background-color: #c89b3c; /* цвет шапки таблицы */
