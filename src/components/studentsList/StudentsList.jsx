@@ -19,21 +19,14 @@ const months = [
 ];
 
 const attendanceSymbols = {
-  o: "present",
-  x: "absent",
-  "△": "late",
-  "": "present",
-};
-
-const attendanceSymbolsReverse = {
-  present: "o",
   absent: "x",
   late: "△",
+  present: "",
 };
 
 function StudentsList() {
   const { id } = useParams();
-  const [attendance, setAttendance] = useState({});
+  const [attendance, setAttendance] = useState([]);
   const [students, setStudents] = useState([]);
   const [days, setDays] = useState(null);
 
@@ -53,6 +46,8 @@ function StudentsList() {
       if (!response.ok) throw new Error(response.statusText);
       const data = await response.json();
 
+      setAttendance(data.data.students || []);
+
       setStudents(data.data.students);
       setDays(data.data.days);
     } catch (error) {
@@ -63,23 +58,42 @@ function StudentsList() {
   const handleCellClick = (studentId, day) => {
     if (!studentId) return;
 
-    const current = attendance[studentId]?.[day] || "";
-    let next = "";
+    console.log(
+      attendance[attendance.findIndex((item) => item.student_id == studentId)][
+        "attendance"
+      ]?.[currentYear]?.[months[currentMonth]]?.[day]
+    );
 
-    if (current === "") next = "x";
-    else if (current === "x") next = "o";
-    else if (current === "o") next = "△";
-    else if (current === "△") next = "x";
+    let current =
+      attendance[attendance.findIndex((item) => item.student_id === studentId)][
+        "attendance"
+      ]?.[currentYear]?.[months[currentMonth]]?.[day] || "";
 
-    const newState = {
-      ...attendance,
-      [studentId]: {
-        ...attendance[studentId],
-        [day]: attendanceSymbols[next],
-      },
-    };
+    if (current === "") current = "absent";
+    else if (current === "absent") current = "late";
+    else if (current === "late") current = "";
 
-    setAttendance(newState);
+    setAttendance((prev) => {
+      return prev.map((item) => {
+        if (item.student_id === studentId) {
+          return {
+            ...item,
+            attendance: {
+              ...item.attendance,
+              [currentYear]: {
+                ...item.attendance[currentYear],
+                [months[currentMonth]]: {
+                  ...item.attendance[currentYear][months[currentMonth]],
+                  [day]: current,
+                },
+              },
+            },
+          };
+        } else {
+          return item;
+        }
+      });
+    });
   };
 
   const sendAttendance = async () => {
@@ -88,14 +102,13 @@ function StudentsList() {
       return;
     }
 
+    console.log(attendance);
+
     const payload = {
       groupId: id,
       month: months[currentMonth],
       year: currentYear,
-      attendance: Object.entries(attendance).map(([studentId, days]) => ({
-        studentId,
-        days,
-      })),
+      attendance,
     };
 
     try {
@@ -157,14 +170,17 @@ function StudentsList() {
                         key={day}
                         className="student-day"
                         onClick={() => handleCellClick(studentId, day)}
+                        value={attendance[studentId]?.[day] || ""}
                       >
-                        {attendance[studentId]?.[day] ||
-                          attendanceSymbolsReverse[
-                            student.attendance?.[currentYear]?.[
-                              months[currentMonth]
-                            ]?.[day]
-                          ] ||
-                          ""}
+                        {attendanceSymbols[
+                          attendance[
+                            attendance.findIndex(
+                              (item) => item.student_id == studentId
+                            )
+                          ]["attendance"]?.[currentYear]?.[
+                            months[currentMonth]
+                          ]?.[day]
+                        ] || ""}
                       </td>
                     ))}
                   </tr>
