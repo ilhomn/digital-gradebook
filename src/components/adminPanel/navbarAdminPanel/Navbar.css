@@ -8,7 +8,6 @@
 }
 
 .navList {
-  width: 45%;
   list-style: none;
   display: flex;
   gap: 60px;

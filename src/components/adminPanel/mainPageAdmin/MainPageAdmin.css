@@ -18,12 +18,7 @@
   font-family: "Poppins", sans-serif;
   animation: fadeIn 0.5s ease-in-out;
 }
-.navbar {
-  position: fixed;
-  margin-right: 60px;
-  /* position: absolute; */
-  margin-bottom: 41%;
-}
+
 .containerAdmin {
   border-radius: 15px;
   display: flex;
@@ -57,7 +52,7 @@
   justify-content: center;
   color: #bb8d0c;
   transition: all 0.3s ease;
-  background: url("public/img/bcg.png") no-repeat center;
+  background: url("/img/bcg.png") no-repeat center;
   background-size: 100% 100%;
 }
 .createGroup:hover,

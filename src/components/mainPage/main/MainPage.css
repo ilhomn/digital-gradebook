@@ -1,35 +1,51 @@
-@keyframes fadeIn {
+/* @keyframes fadeIn {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
   }
-}
+} */
 
 .main-page {
-  background: url("img/gpt2.png") no-repeat center;
+  background: url("/img/gpt2.png") no-repeat center;
   background-size: contain;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   animation: fadeIn 0.5s ease-in-out;
+  padding-top: 0;
+  flex-direction: column;
 }
 
 .container {
+  margin-top: 20px;
   padding: 20px;
   min-height: 500px;
   width: 1200px;
   background: rgba(218, 202, 168, 0.3);
   border-radius: 15px;
   border: 1px solid #c89b3c;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
 }
-.log-out {
+.navbar {
+  position: fixed;
+  margin-right: 60px;
   position: absolute;
-  margin-bottom: 450px;
-  margin-right: 1100px;
+  margin-bottom: 43.7%;
+  width: 90%;
+}
+
+.top-row {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 10px;
+}
+
+.log-out {
   height: 39px;
   width: 39px;
   border-radius: 100px;
@@ -37,10 +53,12 @@
   background-color: #c89c3c00;
   cursor: pointer;
 }
+
 .log-img {
   border-radius: 8px;
   transition: all 0.3s ease;
 }
+
 .log-img:hover {
   transform: translateY(-1px);
   box-shadow: 5px 5px 30px #bfa353;

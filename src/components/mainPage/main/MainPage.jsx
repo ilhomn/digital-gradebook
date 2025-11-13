@@ -3,6 +3,7 @@ import "./MainPage.css";
 import Tabs from "../tabs/Tabs";
 import { useNavigate } from "react-router-dom";
 import IP from "../../../config";
+import Navbar from "../../adminPanel/navbarAdminPanel/Navbar";
 
 function MainPage() {
   const navigate = useNavigate();
@@ -82,16 +83,21 @@ function MainPage() {
 
   return (
     <div className="main-page">
+      <div className="navbaradmin-panel navbar">
+        {userRole === "admin" && <Navbar />}
+      </div>
       <div className="container">
-        <span className="log-out" onClick={handleLogout}>
-          <img
-            className="log-img"
-            width="39"
-            height="39"
-            src="/img/icons8-log-out-color-32.png"
-            alt="logout"
-          />
-        </span>
+        <div className="top-row">
+          <span className="log-out" onClick={handleLogout}>
+            <img
+              className="log-img"
+              width="39"
+              height="39"
+              src="/img/icons8-log-out-color-32.png"
+              alt="logout"
+            />
+          </span>
+        </div>
 
         <Tabs groups={groups} role={userRole} nameTeacher={nameTeacher} />
       </div>

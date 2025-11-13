@@ -20,7 +20,7 @@
 }
 
 .tabs {
-  background: url("img/bcg.png");
+  background: url("/img/bcg.png");
   background-size: auto 100%;
 
   color: black;
