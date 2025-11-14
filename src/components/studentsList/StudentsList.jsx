@@ -38,7 +38,6 @@ function StudentsList() {
   const currentYear = new Date().getFullYear();
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
 
-  // Получение данных группы
   const group = async () => {
     setLoading(true);
     try {
@@ -64,7 +63,6 @@ function StudentsList() {
     }
   };
 
-  // Клик по ячейке посещаемости
   const handleCellClick = (studentId, day) => {
     if (!studentId) return;
 
@@ -98,7 +96,6 @@ function StudentsList() {
     );
   };
 
-  // Отправка посещаемости
   const sendAttendance = async () => {
     if (!attendance.length) {
       alert("Нет данных для отправки!");
@@ -147,12 +144,10 @@ function StudentsList() {
     );
   }
 
-  // Доступные месяцы из данных сервера
-  const availableMonths = Object.keys(days[currentYear] || {}).filter(
-    (month) => days[currentYear][month]?.length > 0
-  );
+  const availableMonths = Object.keys(days[currentYear] || {})
+    .filter((month) => days[currentYear][month]?.length > 0)
+    .sort((a, b) => months.indexOf(a) - months.indexOf(b));
 
-  // Если текущий месяц не доступен, выбираем первый доступный
   const effectiveMonth = availableMonths.includes(months[currentMonth])
     ? months[currentMonth]
     : availableMonths[0];
@@ -166,19 +161,22 @@ function StudentsList() {
           <div className="list-header">
             <span className="group-name">{groupName}</span>
 
-            {/* Селект для выбора месяца */}
-            <select
-              value={availableMonths.indexOf(effectiveMonth)}
-              onChange={(e) =>
-                setCurrentMonth(months.indexOf(availableMonths[e.target.value]))
-              }
-            >
-              {availableMonths.map((month, idx) => (
-                <option key={month} value={idx}>
-                  {month}
-                </option>
-              ))}
-            </select>
+            <div className="select-wrapper">
+              <select
+                value={availableMonths.indexOf(effectiveMonth)}
+                onChange={(e) =>
+                  setCurrentMonth(
+                    months.indexOf(availableMonths[e.target.value])
+                  )
+                }
+              >
+                {availableMonths.map((month, idx) => (
+                  <option key={month} value={idx}>
+                    {month}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <table>
