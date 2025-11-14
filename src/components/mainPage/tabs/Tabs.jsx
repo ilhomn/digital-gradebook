@@ -13,7 +13,15 @@ function Tabs({ groups }) {
     navigate("/students-list/" + groupId);
   };
 
-  if (!groups || groups.length === 0) {
+  if (!groups) {
+    return (
+      <div className="loader-container">
+        <div className="loader"></div>
+      </div>
+    );
+  }
+
+  if (groups.length === 0) {
     return <p className="load">Нет групп для отображения</p>;
   }
 
@@ -28,7 +36,6 @@ function Tabs({ groups }) {
         >
           <span className="group">{group.name}</span>
           <span className="teacher">{group.teacher}</span>
-          {/* {console.log(group._name)} */}
         </div>
       ))}
     </div>

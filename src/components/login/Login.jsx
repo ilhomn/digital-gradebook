@@ -6,10 +6,14 @@ import "./Login.css";
 function Login() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
     try {
       const response = await fetch(`${IP}/login`, {
         method: "POST",
@@ -19,13 +23,11 @@ function Login() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Login successful:", data);
 
         if (data.token) {
           localStorage.setItem("token", data.token);
 
           const userData = await getUserData(data.token);
-          console.log("userData: ", userData);
 
           if (userData.status === "teacher") {
             navigate("/main-page");
@@ -36,12 +38,12 @@ function Login() {
           }
         }
       } else {
-        console.error("Login failed");
         alert("Неверный логин или пароль");
       }
-    } catch (error) {
-      console.error("Error during login:", error);
+    } catch (err) {
       alert("Ошибка при авторизации");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -68,7 +70,9 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button type="submit">Log in</button>
+        <button type="submit" disabled={loading}>
+          {loading ? <div className="mini-loader"></div> : "Log in"}
+        </button>
       </div>
     </form>
   );

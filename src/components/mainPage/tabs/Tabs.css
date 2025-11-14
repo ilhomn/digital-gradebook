@@ -1,3 +1,4 @@
+/* Плавное появление контейнера */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -19,10 +20,10 @@
   animation: fadeIn 0.5s ease-in-out;
 }
 
+/* Карточки групп */
 .tabs {
   background: url("/img/bcg.png");
   background-size: auto 100%;
-
   color: black;
   display: flex;
   height: 140px;
@@ -38,17 +39,63 @@
   cursor: pointer;
   z-index: 9;
 }
+
 .tabs:hover {
   transform: translateY(-1px);
   box-shadow: 5px 5px 30px #bfa353;
 }
 
+/* Текст преподавателя */
 .teacher {
   align-self: flex-end;
   color: black;
 }
+
+/* Текст "Нет групп" */
 .load {
   color: black;
   justify-content: center;
   align-items: center;
+}
+
+/* Контейнер лоадера */
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 220px;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Улучшенная анимация загрузки */
+.loader {
+  width: 55px;
+  height: 55px;
+  border: 5px solid rgba(0, 0, 0, 0.2);
+  border-top-color: #c89b3c;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite, pulse 1.5s ease-in-out infinite;
+}
+
+/* Вращение */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Лёгкая пульсация */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0px rgba(200, 155, 60, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(200, 155, 60, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0px rgba(200, 155, 60, 0.4);
+  }
 }

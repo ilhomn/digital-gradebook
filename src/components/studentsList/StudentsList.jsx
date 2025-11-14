@@ -26,14 +26,20 @@ const attendanceSymbols = {
 
 function StudentsList() {
   const { id } = useParams();
+
   const [attendance, setAttendance] = useState([]);
   const [students, setStudents] = useState([]);
   const [days, setDays] = useState(null);
+
+  const [loading, setLoading] = useState(true); // загрузка данных
+  const [sending, setSending] = useState(false); // отправка данных
 
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
 
   const group = async () => {
+    setLoading(true);
+
     try {
       const response = await fetch(`${IP}/get-group-data/${id}`, {
         method: "GET",
@@ -47,22 +53,17 @@ function StudentsList() {
       const data = await response.json();
 
       setAttendance(data.data.students || []);
-
       setStudents(data.data.students);
       setDays(data.data.days);
     } catch (error) {
       console.error("Ошибка при получении группы:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleCellClick = (studentId, day) => {
     if (!studentId) return;
-
-    console.log(
-      attendance[attendance.findIndex((item) => item.student_id == studentId)][
-        "attendance"
-      ]?.[currentYear]?.[months[currentMonth]]?.[day]
-    );
 
     let current =
       attendance[attendance.findIndex((item) => item.student_id === studentId)][
@@ -89,9 +90,8 @@ function StudentsList() {
               },
             },
           };
-        } else {
-          return item;
         }
+        return item;
       });
     });
   };
@@ -102,7 +102,7 @@ function StudentsList() {
       return;
     }
 
-    console.log(attendance);
+    setSending(true); // показываем мини-лоадер
 
     const payload = {
       groupId: id,
@@ -122,11 +122,13 @@ function StudentsList() {
       });
 
       const data = await response.json();
-      console.log("✅ Ответ с сервера:", data);
+      console.log("Ответ:", data);
       alert("Данные успешно отправлены!");
     } catch (error) {
-      console.error("Ошибка при отправке:", error);
+      console.error("Ошибка:", error);
       alert("Ошибка при отправке данных!");
+    } finally {
+      setSending(false);
     }
   };
 
@@ -134,7 +136,14 @@ function StudentsList() {
     group();
   }, []);
 
-  if (!days) return <div>Загрузка...</div>;
+  // 👇 ЛОАДЕР ПРИ ЗАГРУЗКЕ ДАННЫХ
+  if (loading || !days) {
+    return (
+      <div className="loader-container">
+        <div className="loader"></div>
+      </div>
+    );
+  }
 
   const monthDays = days[currentYear]?.[months[currentMonth]] || [];
 
@@ -151,6 +160,7 @@ function StudentsList() {
                 ))}
               </tr>
             </thead>
+
             <tbody>
               {students.map((student, idx) => {
                 const studentId =
@@ -165,12 +175,12 @@ function StudentsList() {
                     <td className="student-name">
                       {student.english_last_name} {student.english_first_name}
                     </td>
+
                     {monthDays.map((day) => (
                       <td
                         key={day}
                         className="student-day"
                         onClick={() => handleCellClick(studentId, day)}
-                        value={attendance[studentId]?.[day] || ""}
                       >
                         {attendanceSymbols[
                           attendance[
@@ -189,8 +199,12 @@ function StudentsList() {
             </tbody>
           </table>
 
-          <button onClick={sendAttendance} className="save-button">
-            Save
+          <button
+            onClick={sendAttendance}
+            className="save-button"
+            disabled={sending}
+          >
+            {sending ? <div className="mini-loader"></div> : "Save"}
           </button>
         </div>
       </div>
