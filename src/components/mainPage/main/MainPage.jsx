@@ -83,9 +83,6 @@ function MainPage() {
 
   return (
     <div className="main-page">
-      <div className="navbaradmin-panel navbar">
-        {userRole === "admin" && <Navbar />}
-      </div>
       <div className="container">
         <div className="top-row">
           <span className="log-out" onClick={handleLogout}>

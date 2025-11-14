@@ -1,0 +1,24 @@
+.layout-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.navbaradmin-panel {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+}
+
+.layout-content {
+  margin-top: 110px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.page-layout {
+  background-size: cover;
+  background-attachment: fixed;
+}

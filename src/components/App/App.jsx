@@ -14,10 +14,14 @@ import MainPageAdmin from "../adminPanel/mainPageAdmin/MainPageAdmin";
 import CreateUser from "../adminPanel/createUser/CreateUser";
 import CreateGroup from "../adminPanel/createGroup/CreateGroup";
 import CreateTimeSlots from "../adminPanel/CreateTimeSlots/CreateTimeSlots";
-import ProtectedRoute from "../ProtectedRoute";
 import UpdateUser from "../adminPanel/updateUser/UpdateUser";
 import UpdateGroup from "../adminPanel/updateGroup/UpdateGroup";
 import UploadStudents from "../adminPanel/uploadStudents/UploadStudents";
+
+import ProtectedRoute from "../ProtectedRoute";
+import PageLayout from "../../layout/PageLayout";
+// import AdminRoute from "../adminPanel/AdminRoute";
+
 function App() {
   return (
     <Router>
@@ -28,7 +32,9 @@ function App() {
           path="/main-page"
           element={
             <ProtectedRoute>
-              <MainPage />
+              <PageLayout>
+                <MainPage />
+              </PageLayout>
             </ProtectedRoute>
           }
         />
@@ -37,19 +43,14 @@ function App() {
           path="/students-list/:id"
           element={
             <ProtectedRoute>
-              <StudentsList />
+              <PageLayout>
+                <StudentsList />
+              </PageLayout>
             </ProtectedRoute>
           }
         />
 
-        <Route
-          path="/admin-panel"
-          element={
-            <ProtectedRoute>
-              <AdminPanel />
-            </ProtectedRoute>
-          }
-        >
+        <Route path="/admin-panel/*" element={<AdminPanel />}>
           <Route index element={<MainPageAdmin />} />
           <Route path="create-user" element={<CreateUser />} />
           <Route path="create-group" element={<CreateGroup />} />
@@ -58,6 +59,7 @@ function App() {
           <Route path="update-group" element={<UpdateGroup />} />
           <Route path="upload-students" element={<UploadStudents />} />
         </Route>
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

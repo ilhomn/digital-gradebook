@@ -1,21 +1,14 @@
-/* @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-} */
-
 .main-page {
-  background: url("/img/gpt2.png") no-repeat center;
+  background: url("/img/gpt2.png") no-repeat center / cover;
   background-size: contain;
-  height: 100vh;
+  background-attachment: fixed; /* фиксируем фон */
+
+  width: 100%;
+  min-height: 100vh; /* вместо height: 100vh — чтобы фон перекрывал контент при скролле */
+
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: fadeIn 0.5s ease-in-out;
-  padding-top: 0;
   flex-direction: column;
 }
 
@@ -29,13 +22,6 @@
   border: 1px solid #c89b3c;
   display: flex;
   flex-direction: column;
-}
-.navbar {
-  position: fixed;
-  margin-right: 60px;
-  position: absolute;
-  margin-bottom: 43.7%;
-  width: 90%;
 }
 
 .top-row {
