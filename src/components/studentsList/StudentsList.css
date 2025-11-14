@@ -196,3 +196,28 @@ tr:hover {
     backdrop-filter: blur(3px);
   }
 }
+/* ================================ */
+/* Стили для выбора месяца */
+/* ================================ */
+
+select {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 2px solid #c89b3c;
+  background-color: #d2c19a; /* совпадает с фоном таблицы */
+  color: #2e2e2e;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+select:hover {
+  background-color: #c9b77d;
+  border-color: #b27f2f;
+}
+
+select:focus {
+  outline: none;
+  box-shadow: 0 0 6px rgba(200, 155, 60, 0.5);
+}

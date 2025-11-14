@@ -36,11 +36,10 @@ function StudentsList() {
   const [sending, setSending] = useState(false);
 
   const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth();
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
 
   const group = async () => {
     setLoading(true);
-
     try {
       const response = await fetch(`${IP}/get-group-data/${id}`, {
         method: "GET",
@@ -55,7 +54,7 @@ function StudentsList() {
 
       setAttendance(data.data.students || []);
       setStudents(data.data.students);
-      setDays(data.data.days);
+      setDays(data.data.days || {});
       setGroupName(data.data.name);
     } catch (error) {
       console.error("Ошибка при получении группы:", error);
@@ -68,16 +67,15 @@ function StudentsList() {
     if (!studentId) return;
 
     let current =
-      attendance[attendance.findIndex((item) => item.student_id === studentId)][
-        "attendance"
-      ]?.[currentYear]?.[months[currentMonth]]?.[day] || "";
+      attendance[attendance.findIndex((item) => item.student_id === studentId)]
+        ?.attendance?.[currentYear]?.[months[currentMonth]]?.[day] || "";
 
     if (current === "") current = "absent";
     else if (current === "absent") current = "late";
     else if (current === "late") current = "";
 
-    setAttendance((prev) => {
-      return prev.map((item) => {
+    setAttendance((prev) =>
+      prev.map((item) => {
         if (item.student_id === studentId) {
           return {
             ...item,
@@ -94,12 +92,12 @@ function StudentsList() {
           };
         }
         return item;
-      });
-    });
+      })
+    );
   };
 
   const sendAttendance = async () => {
-    if (!Object.keys(attendance).length) {
+    if (!attendance.length) {
       alert("Нет данных для отправки!");
       return;
     }
@@ -146,7 +144,8 @@ function StudentsList() {
     );
   }
 
-  const monthDays = days[currentYear]?.[months[currentMonth]] || [];
+  // Используем только те дни, что пришли с сервера
+  const monthDays = days?.[currentYear]?.[months[currentMonth]] || [];
 
   return (
     <div className="students-list">
@@ -154,12 +153,20 @@ function StudentsList() {
         <div className="students">
           <div className="list-header">
             <span className="group-name">{groupName}</span>
-            <span className="current-month">
-              {months[currentMonth] in days[currentYear]
-                ? months[currentMonth]
-                : Object.keys(days[currentYear][0])}
-            </span>
+
+            {/* Селект для выбора месяца */}
+            <select
+              value={currentMonth}
+              onChange={(e) => setCurrentMonth(parseInt(e.target.value))}
+            >
+              {months.map((month, idx) => (
+                <option key={month} value={idx}>
+                  {month}
+                </option>
+              ))}
+            </select>
           </div>
+
           <table>
             <thead>
               <tr>
@@ -194,9 +201,9 @@ function StudentsList() {
                         {attendanceSymbols[
                           attendance[
                             attendance.findIndex(
-                              (item) => item.student_id == studentId
+                              (item) => item.student_id === studentId
                             )
-                          ]["attendance"]?.[currentYear]?.[
+                          ]?.attendance?.[currentYear]?.[
                             months[currentMonth]
                           ]?.[day]
                         ] || ""}
