@@ -38,6 +38,7 @@ function StudentsList() {
   const currentYear = new Date().getFullYear();
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
 
+  // Получение данных группы
   const group = async () => {
     setLoading(true);
     try {
@@ -63,6 +64,7 @@ function StudentsList() {
     }
   };
 
+  // Клик по ячейке посещаемости
   const handleCellClick = (studentId, day) => {
     if (!studentId) return;
 
@@ -96,6 +98,7 @@ function StudentsList() {
     );
   };
 
+  // Отправка посещаемости
   const sendAttendance = async () => {
     if (!attendance.length) {
       alert("Нет данных для отправки!");
@@ -144,8 +147,17 @@ function StudentsList() {
     );
   }
 
-  // Используем только те дни, что пришли с сервера
-  const monthDays = days?.[currentYear]?.[months[currentMonth]] || [];
+  // Доступные месяцы из данных сервера
+  const availableMonths = Object.keys(days[currentYear] || {}).filter(
+    (month) => days[currentYear][month]?.length > 0
+  );
+
+  // Если текущий месяц не доступен, выбираем первый доступный
+  const effectiveMonth = availableMonths.includes(months[currentMonth])
+    ? months[currentMonth]
+    : availableMonths[0];
+
+  const monthDays = days?.[currentYear]?.[effectiveMonth] || [];
 
   return (
     <div className="students-list">
@@ -156,10 +168,12 @@ function StudentsList() {
 
             {/* Селект для выбора месяца */}
             <select
-              value={currentMonth}
-              onChange={(e) => setCurrentMonth(parseInt(e.target.value))}
+              value={availableMonths.indexOf(effectiveMonth)}
+              onChange={(e) =>
+                setCurrentMonth(months.indexOf(availableMonths[e.target.value]))
+              }
             >
-              {months.map((month, idx) => (
+              {availableMonths.map((month, idx) => (
                 <option key={month} value={idx}>
                   {month}
                 </option>
@@ -203,9 +217,7 @@ function StudentsList() {
                             attendance.findIndex(
                               (item) => item.student_id === studentId
                             )
-                          ]?.attendance?.[currentYear]?.[
-                            months[currentMonth]
-                          ]?.[day]
+                          ]?.attendance?.[currentYear]?.[effectiveMonth]?.[day]
                         ] || ""}
                       </td>
                     ))}
