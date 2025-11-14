@@ -38,7 +38,7 @@ function StudentsList() {
   const currentYear = new Date().getFullYear();
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
 
-  const group = async () => {
+  const fetchGroup = async () => {
     setLoading(true);
     try {
       const response = await fetch(`${IP}/get-group-data/${id}`, {
@@ -66,9 +66,14 @@ function StudentsList() {
   const handleCellClick = (studentId, day) => {
     if (!studentId) return;
 
-    let current =
-      attendance[attendance.findIndex((item) => item.student_id === studentId)]
-        ?.attendance?.[currentYear]?.[months[currentMonth]]?.[day] || "";
+    const index = attendance.findIndex((item) => item.student_id === studentId);
+    if (index === -1) return;
+
+    const student = attendance[index];
+    const monthData =
+      student.attendance?.[currentYear]?.[months[currentMonth]] || {};
+
+    let current = monthData[day] || "";
 
     if (current === "") current = "absent";
     else if (current === "absent") current = "late";
@@ -84,7 +89,7 @@ function StudentsList() {
               [currentYear]: {
                 ...item.attendance[currentYear],
                 [months[currentMonth]]: {
-                  ...item.attendance[currentYear][months[currentMonth]],
+                  ...monthData,
                   [day]: current,
                 },
               },
@@ -133,7 +138,7 @@ function StudentsList() {
   };
 
   useEffect(() => {
-    group();
+    fetchGroup();
   }, []);
 
   if (loading || !days) {
@@ -160,7 +165,6 @@ function StudentsList() {
         <div className="students">
           <div className="list-header">
             <span className="group-name">{groupName}</span>
-
             <div className="select-wrapper">
               <select
                 value={availableMonths.indexOf(effectiveMonth)}
@@ -178,7 +182,6 @@ function StudentsList() {
               </select>
             </div>
           </div>
-
           <table>
             <thead>
               <tr>
@@ -198,6 +201,10 @@ function StudentsList() {
                   student.studentId ||
                   student.id_student;
 
+                const studentAttendance =
+                  attendance.find((item) => item.student_id === studentId)
+                    ?.attendance?.[currentYear]?.[effectiveMonth] || {};
+
                 return (
                   <tr key={idx}>
                     <td className="student-name">
@@ -210,13 +217,7 @@ function StudentsList() {
                         className="student-day"
                         onClick={() => handleCellClick(studentId, day)}
                       >
-                        {attendanceSymbols[
-                          attendance[
-                            attendance.findIndex(
-                              (item) => item.student_id === studentId
-                            )
-                          ]?.attendance?.[currentYear]?.[effectiveMonth]?.[day]
-                        ] || ""}
+                        {attendanceSymbols[studentAttendance[day]] || ""}
                       </td>
                     ))}
                   </tr>
