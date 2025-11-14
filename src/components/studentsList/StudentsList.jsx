@@ -30,9 +30,10 @@ function StudentsList() {
   const [attendance, setAttendance] = useState([]);
   const [students, setStudents] = useState([]);
   const [days, setDays] = useState(null);
+  const [groupName, setGroupName] = useState("");
 
-  const [loading, setLoading] = useState(true); // загрузка данных
-  const [sending, setSending] = useState(false); // отправка данных
+  const [loading, setLoading] = useState(true);
+  const [sending, setSending] = useState(false);
 
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
@@ -55,6 +56,7 @@ function StudentsList() {
       setAttendance(data.data.students || []);
       setStudents(data.data.students);
       setDays(data.data.days);
+      setGroupName(data.data.name);
     } catch (error) {
       console.error("Ошибка при получении группы:", error);
     } finally {
@@ -102,7 +104,7 @@ function StudentsList() {
       return;
     }
 
-    setSending(true); // показываем мини-лоадер
+    setSending(true);
 
     const payload = {
       groupId: id,
@@ -136,7 +138,6 @@ function StudentsList() {
     group();
   }, []);
 
-  // 👇 ЛОАДЕР ПРИ ЗАГРУЗКЕ ДАННЫХ
   if (loading || !days) {
     return (
       <div className="loader-container">
@@ -151,6 +152,14 @@ function StudentsList() {
     <div className="students-list">
       <div className="studentItems">
         <div className="students">
+          <div className="list-header">
+            <span className="group-name">{groupName}</span>
+            <span className="current-month">
+              {months[currentMonth] in days[currentYear]
+                ? months[currentMonth]
+                : Object.keys(days[currentYear][0])}
+            </span>
+          </div>
           <table>
             <thead>
               <tr>

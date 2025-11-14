@@ -80,6 +80,24 @@ tr:hover {
 .student-day:hover {
   background-color: rgba(200, 155, 60, 0.15);
 }
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #c89b3c;
+  color: #fff;
+  border-radius: 10px 10px 0 0;
+  margin-bottom: -1px;
+}
+
+.group-name,
+.current-month {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
 .save-button {
   margin-left: 90%;
   margin-top: 20px;
