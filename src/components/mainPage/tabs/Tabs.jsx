@@ -22,7 +22,7 @@ function Tabs({ groups }) {
   }
 
   if (groups.length === 0) {
-    return <p className="load">Нет групп для отображения</p>;
+    return <p className="load">You don`t have group</p>;
   }
 
   return (

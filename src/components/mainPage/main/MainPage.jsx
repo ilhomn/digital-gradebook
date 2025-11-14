@@ -85,6 +85,8 @@ function MainPage() {
     <div className="main-page">
       <div className="container">
         <div className="top-row">
+          {userRole === "admin" && <Navbar />}
+
           <span className="log-out" onClick={handleLogout}>
             <img
               className="log-img"
