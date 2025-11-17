@@ -65,3 +65,40 @@
   color: #796735;
   cursor: pointer;
 }
+
+@media (max-width: 992px) {
+  .containerAdmin {
+    width: 85%;
+  }
+}
+
+@media (max-width: 768px) {
+  .MainPageAdmin {
+    background-size: cover;
+  }
+  .containerAdmin {
+    width: 95%;
+    padding: 10px;
+  }
+  .createGroup,
+  .createUser,
+  .manageGroup,
+  .sendExsel,
+  .dataBase {
+    width: 40%;
+    height: 120px;
+    font-size: 16px;
+    margin: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .createGroup,
+  .createUser,
+  .manageGroup,
+  .sendExsel,
+  .dataBase {
+    width: 80%;
+    margin: 10px auto;
+  }
+}

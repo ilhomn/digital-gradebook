@@ -128,3 +128,33 @@
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 768px) {
+  .logiin {
+    width: 320px;
+    height: 320px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login {
+    background-size: cover;
+  }
+  .logiin {
+    width: 90%;
+    max-width: 300px;
+    height: auto;
+    padding: 20px;
+    gap: 10px;
+  }
+
+  .login__title {
+    font-size: 32px;
+  }
+
+  .login input,
+  .login button {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}

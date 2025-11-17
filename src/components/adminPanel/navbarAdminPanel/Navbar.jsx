@@ -6,12 +6,19 @@ const Navbar = () => {
   const location = useLocation();
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [isGroupDropdownOpen, setIsGroupDropdownOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const userDropdownRef = useRef(null);
   const groupDropdownRef = useRef(null);
+  const navbarRef = useRef(null);
 
   const toggleUserDropdown = () => setIsUserDropdownOpen((prev) => !prev);
   const toggleGroupDropdown = () => setIsGroupDropdownOpen((prev) => !prev);
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+
+  const handleLinkClick = () => {
+    setIsMenuOpen(false);
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -26,6 +33,9 @@ const Navbar = () => {
         !groupDropdownRef.current.contains(event.target)
       ) {
         setIsGroupDropdownOpen(false);
+      }
+      if (navbarRef.current && !navbarRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -43,9 +53,14 @@ const Navbar = () => {
     location.pathname.startsWith("/admin-panel/update-user");
 
   return (
-    <nav className="navbaradmin-panel">
-      <ul className="navList">
-        <li>
+    <nav className="navbaradmin-panel" ref={navbarRef}>
+      <div className="hamburger" onClick={toggleMenu}>
+        <span className="bar"></span>
+        <span className="bar"></span>
+        <span className="bar"></span>
+      </div>
+      <ul className={`navList ${isMenuOpen ? "open" : ""}`}>
+        <li onClick={handleLinkClick}>
           <Link
             to="/main-page"
             className={location.pathname === "/main-page" ? "active" : ""}
@@ -64,13 +79,23 @@ const Navbar = () => {
 
           {isUserDropdownOpen && (
             <ul className="dropdown-menu">
-              <li onClick={() => setIsUserDropdownOpen(false)}>
+              <li
+                onClick={() => {
+                  setIsUserDropdownOpen(false);
+                  handleLinkClick();
+                }}
+              >
                 <Link to="/admin-panel/create-user">Create User</Link>
               </li>
-              <li onClick={() => setIsUserDropdownOpen(false)}>
+              <li
+                onClick={() => {
+                  setIsUserDropdownOpen(false);
+                  handleLinkClick();
+                }}
+              >
                 <Link to="/admin-panel/update-user">Update User</Link>
               </li>
-              <li>
+              <li onClick={handleLinkClick}>
                 <Link to="/admin-panel/upload-students">Upload Students</Link>
               </li>
             </ul>
@@ -87,17 +112,27 @@ const Navbar = () => {
 
           {isGroupDropdownOpen && (
             <ul className="dropdown-menu">
-              <li onClick={() => setIsGroupDropdownOpen(false)}>
+              <li
+                onClick={() => {
+                  setIsGroupDropdownOpen(false);
+                  handleLinkClick();
+                }}
+              >
                 <Link to="/admin-panel/create-group">Create Group</Link>
               </li>
-              <li onClick={() => setIsGroupDropdownOpen(false)}>
+              <li
+                onClick={() => {
+                  setIsGroupDropdownOpen(false);
+                  handleLinkClick();
+                }}
+              >
                 <Link to="/admin-panel/update-group">Update Group</Link>
               </li>
             </ul>
           )}
         </li>
 
-        <li>
+        <li onClick={handleLinkClick}>
           <Link
             to="/admin-panel/create-time-slots"
             className={

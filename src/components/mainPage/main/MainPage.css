@@ -49,3 +49,19 @@
   transform: translateY(-1px);
   box-shadow: 5px 5px 30px #bfa353;
 }
+
+@media (max-width: 1220px) {
+  .container {
+    width: 95%;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    margin-top: 10px;
+    padding: 15px;
+  }
+  .main-page {
+    background-size: cover;
+  }
+}

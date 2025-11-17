@@ -99,3 +99,18 @@
     box-shadow: 0 0 0px rgba(200, 155, 60, 0.4);
   }
 }
+
+@media (max-width: 600px) {
+  .tabs {
+    width: 40%;
+    margin: 10px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 400px) {
+  .tabs {
+    width: 90%;
+    margin: 10px auto;
+  }
+}
