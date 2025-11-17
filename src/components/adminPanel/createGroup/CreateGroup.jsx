@@ -4,7 +4,7 @@ import IP from "../../../config";
 
 const CreateGroup = () => {
   const [groupName, setGroupName] = useState("");
-  const [amount, setAmount] = useState("");
+  const [lessonTime, setLessonTime] = useState("");
   const [token, setToken] = useState("");
   const [timeSlots, setTimeSlots] = useState([]);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
@@ -33,13 +33,8 @@ const CreateGroup = () => {
   }, [token]);
 
   const handleCreateGroup = async () => {
-    if (!groupName || !selectedTimeSlot || !amount) {
+    if (!groupName || !selectedTimeSlot || !lessonTime) {
       alert("Пожалуйста, заполните все поля!");
-      return;
-    }
-
-    if (isNaN(Number(amount)) || Number(amount) <= 0) {
-      alert("Введите корректное число студентов");
       return;
     }
 
@@ -52,7 +47,7 @@ const CreateGroup = () => {
         },
         body: JSON.stringify({
           name: groupName,
-          amount: Number(amount),
+          lessonTime: lessonTime,
           days: selectedTimeSlot.split(",").map(Number),
         }),
       });
@@ -68,7 +63,7 @@ const CreateGroup = () => {
       alert(data.message || "Группа успешно создана!");
 
       setGroupName("");
-      setAmount("");
+      setLessonTime("");
       setSelectedTimeSlot("");
     } catch (err) {
       console.error(err);
@@ -103,11 +98,10 @@ const CreateGroup = () => {
         </select>
 
         <input
-          type="number"
-          placeholder="Number of Students"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          min="1"
+          type="text"
+          placeholder="Lesson Time (e.g., 10:00-11:30)"
+          value={lessonTime}
+          onChange={(e) => setLessonTime(e.target.value)}
         />
 
         <button onClick={handleCreateGroup}>Create Group</button>
