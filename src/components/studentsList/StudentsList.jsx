@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./StudentsList.css";
 import IP, { getUserData } from "../../config";
 import { useParams } from "react-router-dom";
+import ExcelJS from "exceljs";
+import { saveAs } from "file-saver";
 
 const months = [
   "January",
@@ -138,7 +140,7 @@ function StudentsList() {
     }
   };
 
-  const exportToExcelCSV = () => {
+  const exportToExcelCSV = async () => {
     if (!attendance.length) {
       alert("Нет данных для экспорта!");
       return;
@@ -154,11 +156,30 @@ function StudentsList() {
 
     const monthDays = days?.[currentYear]?.[effectiveMonth] || [];
 
-    // Заголовки
-    const headers = ["Student", ...monthDays];
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Attendance");
 
-    // Формируем строки
-    const rows = students.map((student) => {
+    // Добавляем строку с названием группы
+    worksheet.addRow([`Group: ${groupName}`]);
+
+    // Добавляем строку с месяцем
+    worksheet.addRow([`Month: ${effectiveMonth}`]);
+
+    // Пустая строка для отступа
+    worksheet.addRow([]);
+
+    // Заголовки
+    worksheet.addRow(["Student", ...monthDays]);
+
+    // Символы для отображения
+    const attendanceSymbols = {
+      absent: "x",
+      late: "△",
+      present: "",
+    };
+
+    // Добавляем строки с учениками
+    students.forEach((student) => {
       const studentId =
         student.student_id ||
         student._id ||
@@ -171,29 +192,36 @@ function StudentsList() {
           currentYear
         ]?.[effectiveMonth] || {};
 
-      const row = [
-        `"${student.english_last_name} ${student.english_first_name}"`,
-        ...monthDays.map((day) => studentAttendance[day] || "present"),
+      const rowValues = [
+        `${student.english_last_name} ${student.english_first_name}`,
+        ...monthDays.map(
+          (day) => attendanceSymbols[studentAttendance[day] || "present"]
+        ),
       ];
 
-      return row;
+      const row = worksheet.addRow(rowValues);
+
+      // Задаем цвет текста
+      monthDays.forEach((day, idx) => {
+        const colIndex = idx + 2; // первый столбец это имя
+        const cell = row.getCell(colIndex);
+        const val = cell.value;
+
+        if (val === "x") {
+          // cell.font = { color: { argb: "FFFF0000" } }; // красный
+        } else if (val === "△") {
+          // cell.font = { color: { argb: "FFFFFF00" } }; // желтый
+        } else {
+          // cell.font = { color: { argb: "FF00FF00" } }; // зеленый
+        }
+      });
     });
 
-    // CSV с точкой с запятой
-    const csvContent = [headers, ...rows].map((e) => e.join(";")).join("\n");
-
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute(
-      "download",
-      `${groupName}_${months[currentMonth]}_${currentYear}.csv`
+    const buffer = await workbook.xlsx.writeBuffer();
+    saveAs(
+      new Blob([buffer], { type: "application/octet-stream" }),
+      `${groupName}_${effectiveMonth}_${currentYear}.xlsx`
     );
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   };
 
   useEffect(() => {
@@ -307,7 +335,7 @@ function StudentsList() {
             </button>
             {userRole === "admin" && (
               <button onClick={exportToExcelCSV} className="save-button">
-                Export CSV
+                Export Excel
               </button>
             )}
           </div>
