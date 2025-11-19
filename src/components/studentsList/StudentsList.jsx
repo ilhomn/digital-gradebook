@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./StudentsList.css";
-import IP from "../../config";
+import IP, { getUserData } from "../../config";
 import { useParams } from "react-router-dom";
 
 const months = [
@@ -31,6 +31,7 @@ function StudentsList() {
   const [students, setStudents] = useState([]);
   const [days, setDays] = useState(null);
   const [groupName, setGroupName] = useState("");
+  const [userRole, setUserRole] = useState("");
 
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
@@ -137,7 +138,76 @@ function StudentsList() {
     }
   };
 
+  const exportToExcelCSV = () => {
+    if (!attendance.length) {
+      alert("Нет данных для экспорта!");
+      return;
+    }
+
+    const availableMonths = Object.keys(days[currentYear] || {})
+      .filter((month) => days[currentYear][month]?.length > 0)
+      .sort((a, b) => months.indexOf(a) - months.indexOf(b));
+
+    const effectiveMonth = availableMonths.includes(months[currentMonth])
+      ? months[currentMonth]
+      : availableMonths[0];
+
+    const monthDays = days?.[currentYear]?.[effectiveMonth] || [];
+
+    // Заголовки
+    const headers = ["Student", ...monthDays];
+
+    // Формируем строки
+    const rows = students.map((student) => {
+      const studentId =
+        student.student_id ||
+        student._id ||
+        student.id ||
+        student.studentId ||
+        student.id_student;
+
+      const studentAttendance =
+        attendance.find((item) => item.student_id === studentId)?.attendance?.[
+          currentYear
+        ]?.[effectiveMonth] || {};
+
+      const row = [
+        `"${student.english_last_name} ${student.english_first_name}"`,
+        ...monthDays.map((day) => studentAttendance[day] || "present"),
+      ];
+
+      return row;
+    });
+
+    // CSV с точкой с запятой
+    const csvContent = [headers, ...rows].map((e) => e.join(";")).join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute(
+      "download",
+      `${groupName}_${months[currentMonth]}_${currentYear}.csv`
+    );
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   useEffect(() => {
+    const fetchUserRole = async () => {
+      const token = window.localStorage.getItem("token");
+      if (token) {
+        const userData = await getUserData(token);
+        if (userData && userData.status) {
+          setUserRole(userData.status);
+        }
+      }
+    };
+
+    fetchUserRole();
     fetchGroup();
   }, []);
 
@@ -182,6 +252,7 @@ function StudentsList() {
               </select>
             </div>
           </div>
+
           <table>
             <thead>
               <tr>
@@ -226,13 +297,20 @@ function StudentsList() {
             </tbody>
           </table>
 
-          <button
-            onClick={sendAttendance}
-            className="save-button"
-            disabled={sending}
-          >
-            {sending ? <div className="mini-loader"></div> : "Save"}
-          </button>
+          <div className="buttons-wrapper">
+            <button
+              onClick={sendAttendance}
+              className="save-button"
+              disabled={sending}
+            >
+              {sending ? <div className="mini-loader"></div> : "Save"}
+            </button>
+            {userRole === "admin" && (
+              <button onClick={exportToExcelCSV} className="save-button">
+                Export CSV
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>
