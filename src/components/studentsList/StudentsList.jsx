@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./StudentsList.css";
 import IP, { getUserData } from "../../config";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 
@@ -28,6 +28,7 @@ const attendanceSymbols = {
 
 function StudentsList() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [attendance, setAttendance] = useState([]);
   const [students, setStudents] = useState([]);
@@ -262,6 +263,9 @@ function StudentsList() {
       <div className="studentItems">
         <div className="students">
           <div className="list-header">
+            <button className="back-button" onClick={() => navigate(-1)}>
+              &#x2190; Back
+            </button>
             <span className="group-name">{groupName}</span>
             <div className="select-wrapper">
               <select
@@ -279,6 +283,10 @@ function StudentsList() {
                 ))}
               </select>
             </div>
+          </div>
+          <div className="legend">
+            <p><span className="legend-symbol">x</span> - Absent</p>
+            <p><span className="legend-symbol">△</span> - Late</p>
           </div>
 
           <table>
