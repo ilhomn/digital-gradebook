@@ -76,10 +76,10 @@ function MainPage() {
     fetchData();
   }, [navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/");
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem("token");
+  //   navigate("/");
+  // };
 
   return (
     <div className="main-page">
@@ -87,7 +87,7 @@ function MainPage() {
         <div className="top-row">
           {userRole === "admin" && <Navbar />}
 
-          <span className="log-out" onClick={handleLogout}>
+          {/* <span className="log-out" onClick={handleLogout}>
             <img
               className="log-img"
               width="39"
@@ -95,7 +95,7 @@ function MainPage() {
               src="/img/icons8-log-out-color-32.png"
               alt="logout"
             />
-          </span>
+          </span> */}
         </div>
 
         <Tabs groups={groups} role={userRole} nameTeacher={nameTeacher} />
