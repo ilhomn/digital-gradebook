@@ -97,7 +97,9 @@ function MainPage() {
             />
           </span> */}
         </div>
-
+        {userRole === "teacher" && (
+          <h2 className="teacher-groups-title">Your Groups</h2>
+        )}
         <Tabs groups={groups} role={userRole} nameTeacher={nameTeacher} />
       </div>
     </div>

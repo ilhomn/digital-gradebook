@@ -285,8 +285,12 @@ function StudentsList() {
             </div>
           </div>
           <div className="legend">
-            <p><span className="legend-symbol">x</span> - Absent</p>
-            <p><span className="legend-symbol">△</span> - Late</p>
+            <p>
+              <span className="legend-symbol">x</span> - Absent
+            </p>
+            <p>
+              <span className="legend-symbol">△</span> - Late
+            </p>
           </div>
 
           <table>

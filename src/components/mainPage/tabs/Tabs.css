@@ -22,22 +22,21 @@
 
 /* Карточки групп */
 .tabs {
-  background: url("/img/bcg.png");
-  background-size: auto 100%;
-  color: black;
+  text-decoration: none;
   display: flex;
-  height: 140px;
-  width: 240px;
+  height: 150px;
+  width: 250px;
   border: 1px solid #c89b3c;
   border-radius: 12px;
-  padding: 20px;
-  margin: 15px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   font-family: "Noto Sans KR", sans-serif;
   font-size: 17.5px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
-  z-index: 9;
+  align-items: center;
+  justify-content: space-around;
+  color: #bb8d0c;
+  transition: all 0.3s ease;
+  background: url("/img/bcg.png") no-repeat center;
+  background-size: 100% 100%;
 }
 
 .tabs:hover {
@@ -47,11 +46,10 @@
 
 /* Текст преподавателя */
 .teacher {
-  align-self: flex-end;
-  color: black;
+  margin-top: 80px;
+  color: #bb8d0c;
 }
 
-/* Текст "Нет групп" */
 .load {
   color: black;
   justify-content: center;

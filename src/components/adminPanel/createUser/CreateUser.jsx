@@ -20,13 +20,27 @@ const CreateUser = () => {
   useEffect(() => {
     if (!token) return;
 
+    console.log("Fetching groups with token:", token);
     fetch(`${IP}/get-groups`, {
       method: "GET",
       headers: { "Content-Type": "application/json", token },
     })
-      .then((res) => res.json())
-      .then((data) => setGroups(data.data))
-      .catch((err) => console.error("Не удалось получить группы", err));
+      .then((res) => {
+        console.log("Get groups response:", res);
+        if (!res.ok) {
+          console.error("Get groups response not OK. Status:", res.status);
+          res.text().then((text) => console.error("Response body:", text));
+          throw new Error("Failed to fetch groups");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Groups data:", data);
+        setGroups(data.data || []);
+      })
+      .catch((err) =>
+        console.error("Не удалось получить группы (fetch failed):", err)
+      );
   }, [token]);
 
   const handleCreateUser = async () => {
@@ -42,31 +56,44 @@ const CreateUser = () => {
       return;
     }
 
+    const userData = {
+      username,
+      password,
+      fullname_korean: fullNameKorean,
+      fullname_english: fullNameEnglish,
+      groups: selectedGroups,
+      status,
+    };
+    console.log("Creating user with data:", userData);
+
     try {
       const response = await fetch(`${IP}/create-user`, {
         method: "POST",
         headers: { "Content-Type": "application/json", token },
-        body: JSON.stringify({
-          username,
-          password,
-          fullname_korean: fullNameKorean,
-          fullname_english: fullNameEnglish,
-          groups: selectedGroups,
-          status,
-        }),
+        body: JSON.stringify(userData),
       });
 
+      console.log("Create user response:", response);
+      if (!response.ok) {
+        console.error("Create user response not OK. Status:", response.status);
+        const errorText = await response.text();
+        console.error("Response body:", errorText);
+        alert(`Ошибка при создании пользователя: ${errorText}`);
+        return;
+      }
+
       const data = await response.json();
+      console.log("Create user success data:", data);
       alert(data.message || "Пользователь успешно создан!");
 
-      // setUsername("");
-      // setPassword("");
-      // setFullNameKorean("");
-      // setFullNameEnglish("");
-      // setSelectedGroups([]);
-      // setStatus("");
+      setUsername("");
+      setPassword("");
+      setFullNameKorean("");
+      setFullNameEnglish("");
+      setSelectedGroups([]);
+      setStatus("");
     } catch (err) {
-      console.error(err);
+      console.error("Ошибка при создании пользователя (fetch failed):", err);
       alert("Ошибка при создании пользователя");
     }
   };
@@ -100,7 +127,6 @@ const CreateUser = () => {
         />
 
         <select
-          value=""
           onChange={(e) => {
             const group = e.target.value;
             if (group && !selectedGroups.includes(group)) {
