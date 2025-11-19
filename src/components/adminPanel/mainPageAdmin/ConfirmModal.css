@@ -70,3 +70,13 @@
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
+
+.password-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 2px solid #b27f2f;
+  border-radius: 5px;
+  box-sizing: border-box;
+  background-color: #fff;
+}

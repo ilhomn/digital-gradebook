@@ -8,11 +8,13 @@ const MainPageAdmin = () => {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const token = window.localStorage.getItem("token");
+
   const handleDropDataBase = () => {
     setIsModalOpen(true);
   };
 
-  const confirmDropDataBase = async () => {
+  const confirmDropDataBase = async (password) => {
     setIsModalOpen(false);
     setLoading(true);
     try {
@@ -20,8 +22,9 @@ const MainPageAdmin = () => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          token: window.localStorage.getItem("token"),
+          token: token,
         },
+        body: JSON.stringify({ password }),
       });
 
       if (!response.ok) {
