@@ -1,9 +1,9 @@
 import React from "react";
 import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Navigate,
 } from "react-router-dom";
 
 import Login from "../login/Login";
@@ -23,47 +23,59 @@ import PageLayout from "../../layout/PageLayout";
 // import AdminRoute from "../adminPanel/AdminRoute";
 
 function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
 
-        <Route
-          path="/main-page"
-          element={
-            <ProtectedRoute>
-              <PageLayout>
-                <MainPage />
-              </PageLayout>
-            </ProtectedRoute>
-          }
-        />
+    if (!window.localStorage.getItem("token")) {
+        return (
+            <Router>
+                <Routes>
+                    <Route path="/" element={<Login />} />
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+            </Router>
+        );
+    }
 
-        <Route
-          path="/students-list/:id"
-          element={
-            <ProtectedRoute>
-              <PageLayout>
-                <StudentsList />
-              </PageLayout>
-            </ProtectedRoute>
-          }
-        />
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<Login />} />
 
-        <Route path="/admin-panel/*" element={<AdminPanel />}>
-          <Route index element={<MainPageAdmin />} />
-          <Route path="create-user" element={<CreateUser />} />
-          <Route path="create-group" element={<CreateGroup />} />
-          <Route path="create-time-slots" element={<CreateTimeSlots />} />
-          <Route path="update-user" element={<UpdateUser />} />
-          <Route path="update-group" element={<UpdateGroup />} />
-          <Route path="upload-students" element={<UploadStudents />} />
-        </Route>
+                <Route
+                    path="/main-page"
+                    element={
+                        <ProtectedRoute>
+                            <PageLayout>
+                                <MainPage />
+                            </PageLayout>
+                        </ProtectedRoute>
+                    }
+                />
 
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </Router>
-  );
+                <Route
+                    path="/students-list/:id"
+                    element={
+                        <ProtectedRoute>
+                            <PageLayout>
+                                <StudentsList />
+                            </PageLayout>
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route path="/admin-panel/*" element={<AdminPanel />}>
+                    <Route index element={<MainPageAdmin />} />
+                    <Route path="create-user" element={<CreateUser />} />
+                    <Route path="create-group" element={<CreateGroup />} />
+                    <Route path="create-time-slots" element={<CreateTimeSlots />} />
+                    <Route path="update-user" element={<UpdateUser />} />
+                    <Route path="update-group" element={<UpdateGroup />} />
+                    <Route path="upload-students" element={<UploadStudents />} />
+                </Route>
+
+                <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;
