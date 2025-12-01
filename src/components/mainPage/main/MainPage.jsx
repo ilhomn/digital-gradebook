@@ -14,7 +14,9 @@ function MainPage() {
     const [nameTeacher, setNameTeacher] = useState("");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-    const sidebarRef = useRef(null);
+    const handleClose = () => {
+        setIsSidebarOpen(false);
+    };
 
     useEffect(() => {
         
@@ -80,22 +82,7 @@ function MainPage() {
         };
 
         fetchData();
-
-        function handleClickOutside(event) {
-            if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
-                setIsSidebarOpen(false);
-            }
-        }
-    
-        if (isSidebarOpen) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-    
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        }
-
-    }, [navigate, isSidebarOpen]);
+    }, [navigate]);
     
     // const handleLogout = () => {
     //   localStorage.removeItem("token");
@@ -103,12 +90,12 @@ function MainPage() {
     // };
 
     return (
-        <div className="main-wrapper">
-            <div className="sidebar-toggle-btn" onClick={() => setIsSidebarOpen(true)}>
+        <div className="main-wrapper" onClick={() => { if (isSidebarOpen) handleClose();}}>
+            <div className="sidebar-toggle-btn" onClick={(e) => { e.stopPropagation(); setIsSidebarOpen(true);}}>
                 <VscMenu />
             </div>
-            <Sidebar ref={sidebarRef} isSidebarOpen={isSidebarOpen} />
-            <div className="main-content">
+            <Sidebar isSidebarOpen={isSidebarOpen} handleClose={handleClose} />
+            <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
                 <div className="groups-list">
                     <div className="group-card">
                         <div className="card-group-name">Group 1</div>

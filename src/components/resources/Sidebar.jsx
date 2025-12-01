@@ -1,9 +1,9 @@
-import React, { forwardRef } from 'react'
+import React from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import './Sidebar.css';
-import { VscAccount } from 'react-icons/vsc';
+import { VscAccount, VscChromeClose } from 'react-icons/vsc';
 
-const Sidebar = ({ ref, isSidebarOpen }) => {
+const Sidebar = ({ isSidebarOpen, handleClose }) => {
     const navigate = useNavigate();
     
     function handleLogout () {
@@ -14,11 +14,11 @@ const Sidebar = ({ ref, isSidebarOpen }) => {
     }
     
     return (
-        <aside ref={ref} className={`sidebar ${isSidebarOpen ? 'active': ''}`}>
-            <div className='sidebar__header'>
-                Sidebar Header
-            </div>
+        <aside className={`sidebar ${isSidebarOpen ? 'active': ''}`} onClick={(e) => e.stopPropagation()}>
             <div className='sidebar__content'>
+                <button className="sidebar__close-btn" onClick={handleClose}>
+                    <VscChromeClose />
+                </button>
                 <div className='avatar'>
                     <VscAccount className='ico' />
                 </div>
