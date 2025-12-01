@@ -20,6 +20,7 @@ import UploadStudents from "../adminPanel/uploadStudents/UploadStudents";
 
 import ProtectedRoute from "../ProtectedRoute";
 import PageLayout from "../../layout/PageLayout";
+import ManageUsers from "../adminPanel/users/ManageUsers";
 // import AdminRoute from "../adminPanel/AdminRoute";
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
                     <Route path="update-user" element={<UpdateUser />} />
                     <Route path="update-group" element={<UpdateGroup />} />
                     <Route path="upload-students" element={<UploadStudents />} />
+                    <Route path="manage-users" element={<ManageUsers />} />
                 </Route>
 
                 <Route path="*" element={<Navigate to="/" replace />} />
