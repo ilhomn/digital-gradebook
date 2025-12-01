@@ -4,106 +4,104 @@ import Tabs from "../tabs/Tabs";
 import { useNavigate } from "react-router-dom";
 import IP from "../../../config";
 import Navbar from "../../adminPanel/navbarAdminPanel/Navbar";
+import Sidebar from "../../resources/Sidebar";
 
 function MainPage() {
-  const navigate = useNavigate();
-  const [groups, setGroups] = useState([]);
-  const [userRole, setUserRole] = useState("");
-  const [nameTeacher, setNameTeacher] = useState("");
+    const navigate = useNavigate();
+    const [groups, setGroups] = useState([]);
+    const [userRole, setUserRole] = useState("");
+    const [nameTeacher, setNameTeacher] = useState("");
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/");
-      return;
-    }
-
-    const fetchData = async () => {
-      try {
-        const userRes = await fetch(`${IP}/get-user-data`, {
-          headers: {
-            "Content-Type": "application/json",
-            token: token,
-          },
-        });
-
-        if (!userRes.ok) {
-          throw new Error("Failed to fetch user data");
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            navigate("/");
+            return;
         }
 
-        const userJson = await userRes.json();
-        console.log("Response from /get-user-data:", userJson);
+        const fetchData = async () => {
+            try {
+                const userRes = await fetch(`${IP}/get-user-data`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        token: token,
+                    },
+                });
 
-        const userData = Array.isArray(userJson.data)
-          ? userJson.data[0]
-          : userJson.data || {};
+                if (!userRes.ok) {
+                    throw new Error("Failed to fetch user data");
+                }
 
-        if (!userData || typeof userData !== "object") {
-          throw new Error("Invalid user data format");
-        }
+                const userJson = await userRes.json();
+                console.log("Response from /get-user-data:", userJson);
 
-        setUserRole(userData.status || "");
+                const userData = Array.isArray(userJson.data)
+                    ? userJson.data[0]
+                    : userJson.data || {};
 
-        if (userData.status === "teacher") {
-          const firstName =
-            userData.korean_first_name || userData.first_name || "";
-          const lastName =
-            userData.korean_last_name || userData.last_name || "";
-          setNameTeacher([firstName, lastName].filter(Boolean).join(" "));
-        }
+                if (!userData || typeof userData !== "object") {
+                    throw new Error("Invalid user data format");
+                }
 
-        const groupsRes = await fetch(`${IP}/get-groups`, {
-          headers: {
-            "Content-Type": "application/json",
-            token: token,
-          },
-        });
+                setUserRole(userData.status || "");
 
-        if (!groupsRes.ok) {
-          throw new Error("Failed to fetch groups");
-        }
+                if (userData.status === "teacher") {
+                    const firstName =
+                        userData.korean_first_name || userData.first_name || "";
+                    const lastName =
+                        userData.korean_last_name || userData.last_name || "";
+                    setNameTeacher([firstName, lastName].filter(Boolean).join(" "));
+                }
 
-        const groupsJson = await groupsRes.json();
-        console.log("Response from /get-groups:", groupsJson);
+                const groupsRes = await fetch(`${IP}/get-groups`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        token: token,
+                    },
+                });
 
-        setGroups(groupsJson.data || groupsJson || []);
-      } catch (error) {
-        console.error("Data loading error:", error);
-        alert("Error loading data. Please try again later.");
-      }
-    };
+                if (!groupsRes.ok) {
+                    throw new Error("Failed to fetch groups");
+                }
 
-    fetchData();
-  }, [navigate]);
+                const groupsJson = await groupsRes.json();
+                console.log("Response from /get-groups:", groupsJson);
 
-  // const handleLogout = () => {
-  //   localStorage.removeItem("token");
-  //   navigate("/");
-  // };
+                setGroups(groupsJson.data || groupsJson || []);
+            } catch (error) {
+                console.error("Data loading error:", error);
+                alert("Error loading data. Please try again later.");
+            }
+        };
 
-  return (
-    <div className="main-page">
-      <div className="container">
-        <div className="top-row">
-          {userRole === "admin" && <Navbar />}
+        fetchData();
+    }, [navigate]);
 
-          {/* <span className="log-out" onClick={handleLogout}>
-            <img
-              className="log-img"
-              width="39"
-              height="39"
-              src="/img/icons8-log-out-color-32.png"
-              alt="logout"
-            />
-          </span> */}
+    // const handleLogout = () => {
+    //   localStorage.removeItem("token");
+    //   navigate("/");
+    // };
+
+    return (
+        <div className="main-page">
+            <button onClick={() => {
+                window.localStorage.removeItem("token");
+                navigate("/");
+            }}> Logout </button>
+
+            {userRole === "admin" && <Sidebar />}
+            
+            <div className="container">
+                <div className="top-row">
+                    {userRole === "admin" && <Navbar />}
+                </div>
+                {userRole === "teacher" && (
+                    <h2 className="teacher-groups-title">Your Groups</h2>
+                )}
+                <Tabs groups={groups} role={userRole} nameTeacher={nameTeacher} />
+            </div>
         </div>
-        {userRole === "teacher" && (
-          <h2 className="teacher-groups-title">Your Groups</h2>
-        )}
-        <Tabs groups={groups} role={userRole} nameTeacher={nameTeacher} />
-      </div>
-    </div>
-  );
+    );
 }
 
 export default MainPage;
