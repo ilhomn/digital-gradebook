@@ -99,6 +99,11 @@
     }
 }
 
+.sidebar-icon {
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
 .logout-btn {
     margin-top: auto;
 }

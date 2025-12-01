@@ -2,84 +2,37 @@ import React, { useEffect, useRef, useState } from "react";
 import "./MainPage.css";
 import Tabs from "../tabs/Tabs";
 import { useNavigate } from "react-router-dom";
-import IP from "../../../config";
+import IP, { getUserData } from "../../../config";
 import Navbar from "../../adminPanel/navbarAdminPanel/Navbar";
 import Sidebar from "../../resources/Sidebar";
 import { VscMenu } from "react-icons/vsc";
 
 function MainPage() {
     const navigate = useNavigate();
-    const [groups, setGroups] = useState([]);
-    const [userRole, setUserRole] = useState("");
-    const [nameTeacher, setNameTeacher] = useState("");
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+    const [ userData, setUserData ] = useState({});
+    const [ isSidebarOpen, setIsSidebarOpen ] = useState(false);
 
     const handleClose = () => {
         setIsSidebarOpen(false);
     };
 
     useEffect(() => {
-        
         const token = localStorage.getItem("token");
         if (!token) {
             navigate("/");
             return;
         }
 
-        const fetchData = async () => {
+        async function fetchData() {
             try {
-                const userRes = await fetch(`${IP}/get-user-data`, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        token: token,
-                    },
-                });
-                
-                if (!userRes.ok) {
-                    throw new Error("Failed to fetch user data");
-                }
-                
-                const userJson = await userRes.json();
-                console.log("Response from /get-user-data:", userJson);
-                
-                const userData = Array.isArray(userJson.data)
-                ? userJson.data[0]
-                    : userJson.data || {};
-                    
-                if (!userData || typeof userData !== "object") {
-                    throw new Error("Invalid user data format");
-                }
-                
-                setUserRole(userData.status || "");
-                
-                if (userData.status === "teacher") {
-                    const firstName =
-                        userData.korean_first_name || userData.first_name || "";
-                    const lastName =
-                        userData.korean_last_name || userData.last_name || "";
-                    setNameTeacher([firstName, lastName].filter(Boolean).join(" "));
-                }
+                setUserData(await getUserData(token));
 
-                const groupsRes = await fetch(`${IP}/get-groups`, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        token: token,
-                    },
-                });
-
-                if (!groupsRes.ok) {
-                    throw new Error("Failed to fetch groups");
-                }
-                
-                const groupsJson = await groupsRes.json();
-                console.log("Response from /get-groups:", groupsJson);
-                
-                setGroups(groupsJson.data || groupsJson || []);
+                console.log(userData);
             } catch (error) {
-                console.error("Data loading error:", error);
-                alert("Error loading data. Please try again later.");
+                console.error(error);
             }
-        };
+        }
 
         fetchData();
     }, [navigate]);
@@ -94,25 +47,17 @@ function MainPage() {
             <div className="sidebar-toggle-btn" onClick={(e) => { e.stopPropagation(); setIsSidebarOpen(true);}}>
                 <VscMenu />
             </div>
+
             <Sidebar isSidebarOpen={isSidebarOpen} handleClose={handleClose} />
+
             <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
                 <div className="groups-list">
-                    <div className="group-card">
-                        <div className="card-group-name">Group 1</div>
-                        <div className="card-teacher-name">Teacher</div>
-                    </div>
-                    <div className="group-card">
-                        <div className="card-group-name">Group 1</div>
-                        <div className="card-teacher-name">Teacher</div>
-                    </div>
-                    <div className="group-card">
-                        <div className="card-group-name">Group 1</div>
-                        <div className="card-teacher-name">Teacher</div>
-                    </div>
-                    <div className="group-card">
-                        <div className="card-group-name">Group 1</div>
-                        <div className="card-teacher-name">Teacher</div>
-                    </div>
+                    {userData && userData.groups && userData.groups.map(item => (
+                        <div className="group-card">
+                            <div className="card-group-name"> Name </div>
+                            <div className="card-teacher-name"> Teacher </div>
+                        </div>
+                    ))}
                 </div>
             </div>
             {/* <button onClick={() => {
