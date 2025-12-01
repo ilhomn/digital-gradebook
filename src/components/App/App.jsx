@@ -64,7 +64,13 @@ function App() {
                 />
 
                 <Route path="/admin-panel/*" element={<AdminPanel />}>
-                    <Route index element={<MainPageAdmin />} />
+                    <Route index element={
+                        <ProtectedRoute>
+                            <PageLayout>
+                                <MainPageAdmin />
+                            </PageLayout>
+                        </ProtectedRoute>
+                    } />
                     <Route path="create-user" element={<CreateUser />} />
                     <Route path="create-group" element={<CreateGroup />} />
                     <Route path="create-time-slots" element={<CreateTimeSlots />} />
