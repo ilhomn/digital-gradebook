@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import './Sidebar.css';
-import { VscAccount, VscChromeClose } from 'react-icons/vsc';
+import { VscAccount, VscCalendar, VscChromeClose, VscOrganization, VscPerson, VscPreview, VscShare } from 'react-icons/vsc';
 
 const Sidebar = ({ isSidebarOpen, handleClose }) => {
     const navigate = useNavigate();
@@ -24,19 +24,19 @@ const Sidebar = ({ isSidebarOpen, handleClose }) => {
                 </div>
                 <ul className='sidebar__list'>
                     <li className='sidebar__item'>
-                        <Link to='/main-page'>Dashboard</Link>
+                        <Link to='/main-page'><VscPreview /> Dashboard</Link>
                     </li>
                     <li className='sidebar__item'>
-                        <Link to='/'>Manage Users</Link>
+                        <Link to='/'><VscPerson /> Manage Users</Link>
                     </li>
                     <li className='sidebar__item'>
-                        <Link to='/'>Manage Groups</Link>
+                        <Link to='/'><VscOrganization /> Manage Groups</Link>
                     </li>
                     <li className='sidebar__item'>
-                        <Link to='/'>Time Slots</Link>
+                        <Link to='/'><VscCalendar /> Time Slots</Link>
                     </li>
                     <li className='sidebar__item'>
-                        <Link to='/'>Upload Students</Link>
+                        <Link to='/'><VscShare /> Upload Students</Link>
                     </li>
                     <li className='sidebar__item'>
                         <Link to='/'>Database Reset</Link>
