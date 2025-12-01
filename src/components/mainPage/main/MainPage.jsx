@@ -107,7 +107,7 @@ function MainPage() {
             <div className="sidebar-toggle-btn" onClick={() => setIsSidebarOpen(true)}>
                 <VscMenu />
             </div>
-            {isSidebarOpen && <Sidebar ref={sidebarRef} />}
+            <Sidebar ref={sidebarRef} isSidebarOpen={isSidebarOpen} />
             <div className="main-content">
                 <div className="groups-list">
                     <div className="group-card">
