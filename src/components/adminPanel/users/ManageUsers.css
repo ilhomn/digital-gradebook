@@ -1,0 +1,17 @@
+.manage-users-wrapper {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    margin: auto;
+    width: 100%; /* Ensure it takes full width to allow centering */
+    height: 100%; /* Ensure it takes full height to allow vertical centering */
+    border: 1px solid violet;
+}
+
+.users-container {
+    display: grid; 
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    width: 100%;
+}

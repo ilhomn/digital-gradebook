@@ -9,8 +9,6 @@ const Sidebar = ({ isSidebarOpen, handleClose }) => {
     function handleLogout () {
         window.localStorage.removeItem("token");
         navigate("/");
-        
-        return null;
     }
     
     return (
@@ -27,19 +25,19 @@ const Sidebar = ({ isSidebarOpen, handleClose }) => {
                         <Link to='/main-page'><VscPreview className="sidebar-icon"/> Dashboard</Link>
                     </li>
                     <li className='sidebar__item'>
-                        <Link to='/'><VscPerson className="sidebar-icon"/> Manage Users</Link>
+                        <Link to='/admin-panel/manage-users'><VscPerson className="sidebar-icon"/> Manage Users</Link>
                     </li>
                     <li className='sidebar__item'>
-                        <Link to='/'><VscOrganization className="sidebar-icon"/> Manage Groups</Link>
+                        <Link to='/admin-panel/create-group'><VscOrganization className="sidebar-icon"/> Manage Groups</Link>
                     </li>
                     <li className='sidebar__item'>
-                        <Link to='/'><VscCalendar className="sidebar-icon"/> Time Slots</Link>
+                        <Link to='/admin-panel/create-time-slots'><VscCalendar className="sidebar-icon"/> Time Slots</Link>
                     </li>
                     <li className='sidebar__item'>
-                        <Link to='/'><VscShare className="sidebar-icon"/> Upload Students</Link>
+                        <Link to='/admin-panel/upload-students'><VscShare className="sidebar-icon"/> Upload Students</Link>
                     </li>
                     <li className='sidebar__item'>
-                        <Link to='/'><VscDatabase className="sidebar-icon"/> Database Reset</Link>
+                        <Link to='/admin-panel'><VscDatabase className="sidebar-icon"/> Database Reset</Link>
                     </li>
                     <li className='logout-btn'>
                         <button onClick={handleLogout}><VscHome className='sidebar-icon' /> Logout </button>
