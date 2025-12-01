@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { Link } from 'react-router-dom';
 import './Sidebar.css';
 
-const Sidebar = () => {
+const Sidebar = ({ ref }) => {
     return (
-        <aside className='sidebar'>
+        <aside ref={ref} className='sidebar'>
             <div className='sidebar__header'>
                 Sidebar Header
             </div>
