@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import "./MainPage.css";
 import Tabs from "../tabs/Tabs";
 import { useNavigate } from "react-router-dom";
-import IP, { getUserData } from "../../../config";
+import IP from "../../../config";
 import Navbar from "../../adminPanel/navbarAdminPanel/Navbar";
 import Sidebar from "../../resources/Sidebar";
 import { VscMenu } from "react-icons/vsc";
@@ -28,8 +28,19 @@ function MainPage() {
         // Fetch user data
         const fetchData = async () => {
             try {
-                const data = await getUserData(token);
-                setUserData(data);
+                const response = await fetch(`${IP}/get-user-data`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token": token,
+                    },
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+
+                    setUserData(await data.data);
+                }
             } catch (err) {
                 console.error("User fetch error:", err);
             } finally {
@@ -38,7 +49,7 @@ function MainPage() {
         };
 
         fetchData();
-    }, [token]);
+    }, []);
 
     // Loading UI
     if (loading) {

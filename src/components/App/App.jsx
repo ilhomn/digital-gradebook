@@ -45,11 +45,7 @@ function App() {
                 <Route
                     path="/main-page"
                     element={
-                        <ProtectedRoute>
-                            <PageLayout>
-                                <MainPage />
-                            </PageLayout>
-                        </ProtectedRoute>
+                        <MainPage />
                     }
                 />
 

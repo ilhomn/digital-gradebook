@@ -40,6 +40,7 @@ function Login() {
             }
         } catch (err) {
             alert("Ошибка при авторизации");
+            console.error(err);
         } finally {
             setLoading(false);
         }
@@ -49,7 +50,6 @@ function Login() {
     useEffect(() => {        
         if (window.localStorage.getItem("token")) {
             navigate("/main-page");
-            return null;
         }
     }, [navigate]);
 
