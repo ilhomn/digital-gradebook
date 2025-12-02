@@ -1,4 +1,5 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import "./MainPage.css";
 import Tabs from "../tabs/Tabs";
 import { useNavigate } from "react-router-dom";
@@ -9,71 +10,97 @@ import { VscMenu } from "react-icons/vsc";
 
 function MainPage() {
     const navigate = useNavigate();
+    const token = localStorage.getItem("token");
 
-    const [ userData, setUserData ] = useState({});
-    const [ isSidebarOpen, setIsSidebarOpen ] = useState(false);
+    const [userData, setUserData] = useState(null);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-    const handleClose = () => {
-        setIsSidebarOpen(false);
-    };
+    const handleCloseSidebar = () => setIsSidebarOpen(false);
 
-    useLayoutEffect(() => {
-        const token = localStorage.getItem("token");
+    useEffect(() => {
+        // Redirect if no token
         if (!token) {
             navigate("/");
             return;
         }
 
-        async function fetchData() {
+        // Fetch user data
+        const fetchData = async () => {
             try {
-                setUserData(await getUserData(token));
-            } catch (error) {
-                console.error(error);
+                const data = await getUserData(token);
+                setUserData(data);
+            } catch (err) {
+                console.error("User fetch error:", err);
+            } finally {
+                setLoading(false);
             }
-        }
+        };
 
         fetchData();
-    }, [navigate]);
-    
-    // const handleLogout = () => {
-    //   localStorage.removeItem("token");
-    //   navigate("/");
-    // };
+    }, [token]);
+
+    // Loading UI
+    if (loading) {
+        return (
+            <div className="main-wrapper loading-state">
+                <div className="loader">Loading…</div>
+            </div>
+        );
+    }
+
+    // Fallback: if user is null (e.g., token expired)
+    if (!userData) {
+        return (
+            <div className="main-wrapper">
+                <p>Error loading user data.</p>
+            </div>
+        );
+    }
 
     return (
-        <div className="main-wrapper" onClick={() => { if (isSidebarOpen) handleClose();}}>
-            <div className="sidebar-toggle-btn" onClick={(e) => { e.stopPropagation(); setIsSidebarOpen(true);}}>
+        <div
+            className="main-wrapper"
+            onClick={() => {
+                if (isSidebarOpen) handleCloseSidebar();
+            }}
+        >
+            {/* Sidebar Toggle */}
+            <div
+                className="sidebar-toggle-btn"
+                onClick={(e) => {
+                    e.stopPropagation();
+                    setIsSidebarOpen(true);
+                }}
+            >
                 <VscMenu />
             </div>
 
-            <Sidebar isSidebarOpen={isSidebarOpen} handleClose={handleClose} />
+            {/* Sidebar */}
+            <Sidebar isSidebarOpen={isSidebarOpen} handleClose={handleCloseSidebar} />
 
-            <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+            {/* Main Content */}
+            <div
+                className={`main-content ${isSidebarOpen ? "sidebar-open" : ""}`}
+                onClick={(e) => e.stopPropagation()}
+            >
                 <div className="groups-list">
-                    {userData && userData.groups && userData.groups.length != 0 && userData.groups.map(item => (
-                        <div className="group-card">
-                            <div className="card-group-name"> Name </div>
-                            <div className="card-teacher-name"> Teacher </div>
+                    {userData?.groups?.length > 0 ? (
+                        userData.groups.map((group, index) => (
+                            <div key={index} className="group-card">
+                                <div className="card-group-name">{group.name || "Name"}</div>
+                                <div className="card-teacher-name">
+                                    {group.teacher || "Teacher"}
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="no-groups-message">
+                            You are not assigned to any groups.
                         </div>
-                    ))}
+                    )}
                 </div>
             </div>
-            {/* <button onClick={() => {
-                window.localStorage.removeItem("token");
-                navigate("/");
-            }}> Logout </button>
-
-            {userRole === "admin" && <Sidebar />}
-            
-            <div className="container">
-                <div className="top-row">
-                    {userRole === "admin" && <Navbar />}
-                </div>
-                {userRole === "teacher" && (
-                    <h2 className="teacher-groups-title">Your Groups</h2>
-                )}
-                <Tabs groups={groups} role={userRole} nameTeacher={nameTeacher} />
-            </div> */}
         </div>
     );
 }
