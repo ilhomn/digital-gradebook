@@ -7,13 +7,13 @@ const roles = ["teacher", "admin"];
 const UserModal = ({ isOpen, onClose, onSubmit, userData }) => {
     const [form, setForm] = useState({
         username: "",
-        englishFirstName: "",
-        englishLastName: "",
-        koreanFirstName: "",
-        koreanLastName: "",
+        english_first_name: "",
+        english_last_name: "",
+        korean_first_name: "",
+        korean_last_name: "",
         email: "",
         password: "",
-        role: "teacher",
+        status: "teacher",
     });
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -52,10 +52,10 @@ const UserModal = ({ isOpen, onClose, onSubmit, userData }) => {
 
                 <form className="modal-form" onSubmit={handleSubmit}>
                     <input type="text" name="username" placeholder="Username" value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} required />
-                    <input type="text" name="englishFistName" placeholder="English First Name" value={form.englishFirstName} onChange={(e) => setForm({ ...form, englishFirstName: e.target.value })} required />
-                    <input type="text" name="englishLastName" placeholder="English Last Name" value={form.englishLastName} onChange={(e) => setForm({ ...form, englishLastName: e.target.value })} required />
-                    <input type="text" name="koreanFirstName" placeholder="Korean First Name" value={form.koreanFirstName} onChange={(e) => setForm({ ...form, koreanFirstName: e.target.value })} required />
-                    <input type="text" name="koreanLastName" placeholder="Korean Last Name" value={form.koreanLastName} onChange={(e) => setForm({ ...form, koreanLastName: e.target.value })} />
+                    <input type="text" name="englishFirstName" placeholder="English First Name" value={form.english_first_name} onChange={(e) => setForm({ ...form, english_first_name: e.target.value })} required />
+                    <input type="text" name="englishLastName" placeholder="English Last Name" value={form.english_last_name} onChange={(e) => setForm({ ...form, english_last_name: e.target.value })} required />
+                    <input type="text" name="koreanFirstName" placeholder="Korean First Name" value={form.korean_first_name} onChange={(e) => setForm({ ...form, korean_first_name: e.target.value })} required />
+                    <input type="text" name="koreanLastName" placeholder="Korean Last Name" value={form.korean_last_name} onChange={(e) => setForm({ ...form, korean_last_name: e.target.value })} />
                     <input type="email" name="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
                     <input type="password" name="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
 
@@ -65,7 +65,7 @@ const UserModal = ({ isOpen, onClose, onSubmit, userData }) => {
                         ref={dropdownRef}
                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                     >
-                        <span className="dropdown-selected">{form.role}</span>
+                        <span className="dropdown-selected">{form.status}</span>
                         <VscChevronDown className={`dropdown-icon ${isDropdownOpen ? "open" : ""}`} />
                         {isDropdownOpen && (
                             <div className="dropdown-options">
@@ -74,7 +74,7 @@ const UserModal = ({ isOpen, onClose, onSubmit, userData }) => {
                                         key={role}
                                         className="dropdown-option"
                                         onClick={() => {
-                                            setForm({ ...form, role });
+                                            setForm({ ...form, status: role });
                                             setIsDropdownOpen(false);
                                         }}
                                     >
