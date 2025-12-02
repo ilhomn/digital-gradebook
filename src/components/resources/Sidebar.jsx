@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import './Sidebar.css';
-import { VscAccount, VscCalendar, VscChromeClose, VscOrganization, VscPerson, VscPreview, VscShare, VscDatabase, VscHome } from 'react-icons/vsc';
+import { VscAccount, VscChromeClose, VscPerson, VscPreview, VscDatabase, VscHome } from 'react-icons/vsc';
 
 const Sidebar = ({ isSidebarOpen, handleClose }) => {
     const navigate = useNavigate();
@@ -25,16 +25,7 @@ const Sidebar = ({ isSidebarOpen, handleClose }) => {
                         <Link to='/main-page'><VscPreview className="sidebar-icon"/> Dashboard</Link>
                     </li>
                     <li className='sidebar__item'>
-                        <Link to='/admin-panel/manage-users'><VscPerson className="sidebar-icon"/> Manage Users</Link>
-                    </li>
-                    <li className='sidebar__item'>
-                        <Link to='/admin-panel/create-group'><VscOrganization className="sidebar-icon"/> Manage Groups</Link>
-                    </li>
-                    <li className='sidebar__item'>
-                        <Link to='/admin-panel/create-time-slots'><VscCalendar className="sidebar-icon"/> Time Slots</Link>
-                    </li>
-                    <li className='sidebar__item'>
-                        <Link to='/admin-panel/upload-students'><VscShare className="sidebar-icon"/> Upload Students</Link>
+                        <Link to='/admin-panel/manage'><VscPerson className="sidebar-icon"/> Admin Panel </Link>
                     </li>
                     <li className='sidebar__item'>
                         <Link to='/admin-panel'><VscDatabase className="sidebar-icon"/> Database Reset</Link>

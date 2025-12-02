@@ -1,15 +1,44 @@
 import { useState } from "react";
-import { VscAccount, VscEdit, VscTrash } from "react-icons/vsc";
+import { VscAccount, VscCalendar, VscEdit, VscMortarBoard, VscOrganization, VscPerson, VscShare, VscTrash } from "react-icons/vsc";
 import "./ManageUsers.css";
 import ArrowToggle from "../../resources/ArrowToggle";
+import { useNavigate } from "react-router-dom";
+import UserModal from "../../resources/UserModal";
 
 const ManageUsers = () => {
-    const [openUsers, setOpenUsers] = useState(true);
+    const navigate = useNavigate();
+
+    const [openUsers, setOpenUsers] = useState(false);
     const [openGroups, setOpenGroups] = useState(false);
+    const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+
+    const onClose = () => {
+        setIsUserModalOpen(false);
+    }
 
     return (
         <div className="manage-users-wrapper">
+            {isUserModalOpen && <UserModal isOpen={isUserModalOpen} onClose={onClose} />}
             <div className="glass-board">
+
+                <div className="top-actions-cards">
+                    <div className="action-card create-user" onClick={() => setIsUserModalOpen(true)}>
+                        <VscAccount className="card-icon" />
+                        <span> Create User </span>
+                    </div>
+                    <div className="action-card create-group">
+                        <VscMortarBoard className="card-icon" />
+                        <span>Create Group</span>
+                    </div>
+                    <div className="action-card create-user" onClick={() => navigate('/admin-panel/create-time-slots')}>
+                        <VscCalendar className="card-icon" />
+                        <span> Create Timeslot </span>
+                    </div>
+                    <div className="action-card create-user">
+                        <VscShare className="card-icon" />
+                        <span> Upload Students </span>
+                    </div>
+                </div>
 
                 {/* USERS SECTION */}
                 <div className="collapsible-section">

@@ -68,13 +68,13 @@ function App() {
                             </PageLayout>
                         </ProtectedRoute>
                     } />
-                    <Route path="create-user" element={<CreateUser />} />
+                    <Route path="manage-user" element={<CreateUser />} />
                     <Route path="create-group" element={<CreateGroup />} />
                     <Route path="create-time-slots" element={<CreateTimeSlots />} />
                     <Route path="update-user" element={<UpdateUser />} />
                     <Route path="update-group" element={<UpdateGroup />} />
                     <Route path="upload-students" element={<UploadStudents />} />
-                    <Route path="manage-users" element={<ManageUsers />} />
+                    <Route path="manage" element={<ManageUsers />} />
                 </Route>
 
                 <Route path="*" element={<Navigate to="/" replace />} />
