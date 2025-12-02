@@ -36,11 +36,11 @@ const UserModal = ({ isOpen, onClose, onSubmit, userData }) => {
         onClose();
     };
 
-    if (!isOpen) return null;
+    // if (!isOpen) return null;
 
     return (
-        <div className="modal-backdrop" onClick={onClose}>
-            <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+        <div className={`modal-backdrop ${isOpen ? 'open' : ''}`} onClick={onClose}>
+            <div className={`modal-card ${isOpen ? 'open' : ''}`} onClick={(e) => e.stopPropagation()}>
                 <div className="modal-header">
                     <h2>{userData ? "Edit User" : "Create User"}</h2>
                     <button className="close-btn" onClick={onClose}>

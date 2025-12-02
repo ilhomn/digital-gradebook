@@ -18,7 +18,7 @@ const ManageUsers = () => {
 
     return (
         <div className="manage-users-wrapper">
-            {isUserModalOpen && <UserModal isOpen={isUserModalOpen} onClose={onClose} />}
+            <UserModal isOpen={isUserModalOpen} onClose={onClose} />
             <div className="glass-board">
 
                 <div className="top-actions-cards">
