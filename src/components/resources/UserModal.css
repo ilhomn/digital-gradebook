@@ -104,8 +104,6 @@
 }
 
 .submit-btn:hover {
-	background: rgba(255, 255, 255, 0.15);
-	color: var(--color-accent);
 	transform: translateY(-2px);
 }
 

@@ -14,11 +14,15 @@ const ManageUsers = () => {
 
     const onClose = () => {
         setIsUserModalOpen(false);
-    }
+    };
+
+    const onSubmit = (form) => {
+        console.log(form);
+    };
 
     return (
         <div className="manage-users-wrapper">
-            <UserModal isOpen={isUserModalOpen} onClose={onClose} />
+            <UserModal isOpen={isUserModalOpen} onClose={onClose} onSubmit={onSubmit} />
             <div className="glass-board">
 
                 <div className="top-actions-cards">
