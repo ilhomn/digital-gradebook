@@ -22,6 +22,7 @@ import ProtectedRoute from "../ProtectedRoute";
 import PageLayout from "../../layout/PageLayout";
 import ManageUsers from "../adminPanel/users/ManageUsers";
 // import AdminRoute from "../adminPanel/AdminRoute";
+import './App.css';
 
 function App() {
 

@@ -1,17 +1,163 @@
 .manage-users-wrapper {
+    /* width: 100%; */
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    margin: auto;
-    width: 100%; /* Ensure it takes full width to allow centering */
-    height: 100%; /* Ensure it takes full height to allow vertical centering */
-    border: 1px solid violet;
+    justify-content: center;
+    padding: 40px;
+}
+
+.glass-board {
+    width: 90%;
+    max-width: 1500px;
+    min-height: 500px;
+
+    padding: 40px;
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(26px) saturate(150%);
+    -webkit-backdrop-filter: blur(26px) saturate(150%);
+
+    border: 2px solid rgba(255, 255, 255, 1);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.15);
+
+    display: flex;
+    flex-direction: column;
 }
 
 .users-container {
-    display: grid; 
-    gap: 20px;
+    display: grid;
+    gap: 25px;
+    padding: 10px;
+    width: 90%;
+    max-width: 1400px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+/* ------------------------- USER CARD ------------------------- */
+
+.user-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 150px;
+    height: 250px;
+
+    border-radius: 14px;
     padding: 20px;
-    max-width: 1200px;
-    width: 100%;
+
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.user-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
+}
+
+/* ------------------------- AVATAR ------------------------- */
+
+.user-avatar {
+    width: 90px;
+    height: 90px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 50%;
+    margin-bottom: 15px;
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-avatar .avatar {
+    width: 50px;
+    height: 50px;
+    color: var(--color-gray-dark);
+}
+
+/* ------------------------- USER INFO ------------------------- */
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--color-gray-dark);
+}
+
+.user-info .name {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-gray-dark);
+}
+
+.user-info .status {
+    font-size: 14px;
+    color: var(--color-gray-dark);
+}
+
+.user-info .created-at {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+/* ------------------------- ACTION BUTTONS ------------------------- */
+
+.manage {
+    display: flex;
+    gap: 12px;
+    margin-top: auto;
+}
+
+.manage button {
+    background: transparent;
+    padding: 10px;
+    border: none;
+    backdrop-filter: blur(4px);
+
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.manage button:hover {
+    background: rgba(255, 255, 255, 0.18);
+    transform: scale(1.07);
+}
+
+.manage button svg {
+    width: 20px;
+    height: 20px;
+    color: var(--color-gray-dark);
+}
+
+/* Status badge in top-right corner */
+.status-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+
+    padding: 4px 10px;
+    border-radius: 8px;
+
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(6px);
+
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-gray-dark);
+
+    border: 1px solid rgba(255, 255, 255, 0.3);
+
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
 }
