@@ -1,0 +1,20 @@
+.arrow-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-gray-dark);
+}
+
+.arrow-icon {
+    font-size: 22px;
+    transition: transform 0.3s ease;
+}
+
+/* Rotate when "open" */
+.arrow-icon.open {
+    transform: rotate(180deg);
+}

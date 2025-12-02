@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./MainPage.css";
 import Tabs from "../tabs/Tabs";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +17,7 @@ function MainPage() {
         setIsSidebarOpen(false);
     };
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) {
             navigate("/");
@@ -27,8 +27,6 @@ function MainPage() {
         async function fetchData() {
             try {
                 setUserData(await getUserData(token));
-
-                console.log(userData);
             } catch (error) {
                 console.error(error);
             }
@@ -52,7 +50,7 @@ function MainPage() {
 
             <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
                 <div className="groups-list">
-                    {userData && userData.groups && userData.groups.map(item => (
+                    {userData && userData.groups && userData.groups.length != 0 && userData.groups.map(item => (
                         <div className="group-card">
                             <div className="card-group-name"> Name </div>
                             <div className="card-teacher-name"> Teacher </div>

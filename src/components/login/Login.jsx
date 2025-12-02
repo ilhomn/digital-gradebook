@@ -29,10 +29,8 @@ function Login() {
 
                     const userData = await getUserData(data.token);
 
-                    if (userData.status === "teacher") {
-                        navigate("/main-page");
-                    } else if (userData.status === "admin") {
-                        navigate("/admin-panel");
+                    if (userData.status) {
+                        navigate("/maing-page");
                     } else {
                         alert("Неизвестная роль пользователя");
                     }
