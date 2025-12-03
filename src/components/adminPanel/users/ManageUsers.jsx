@@ -14,10 +14,15 @@ const ManageUsers = () => {
 
     const [ openUsers, setOpenUsers ] = useState(false);
     const [ openGroups, setOpenGroups ] = useState(false);
+    const [ openTimeslots, setOpenTimeslots ] = useState(false);
+
     const [ isUserModalOpen, setIsUserModalOpen ] = useState(false);
     const [ isGroupModalOpen, setIsGroupModalOpen ] = useState(false);
     const [ isTimeSlotsOpen, setIsTimeSlotsOpen ] = useState(false);
+
     const [ users, setUsers ] = useState([]);
+    const [ timeslots, setTimeslots ] = useState([]);
+
     const [ userData, setUserData ] = useState(null);
 
     const onClose = () => {
@@ -75,18 +80,37 @@ const ManageUsers = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const usersResponse = await fetch(`${IP}/get-all-users`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "token": token,
+            try {
+                const usersResponse = await fetch(`${IP}/get-all-users`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token": token,
+                    }
+                });
+            
+                if (usersResponse.ok) {
+                    const { data } = await usersResponse.json();
+                    
+                    setUsers(data);
                 }
-            });
-        
-            if (usersResponse.ok) {
-                const { data } = await usersResponse.json();
-                
-                setUsers(data);
+
+                const timeslotsResponse = await fetch(`${IP}/get-timeslots`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token": token,
+                    },
+                });
+
+                if (timeslotsResponse.ok) {
+                    const { data } = await timeslotsResponse.json();
+
+                    console.log(data);
+                    setTimeslots(data);
+                }
+            } catch (error) {
+                console.error(error);
             }
         }
 
@@ -171,7 +195,28 @@ const ManageUsers = () => {
                         </div>
                     </div>
                 </div>
+                {/* TIMESLOTS SECTION */}
+                <div className="collapsible-section">
+                    <div className="section-header" onClick={() => setOpenTimeslots(!openTimeslots)}>
+                        <span> Timeslots </span>
+                        <span className="arrow"> <ArrowToggle open={openTimeslots} onClick={() => setOpenTimeslots(!openTimeslots)} /> </span>
+                    </div>
 
+                    <div className={`collapsible-content ${openTimeslots ? 'open' : ''}`}>
+                        <div className="timeslots-list">
+                            {timeslots.length > 0 && timeslots.map(item => 
+                                <div className="timeslot-card">
+                                    <div className="timeslot-id-badge"> {item.id} </div>
+                                    <div className="timeslot-name"> {item.name} </div>
+                                    <div className="timeslot-actions">
+                                        <button> <VscEdit /> </button>
+                                        <button> <VscTrash /> </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

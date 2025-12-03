@@ -4,10 +4,11 @@ import "react-calendar/dist/Calendar.css";
 import "./UserModal.css";
 import "./CreateTimeSlotModal.css";
 import IP from "../../config";
+import { VscClose } from "react-icons/vsc";
 
 const CreateTimeSlotsModal = ({ isOpen, onClose }) => {
     const [selectedDates, setSelectedDates] = useState([]);
-    const [days, setDays] = useState("");
+    const [name, setName] = useState("");
     const [token, setToken] = useState("");
 
     useEffect(() => {
@@ -26,8 +27,10 @@ const CreateTimeSlotsModal = ({ isOpen, onClose }) => {
         }
     };
 
-    const handleSave = async () => {
-        if (!days) {
+    const handleSave = async (e) => {
+        e.preventDefault();
+        
+        if (!name) {
             alert("Хотя бы укажи день!");
             return;
         }
@@ -35,10 +38,13 @@ const CreateTimeSlotsModal = ({ isOpen, onClose }) => {
             alert("Выберите хотя бы одну дату!");
             return;
         }
-
-        const datesToSend = selectedDates.map((d) =>
+        
+        const changedDatesFromUnreadableVariantToReadableSoAsOthersCouldUnderstandThisReadableFormatOfThatUnreadableFormat_yes = selectedDates.map(d => 
             parseInt(d.toISOString().slice(0, 10).replace(/-/g, ""))
         );
+        // const datesToSend = selectedDates.map((d) =>
+        //     parseInt(d.toISOString().slice(0, 10).replace(/-/g, ""))
+        // );
 
         try {
             const response = await fetch(`${IP}/create-timeslot`, {
@@ -48,8 +54,8 @@ const CreateTimeSlotsModal = ({ isOpen, onClose }) => {
                     token: token,
                 },
                 body: JSON.stringify({
-                    name: days,
-                    timeslot: datesToSend,
+                    name: name,
+                    timeslot: changedDatesFromUnreadableVariantToReadableSoAsOthersCouldUnderstandThisReadableFormatOfThatUnreadableFormat_yes,
                 }),
             });
 
@@ -65,23 +71,23 @@ const CreateTimeSlotsModal = ({ isOpen, onClose }) => {
 
     return (
         <div className={`modal-backdrop ${isOpen ? "open" : ""}`} onClick={onClose}>
-            <div
+            <form onSubmit={handleSave}
                 className={`modal-card ${isOpen ? "open" : ""}`}
                 onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
             >
                 <div className="modal-header">
-                    <h2>Create Time Slots</h2>
+                    <h2>Create Time Slot:</h2>
                     <button className="close-btn" onClick={onClose}>
-                        ✕
+                        <VscClose />
                     </button>
                 </div>
 
                 <div className="modal-form">
                     <input
                         type="text"
-                        placeholder="Days of the week"
-                        value={days}
-                        onChange={(e) => setDays(e.target.value)}
+                        placeholder="Days of the week: "
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                     />
 
                     <div className="calendarContainer">
@@ -99,11 +105,11 @@ const CreateTimeSlotsModal = ({ isOpen, onClose }) => {
                         />
                     </div>
 
-                    <button className="submit-btn" onClick={handleSave}>
-                        Create Time Slots
+                    <button className="submit-btn">
+                        Create Time Slot
                     </button>
                 </div>
-            </div>
+            </form>
         </div>
     );
 };
