@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from "react";
 import {
     BrowserRouter as Router,
     Routes,
@@ -23,10 +24,25 @@ import PageLayout from "../../layout/PageLayout";
 import ManageUsers from "../adminPanel/users/ManageUsers";
 // import AdminRoute from "../adminPanel/AdminRoute";
 import './App.css';
+import { getUserData } from "../../config";
 
 function App() {
+    const token = window.localStorage.getItem("token");
 
-    if (!window.localStorage.getItem("token")) {
+    useEffect(() => {
+        async function checkToken() {
+            const data = await getUserData(token);
+            
+            if (data.name && data.name == "TokenExpiredError") {
+                window.localStorage.removeItem("token");
+                window.location.href = '/';
+            }
+        }
+
+        checkToken();
+    }, []);
+
+    if (!token) {
         return (
             <Router>
                 <Routes>
