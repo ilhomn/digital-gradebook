@@ -2,17 +2,21 @@ import { useEffect, useState } from "react";
 import { VscAccount, VscCalendar, VscEdit, VscMortarBoard, VscOrganization, VscPerson, VscShare, VscTrash } from "react-icons/vsc";
 import "./ManageUsers.css";
 import ArrowToggle from "../../resources/ArrowToggle";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import UserModal from "../../resources/UserModal";
 import IP from "../../../config";
+import GroupsModal from "../../resources/GroupsModal";
+import CreateTimeSlotsModal from "../../resources/CreateTimeSlotModal";
 
 const ManageUsers = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const token = window.localStorage.getItem("token");
 
-    const [openUsers, setOpenUsers] = useState(false);
-    const [openGroups, setOpenGroups] = useState(false);
-    const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+    const [ openUsers, setOpenUsers ] = useState(false);
+    const [ openGroups, setOpenGroups ] = useState(false);
+    const [ isUserModalOpen, setIsUserModalOpen ] = useState(false);
+    const [ isGroupModalOpen, setIsGroupModalOpen ] = useState(false);
+    const [ isTimeSlotsOpen, setIsTimeSlotsOpen ] = useState(false);
     const [ users, setUsers ] = useState([]);
     const [ userData, setUserData ] = useState(null);
 
@@ -92,6 +96,8 @@ const ManageUsers = () => {
     return (
         <div className="manage-users-wrapper">
             <UserModal isOpen={isUserModalOpen} onClose={onClose} onSubmit={onSubmit} userData={userData} />
+            <GroupsModal isOpen={isGroupModalOpen} onClose={() => setIsGroupModalOpen(false)} />
+            <CreateTimeSlotsModal isOpen={isTimeSlotsOpen} onClose={() => setIsTimeSlotsOpen(false)} />
             <div className="glass-board">
 
                 <div className="top-actions-cards">
@@ -99,11 +105,11 @@ const ManageUsers = () => {
                         <VscAccount className="card-icon" />
                         <span> Create User </span>
                     </div>
-                    <div className="action-card create-group">
+                    <div className="action-card create-group" onClick={() => setIsGroupModalOpen(true)}>
                         <VscMortarBoard className="card-icon" />
                         <span> Create Group </span>
                     </div>
-                    <div className="action-card create-user" onClick={() => navigate('/admin-panel/create-time-slots')}>
+                    <div className="action-card create-user" onClick={() => setIsTimeSlotsOpen(true)}>
                         <VscCalendar className="card-icon" />
                         <span> Create Timeslot </span>
                     </div>

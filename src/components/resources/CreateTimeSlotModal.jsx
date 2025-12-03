@@ -1,0 +1,111 @@
+import React, { useState, useEffect } from "react";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import "./UserModal.css";
+import "./CreateTimeSlotModal.css";
+import IP from "../../config";
+
+const CreateTimeSlotsModal = ({ isOpen, onClose }) => {
+    const [selectedDates, setSelectedDates] = useState([]);
+    const [days, setDays] = useState("");
+    const [token, setToken] = useState("");
+
+    useEffect(() => {
+        const storedToken = localStorage.getItem("token");
+        if (storedToken) setToken(storedToken);
+    }, []);
+
+    const handleDateClick = (date) => {
+        const dateStr = date.toDateString();
+        if (selectedDates.find((d) => d.toDateString() === dateStr)) {
+            setSelectedDates((prev) =>
+                prev.filter((d) => d.toDateString() !== dateStr)
+            );
+        } else {
+            setSelectedDates((prev) => [...prev, date]);
+        }
+    };
+
+    const handleSave = async () => {
+        if (!days) {
+            alert("Хотя бы укажи день!");
+            return;
+        }
+        if (selectedDates.length === 0) {
+            alert("Выберите хотя бы одну дату!");
+            return;
+        }
+
+        const datesToSend = selectedDates.map((d) =>
+            parseInt(d.toISOString().slice(0, 10).replace(/-/g, ""))
+        );
+
+        try {
+            const response = await fetch(`${IP}/create-timeslot`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    token: token,
+                },
+                body: JSON.stringify({
+                    name: days,
+                    timeslot: datesToSend,
+                }),
+            });
+
+            const data = await response.json();
+            alert(data.message || "Даты успешно сохранены!");
+
+            onClose(); // close modal after saving
+        } catch (err) {
+            console.error(err);
+            alert("Ошибка отправки данных на сервер");
+        }
+    };
+
+    return (
+        <div className={`modal-backdrop ${isOpen ? "open" : ""}`} onClick={onClose}>
+            <div
+                className={`modal-card ${isOpen ? "open" : ""}`}
+                onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
+            >
+                <div className="modal-header">
+                    <h2>Create Time Slots</h2>
+                    <button className="close-btn" onClick={onClose}>
+                        ✕
+                    </button>
+                </div>
+
+                <div className="modal-form">
+                    <input
+                        type="text"
+                        placeholder="Days of the week"
+                        value={days}
+                        onChange={(e) => setDays(e.target.value)}
+                    />
+
+                    <div className="calendarContainer">
+                        <Calendar
+                            onClickDay={handleDateClick}
+                            value={new Date()}
+                            selectRange={false}
+                            tileClassName={({ date }) =>
+                                selectedDates.find(
+                                    (d) => d.toDateString() === date.toDateString()
+                                )
+                                    ? "selected-date"
+                                    : null
+                            }
+                        />
+                    </div>
+
+                    <button className="submit-btn" onClick={handleSave}>
+                        Create Time Slots
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default CreateTimeSlotsModal;

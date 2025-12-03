@@ -14,7 +14,6 @@ import StudentsList from "../studentsList/StudentsList";
 import MainPageAdmin from "../adminPanel/mainPageAdmin/MainPageAdmin";
 import CreateUser from "../adminPanel/createUser/CreateUser";
 import CreateGroup from "../adminPanel/createGroup/CreateGroup";
-import CreateTimeSlots from "../adminPanel/CreateTimeSlots/CreateTimeSlots";
 import UpdateUser from "../adminPanel/updateUser/UpdateUser";
 import UpdateGroup from "../adminPanel/updateGroup/UpdateGroup";
 import UploadStudents from "../adminPanel/uploadStudents/UploadStudents";
@@ -25,6 +24,7 @@ import ManageUsers from "../adminPanel/users/ManageUsers";
 // import AdminRoute from "../adminPanel/AdminRoute";
 import './App.css';
 import { getUserData } from "../../config";
+import CreateTimeSlotsModal from "../adminPanel/createTimeSlots/CreateTimeSlots";
 
 function App() {
     const token = window.localStorage.getItem("token");
@@ -86,7 +86,7 @@ function App() {
                     } />
                     <Route path="manage-user" element={<CreateUser />} />
                     <Route path="create-group" element={<CreateGroup />} />
-                    <Route path="create-time-slots" element={<CreateTimeSlots />} />
+                    {/* <Route path="create-time-slots" element={<CreateTimeSlotsModal />} /> */}
                     <Route path="update-user" element={<UpdateUser />} />
                     <Route path="update-group" element={<UpdateGroup />} />
                     <Route path="upload-students" element={<UploadStudents />} />

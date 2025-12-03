@@ -4,24 +4,21 @@ import "./UserModal.css";
 
 const roles = ["teacher", "admin"];
 
-const UserModal = ({ isOpen, onClose, onSubmit, userData }) => {
+const GroupsModal = ({ isOpen, onClose, onSubmit, groupData }) => {
     const [form, setForm] = useState({
-        username: "",
-        english_first_name: "",
-        english_last_name: "",
-        korean_first_name: "",
-        korean_last_name: "",
-        email: "",
-        password: "",
-        status: "teacher",
+        "name": "",
+        "level": "",
+        "teacher_id": 0,
+        "teacher_name": "",
+        "schedule": "",
     });
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
 
     useEffect(() => {
-        if (userData) setForm(userData);
-    }, [userData]);
+        if (groupData) setForm(groupData);
+    }, [groupData]);
 
     // Close dropdown if clicked outside
     useEffect(() => {
@@ -44,20 +41,18 @@ const UserModal = ({ isOpen, onClose, onSubmit, userData }) => {
         <div className={`modal-backdrop ${isOpen ? 'open' : ''}`} onClick={onClose}>
             <div className={`modal-card ${isOpen ? 'open' : ''}`} onClick={(e) => e.stopPropagation()}>
                 <div className="modal-header">
-                    <h2>{userData ? "Edit User:" : "Create User:"}</h2>
+                    <h2>{groupData ? "Edit Group:" : "Create Group:"}</h2>
                     <button className="close-btn" onClick={onClose}>
                         <VscClose />
                     </button>
                 </div>
 
                 <form className="modal-form" onSubmit={handleSubmit}>
-                    <input type="text" name="username" placeholder="Username" value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} required />
+                    <input type="text" name="name" placeholder="Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
                     <input type="text" name="englishFirstName" placeholder="English First Name" value={form.english_first_name} onChange={(e) => setForm({ ...form, english_first_name: e.target.value })} required />
                     <input type="text" name="englishLastName" placeholder="English Last Name" value={form.english_last_name} onChange={(e) => setForm({ ...form, english_last_name: e.target.value })} required />
                     <input type="text" name="koreanFirstName" placeholder="Korean First Name" value={form.korean_first_name} onChange={(e) => setForm({ ...form, korean_first_name: e.target.value })} required />
                     <input type="text" name="koreanLastName" placeholder="Korean Last Name" value={form.korean_last_name} onChange={(e) => setForm({ ...form, korean_last_name: e.target.value })} />
-                    <input type="email" name="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
-                    <input type="password" name="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
 
                     {/* Custom dropdown for role */}
                     <div
@@ -86,7 +81,7 @@ const UserModal = ({ isOpen, onClose, onSubmit, userData }) => {
                     </div>
 
                     <button type="submit" className="submit-btn">
-                        {userData ? "Save Changes" : "Create User"}
+                        {groupData ? "Save Changes" : "Create User"}
                     </button>
                 </form>
             </div>
@@ -94,4 +89,4 @@ const UserModal = ({ isOpen, onClose, onSubmit, userData }) => {
     );
 };
 
-export default UserModal;
+export default GroupsModal;
