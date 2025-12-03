@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Sidebar.css';
 import { VscAccount, VscChromeClose, VscPerson, VscPreview, VscDatabase, VscHome } from 'react-icons/vsc';
 
-const Sidebar = ({ isSidebarOpen, handleClose }) => {
+const Sidebar = ({ isSidebarOpen, handleClose, status }) => {
     const navigate = useNavigate();
     
     function handleLogout () {
@@ -24,12 +24,11 @@ const Sidebar = ({ isSidebarOpen, handleClose }) => {
                     <li className='sidebar__item'>
                         <Link to='/main-page'><VscPreview className="sidebar-icon"/> Dashboard</Link>
                     </li>
-                    <li className='sidebar__item'>
-                        <Link to='/admin-panel/manage'><VscPerson className="sidebar-icon"/> Admin Panel </Link>
-                    </li>
-                    <li className='sidebar__item'>
-                        <Link to='/admin-panel'><VscDatabase className="sidebar-icon"/> Database Reset</Link>
-                    </li>
+                    {status === "admin" && (
+                        <li className='sidebar__item'>
+                            <Link to='/admin-panel/manage'><VscPerson className="sidebar-icon"/> Admin Panel </Link>
+                        </li>
+                    )}
                     <li className='logout-btn'>
                         <button onClick={handleLogout}><VscHome className='sidebar-icon' /> Logout </button>
                     </li>

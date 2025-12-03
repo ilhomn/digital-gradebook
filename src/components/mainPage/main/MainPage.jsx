@@ -53,9 +53,10 @@ function MainPage() {
                 if (groupsResponse.ok) {
                     const { data } = await groupsResponse.json();
 
-                    setUserData({
-                        ...userData,
-                        groups: data,
+                    setUserData(prev => {
+                        const newData = {...prev, groups: data}
+
+                        return newData;
                     });
                 }
             } catch (err) {
@@ -105,28 +106,30 @@ function MainPage() {
             </div>
 
             {/* Sidebar */}
-            <Sidebar isSidebarOpen={isSidebarOpen} handleClose={handleCloseSidebar} />
+            <Sidebar isSidebarOpen={isSidebarOpen} handleClose={handleCloseSidebar} status={userData.status} />
 
             {/* Main Content */}
             <div
                 className={`main-content ${isSidebarOpen ? "sidebar-open" : ""}`}
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="groups-list">
-                    {userData?.groups?.length > 0 ? (
-                        userData.groups.map((group, index) => (
-                            <div key={index} className="group-card">
-                                <div className="card-group-name">{group.name || "Name"}</div>
-                                <div className="card-teacher-name">
-                                    {group.teacher_name || "Teacher"}
+                <div className="glass-board">
+                    <div className="groups-list">
+                        {userData?.groups?.length > 0 ? (
+                            userData.groups.map((group, index) => (
+                                <div key={index} className="group-card">
+                                    <div className="card-group-name">{group.name || "Name"}</div>
+                                    <div className="card-teacher-name">
+                                        {group.teacher_name || "Teacher"}
+                                    </div>
                                 </div>
+                            ))
+                        ) : (
+                            <div className="no-groups-message">
+                                You are not assigned to any groups.
                             </div>
-                        ))
-                    ) : (
-                        <div className="no-groups-message">
-                            You are not assigned to any groups.
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
