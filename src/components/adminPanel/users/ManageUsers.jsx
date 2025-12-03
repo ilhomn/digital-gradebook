@@ -34,6 +34,25 @@ const ManageUsers = () => {
         setUserData(user);
     };
 
+    const submitGroup = async(form) => {
+        try {
+            const response = await fetch(`${IP}/create-group`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "token": token,
+                },
+                body: JSON.stringify(form)
+            });
+
+            if (response.ok) {
+                console.log(await response.json());
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const onSubmit = async (form) => {
         try {
             let response;
@@ -119,7 +138,7 @@ const ManageUsers = () => {
     return (
         <div className="manage-users-wrapper">
             <UserModal isOpen={isUserModalOpen} onClose={onClose} onSubmit={onSubmit} userData={userData} />
-            <GroupsModal isOpen={isGroupModalOpen} onClose={() => setIsGroupModalOpen(false)} />
+            <GroupsModal isOpen={isGroupModalOpen} onClose={() => setIsGroupModalOpen(false)} onSubmit={submitGroup} />
             <CreateTimeSlotsModal isOpen={isTimeSlotsOpen} onClose={() => setIsTimeSlotsOpen(false)} />
             <div className="glass-board">
 

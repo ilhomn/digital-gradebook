@@ -40,15 +40,29 @@ const UserModal = ({ isOpen, onClose, onSubmit, userData }) => {
                 </div>
 
                 <form className="modal-form" onSubmit={handleSubmit}>
+                    <label htmlFor="username" className="modal-label"> Username: </label>
                     <input type="text" name="username" placeholder="Username" value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} required />
+                    
+                    <label htmlFor="englishFirstName" className="modal-label"> English First Name: </label>
                     <input type="text" name="englishFirstName" placeholder="English First Name" value={form.english_first_name} onChange={(e) => setForm({ ...form, english_first_name: e.target.value })} required />
+                    
+                    <label htmlFor="englishLastName" className="modal-label"> English Last Name: </label>
                     <input type="text" name="englishLastName" placeholder="English Last Name" value={form.english_last_name} onChange={(e) => setForm({ ...form, english_last_name: e.target.value })} required />
+                    
+                    <label htmlFor="koreanFirstName" className="modal-label"> Korean First Name: </label>
                     <input type="text" name="koreanFirstName" placeholder="Korean First Name" value={form.korean_first_name} onChange={(e) => setForm({ ...form, korean_first_name: e.target.value })} required />
+                    
+                    <label htmlFor="koreanLastName" className="modal-label"> Korean Last Name: </label>
                     <input type="text" name="koreanLastName" placeholder="Korean Last Name" value={form.korean_last_name} onChange={(e) => setForm({ ...form, korean_last_name: e.target.value })} />
+                    
+                    <label htmlFor="email" className="modal-label"> Email: </label>
                     <input type="email" name="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+                    
+                    <label htmlFor="password" className="modal-label"> Password: </label>
                     <input type="password" name="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
 
                     {/* Custom dropdown for role */}
+                    <label htmlFor="" className="modal-label"> Status: </label>
                     <Dropdown options={roles} value={form.status} onChange={(val) => setForm({ ...form, status: val })} />
 
                     <button type="submit" className="submit-btn">

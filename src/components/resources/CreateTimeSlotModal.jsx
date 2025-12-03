@@ -83,6 +83,7 @@ const CreateTimeSlotsModal = ({ isOpen, onClose }) => {
                 </div>
 
                 <form className="modal-form" onSubmit={handleSave}>
+                    <label htmlFor="" className="modal-label"> Name: </label>
                     <input
                         type="text"
                         placeholder="Days of the week: "
@@ -90,6 +91,7 @@ const CreateTimeSlotsModal = ({ isOpen, onClose }) => {
                         onChange={(e) => setName(e.target.value)}
                     />
 
+                    <label htmlFor="" className="modal-label"> Dates: </label>
                     <div className="calendarContainer">
                         <Calendar
                             onClickDay={handleDateClick}

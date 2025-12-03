@@ -62,6 +62,15 @@ const GroupsModal = ({ isOpen, onClose, onSubmit, groupData }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         onSubmit(form);
+        
+        setForm({
+            "name": "",
+            "level": "",
+            "time": "",
+            "teacher_name": "",
+            "schedule": "",
+        })
+        
         onClose();
     };
 
