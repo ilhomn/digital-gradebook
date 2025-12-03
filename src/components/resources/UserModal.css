@@ -158,9 +158,29 @@
 	padding: 12px 15px;
 	cursor: pointer;
 	transition: 0.2s;
+	backdrop-filter: blur(12px);
+    background-color: var(--color-accent);
 }
 
 .dropdown-option:hover {
 	background: rgba(255, 255, 255, 0.15);
 	color: var(--color-accent);
 }
+
+.modal-label {
+	font-size: 14px;
+	color: var(--color-gray-dark);
+	font-weight: 500;
+	margin-bottom: 5px;
+	padding-left: 2px;
+	user-select: none;
+	letter-spacing: 0.3px;
+	transition: 0.25s ease;
+}
+
+/* Optional: when focusing the input, highlight the label */
+.modal-input-wrapper input:focus + .modal-label,
+.modal-input-wrapper select:focus + .modal-label {
+	color: var(--color-accent);
+}
+

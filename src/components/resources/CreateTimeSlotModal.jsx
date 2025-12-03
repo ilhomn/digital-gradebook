@@ -71,7 +71,7 @@ const CreateTimeSlotsModal = ({ isOpen, onClose }) => {
 
     return (
         <div className={`modal-backdrop ${isOpen ? "open" : ""}`} onClick={onClose}>
-            <form onSubmit={handleSave}
+            <div
                 className={`modal-card ${isOpen ? "open" : ""}`}
                 onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
             >
@@ -82,7 +82,7 @@ const CreateTimeSlotsModal = ({ isOpen, onClose }) => {
                     </button>
                 </div>
 
-                <div className="modal-form">
+                <form className="modal-form" onSubmit={handleSave}>
                     <input
                         type="text"
                         placeholder="Days of the week: "
@@ -108,8 +108,8 @@ const CreateTimeSlotsModal = ({ isOpen, onClose }) => {
                     <button className="submit-btn">
                         Create Time Slot
                     </button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     );
 };

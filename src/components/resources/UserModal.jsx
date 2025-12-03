@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { VscClose, VscChevronDown } from "react-icons/vsc";
 import "./UserModal.css";
+import Dropdown from "./Dropdown";
 
 const roles = ["teacher", "admin"];
 
@@ -16,24 +17,12 @@ const UserModal = ({ isOpen, onClose, onSubmit, userData }) => {
         status: "teacher",
     });
 
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const dropdownRef = useRef(null);
 
     useEffect(() => {
         if (userData) setForm(userData);
     }, [userData]);
 
     // Close dropdown if clicked outside
-    useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-                setIsDropdownOpen(false);
-            }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
-
     const handleSubmit = (e) => {
         e.preventDefault();
         onSubmit(form);
@@ -60,30 +49,7 @@ const UserModal = ({ isOpen, onClose, onSubmit, userData }) => {
                     <input type="password" name="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
 
                     {/* Custom dropdown for role */}
-                    <div
-                        className="custom-dropdown"
-                        ref={dropdownRef}
-                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    >
-                        <span className="dropdown-selected">{form.status}</span>
-                        <VscChevronDown className={`dropdown-icon ${isDropdownOpen ? "open" : ""}`} />
-                        {isDropdownOpen && (
-                            <div className="dropdown-options">
-                                {roles.map((role) => (
-                                    <div
-                                        key={role}
-                                        className="dropdown-option"
-                                        onClick={() => {
-                                            setForm({ ...form, status: role });
-                                            setIsDropdownOpen(false);
-                                        }}
-                                    >
-                                        {role}
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
+                    <Dropdown options={roles} value={form.status} onChange={(val) => setForm({ ...form, status: val })} />
 
                     <button type="submit" className="submit-btn">
                         {userData ? "Save Changes" : "Create User"}

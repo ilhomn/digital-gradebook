@@ -106,7 +106,6 @@ const ManageUsers = () => {
                 if (timeslotsResponse.ok) {
                     const { data } = await timeslotsResponse.json();
 
-                    console.log(data);
                     setTimeslots(data);
                 }
             } catch (error) {
