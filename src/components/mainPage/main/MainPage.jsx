@@ -41,6 +41,23 @@ function MainPage() {
 
                     setUserData(await data.data);
                 }
+
+                const groupsResponse = await fetch(`${IP}/get-groups`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token": token,
+                    },
+                });
+
+                if (groupsResponse.ok) {
+                    const { data } = await groupsResponse.json();
+
+                    setUserData({
+                        ...userData,
+                        groups: data,
+                    });
+                }
             } catch (err) {
                 console.error("User fetch error:", err);
             } finally {
@@ -101,7 +118,7 @@ function MainPage() {
                             <div key={index} className="group-card">
                                 <div className="card-group-name">{group.name || "Name"}</div>
                                 <div className="card-teacher-name">
-                                    {group.teacher || "Teacher"}
+                                    {group.teacher_name || "Teacher"}
                                 </div>
                             </div>
                         ))
