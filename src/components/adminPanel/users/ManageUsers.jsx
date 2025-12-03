@@ -21,6 +21,7 @@ const ManageUsers = () => {
     const [ isTimeSlotsOpen, setIsTimeSlotsOpen ] = useState(false);
 
     const [ users, setUsers ] = useState([]);
+    const [ groups, setGroups ] = useState([]);
     const [ timeslots, setTimeslots ] = useState([]);
 
     const [ userData, setUserData ] = useState(null);
@@ -114,6 +115,20 @@ const ManageUsers = () => {
                     setUsers(data);
                 }
 
+                const groupsResponse = await fetch(`${IP}/get-groups`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token": token,
+                    },
+                });
+
+                if (groupsResponse.ok) {
+                    const { data } = await groupsResponse.json();
+
+                    setGroups(data);
+                }
+
                 const timeslotsResponse = await fetch(`${IP}/get-timeslots`, {
                     method: "GET",
                     headers: {
@@ -204,10 +219,10 @@ const ManageUsers = () => {
 
                     <div className={`collapsible-content ${openGroups ? "open" : ""}`}>
                         <div className="groups-list">
-                            {[1,2,3,4,5].map(i => (
+                            {groups.length > 0 && groups.map((item, i) => (
                                 <div className="group-card" key={i}>
-                                    <div className="card-group-name">Group {i}</div>
-                                    <div className="card-teacher-name">Teacher A</div>
+                                    <div className="card-group-name">{item.name}</div>
+                                    <div className="card-teacher-name">{item.teacher_name}</div>
                                 </div>
                             ))}
                         </div>
