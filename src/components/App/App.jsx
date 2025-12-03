@@ -25,6 +25,7 @@ import ManageUsers from "../adminPanel/users/ManageUsers";
 import './App.css';
 import { getUserData } from "../../config";
 import CreateTimeSlotsModal from "../adminPanel/createTimeSlots/CreateTimeSlots";
+import Group from "../mainPage/main/Group";
 
 function App() {
     const token = window.localStorage.getItem("token");
@@ -67,13 +68,7 @@ function App() {
 
                 <Route
                     path="/students-list/:id"
-                    element={
-                        <ProtectedRoute>
-                            <PageLayout>
-                                <StudentsList />
-                            </PageLayout>
-                        </ProtectedRoute>
-                    }
+                    element={<Group />}
                 />
 
                 <Route path="/admin-panel/*" element={<AdminPanel />}>

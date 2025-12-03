@@ -220,7 +220,7 @@ const ManageUsers = () => {
                     <div className={`collapsible-content ${openGroups ? "open" : ""}`}>
                         <div className="groups-list">
                             {groups.length > 0 && groups.map((item, i) => (
-                                <div className="group-card" key={i}>
+                                <div className="group-card" onClick={() => window.open(`/students-list/${item.id}`, '_blank')} key={i}>
                                     <div className="card-group-name">{item.name}</div>
                                     <div className="card-teacher-name">{item.teacher_name}</div>
                                 </div>
