@@ -1,0 +1,31 @@
+/* Hidden input */
+.hidden-file-input {
+    display: none;
+}
+
+/* ---------- DROP ZONE ---------- */
+.drop-zone {
+    padding: 35px;
+    border-radius: 14px;
+    border: 2px dashed var(--color-gray-dark);
+    background: rgba(255, 255, 255, 0.06);
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.3s;
+    color: var(--color-gray-dark);
+}
+
+.drop-zone:hover {
+    border-color: var(--color-accent);
+}
+
+.drop-zone.dragging {
+    border-color: var(--color-accent);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.drop-zone p {
+    color: var(--color-gray-dark);
+    font-size: 15px;
+}

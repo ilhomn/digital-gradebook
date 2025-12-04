@@ -1,0 +1,82 @@
+import React, { useState } from "react";
+import { IoClose } from "react-icons/io5";
+import "./UploadStudentsModal.css";
+
+const UploadStudentsModal = ({ isOpen, onClose, onUpload }) => {
+    const [file, setFile] = useState(null);
+    const [isDragging, setIsDragging] = useState(false);
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        setIsDragging(true);
+    };
+
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        setIsDragging(false);
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        setIsDragging(false);
+        const droppedFile = e.dataTransfer.files[0];
+        if (droppedFile) setFile(droppedFile);
+    };
+
+    const handleFileChange = (e) => {
+        const selectedFile = e.target.files[0];
+        if (selectedFile) setFile(selectedFile);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (file) onUpload(file);
+    };
+
+    return (
+        <div className={`modal-backdrop ${isOpen ? "open" : ""}`}>
+            <div className={`modal-card ${isOpen ? "open" : ""}`}>
+                {/* HEADER */}
+                <div className="modal-header">
+                    <h2>Upload Students</h2>
+                    <button className="close-btn" onClick={onClose}>
+                        <IoClose />
+                    </button>
+                </div>
+
+                {/* BODY */}
+                <form className="modal-form" onSubmit={handleSubmit}>
+                    <div
+                        className={`drop-zone ${isDragging ? "dragging" : ""}`}
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                        onDrop={handleDrop}
+                        onClick={() => document.getElementById("fileInput").click()}
+                    >
+                        {file ? (
+                            <p>
+                                Selected: <strong>{file.name}</strong>
+                            </p>
+                        ) : (
+                            <p>Drag & drop JSON file here <br /> or click to select</p>
+                        )}
+                    </div>
+
+                    <input
+                        id="fileInput"
+                        type="file"
+                        accept=".json"
+                        onChange={handleFileChange}
+                        className="hidden-file-input"
+                    />
+
+                    <button type="submit" className="submit-btn" disabled={!file}>
+                        Upload Students
+                    </button>
+                </form>
+            </div>
+        </div>
+    );
+};
+
+export default UploadStudentsModal;

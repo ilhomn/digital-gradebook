@@ -7,6 +7,7 @@ import UserModal from "../../resources/UserModal";
 import IP from "../../../config";
 import GroupsModal from "../../resources/GroupsModal";
 import CreateTimeSlotsModal from "../../resources/CreateTimeSlotModal";
+import UploadStudentsModal from "../../resources/UploadStudentsModal";
 
 const ManageUsers = () => {
     // const navigate = useNavigate();
@@ -19,6 +20,7 @@ const ManageUsers = () => {
     const [ isUserModalOpen, setIsUserModalOpen ] = useState(false);
     const [ isGroupModalOpen, setIsGroupModalOpen ] = useState(false);
     const [ isTimeSlotsOpen, setIsTimeSlotsOpen ] = useState(false);
+    const [ isUploadModalOpen, setIsUploadModalOpen ] = useState(false);
 
     const [ users, setUsers ] = useState([]);
     const [ groups, setGroups ] = useState([]);
@@ -155,6 +157,7 @@ const ManageUsers = () => {
             <UserModal isOpen={isUserModalOpen} onClose={onClose} onSubmit={onSubmit} userData={userData} />
             <GroupsModal isOpen={isGroupModalOpen} onClose={() => setIsGroupModalOpen(false)} onSubmit={submitGroup} />
             <CreateTimeSlotsModal isOpen={isTimeSlotsOpen} onClose={() => setIsTimeSlotsOpen(false)} />
+            <UploadStudentsModal isOpen={isUploadModalOpen} onClose={() => setIsUploadModalOpen(false)} />
             <div className="glass-board">
 
                 <div className="top-actions-cards">
@@ -170,7 +173,7 @@ const ManageUsers = () => {
                         <VscCalendar className="card-icon" />
                         <span> Create Timeslot </span>
                     </div>
-                    <div className="action-card create-user">
+                    <div className="action-card create-user" onClick={() => setIsUploadModalOpen(true)}>
                         <VscShare className="card-icon" />
                         <span> Upload Students </span>
                     </div>
