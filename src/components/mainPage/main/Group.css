@@ -51,6 +51,10 @@ td {
   border: 1px solid #d9c18b;
 }
 
+.day-cell {
+    text-align: center;
+}
+
 tr:nth-child(even) {
   background-color: #f9f1db;
 }
@@ -298,3 +302,62 @@ tr:hover {
   margin-right: 8px;
   color: #c89b3c;
 }
+
+.year-month-wrapper {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.select-small-wrapper {
+  position: relative;
+  width: 150px;
+}
+
+/* Select — стилистика такая же, как твой основной */
+.select-small-wrapper select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  padding: 10px 40px 10px 16px;
+  border: 2px solid #c89b3c;
+  border-radius: 12px;
+  background-color: #d2c19a;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.select-small-wrapper select:hover {
+  background-color: #c9b77d;
+  border-color: #b27f2f;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.select-small-wrapper select:focus {
+  outline: none;
+  border-color: #b27f2f;
+  box-shadow: 0 0 10px rgba(200, 155, 60, 0.5);
+}
+
+/* стрелочка */
+.select-small-wrapper::after {
+  content: "▼";
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #fff;
+  pointer-events: none;
+  transition: 0.3s ease;
+}
+
+.select-small-wrapper:hover::after {
+  color: #c89b3c;
+}
+
