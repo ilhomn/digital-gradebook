@@ -117,7 +117,7 @@ function MainPage() {
                     <div className="groups-list">
                         {userData?.groups?.length > 0 ? (
                             userData.groups.map((group, index) => (
-                                <div key={index} className="group-card">
+                                <div key={index} className="group-card" onClick={() => navigate('/students-list/' + group.id)}>
                                     <div className="card-group-name">{group.name || "Name"}</div>
                                     <div className="card-teacher-name">
                                         {group.teacher_name || "Teacher"}

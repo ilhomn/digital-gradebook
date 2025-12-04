@@ -34,9 +34,14 @@ const UploadStudentsModal = ({ isOpen, onClose, onUpload }) => {
     };
 
     return (
-        <div className={`modal-backdrop ${isOpen ? "open" : ""}`}>
-            <div className={`modal-card ${isOpen ? "open" : ""}`}>
-                {/* HEADER */}
+        <div
+            className={`modal-backdrop ${isOpen ? "open" : ""}`}
+            onClick={onClose}  // close when clicking outside
+        >
+            <div
+                className={`modal-card ${isOpen ? "open" : ""}`}
+                onClick={(e) => e.stopPropagation()}  // prevent close when clicking inside
+            >
                 <div className="modal-header">
                     <h2>Upload Students</h2>
                     <button className="close-btn" onClick={onClose}>
@@ -44,7 +49,6 @@ const UploadStudentsModal = ({ isOpen, onClose, onUpload }) => {
                     </button>
                 </div>
 
-                {/* BODY */}
                 <form className="modal-form" onSubmit={handleSubmit}>
                     <div
                         className={`drop-zone ${isDragging ? "dragging" : ""}`}

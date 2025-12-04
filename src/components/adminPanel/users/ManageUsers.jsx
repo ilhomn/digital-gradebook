@@ -37,6 +37,33 @@ const ManageUsers = () => {
         setUserData(user);
     };
 
+    const onUpload = async (file) => {
+        if (!file) {
+            alert("Ты хотябы мяу мяу скажи");
+        }
+        
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            const response = await fetch(`${IP}/upload-students`, {
+                method: "POST",
+                headers: {
+                    "token": token,
+                },
+                body: formData
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+    
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const submitGroup = async(form) => {
         try {
             const response = await fetch(`${IP}/create-group`, {
@@ -157,7 +184,7 @@ const ManageUsers = () => {
             <UserModal isOpen={isUserModalOpen} onClose={onClose} onSubmit={onSubmit} userData={userData} />
             <GroupsModal isOpen={isGroupModalOpen} onClose={() => setIsGroupModalOpen(false)} onSubmit={submitGroup} />
             <CreateTimeSlotsModal isOpen={isTimeSlotsOpen} onClose={() => setIsTimeSlotsOpen(false)} />
-            <UploadStudentsModal isOpen={isUploadModalOpen} onClose={() => setIsUploadModalOpen(false)} />
+            <UploadStudentsModal isOpen={isUploadModalOpen} onClose={() => setIsUploadModalOpen(false)} onUpload={onUpload} />
             <div className="glass-board">
 
                 <div className="top-actions-cards">

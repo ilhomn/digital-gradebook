@@ -1,97 +1,120 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Group.css";
 import { useParams } from "react-router-dom";
 import IP from "../../../config";
+import { FaCheck, FaClockRotateLeft, FaX } from "react-icons/fa6";
+import Sidebar from "../../resources/Sidebar";
+import { VscMenu } from "react-icons/vsc";
+
+let date = new Date(),
+    currentYear = date.getFullYear(),
+    currentMonth = date.getMonth();
+
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 const Group = () => {
     const { id } = useParams();
 
+    const [ isSidebarOpen, setIsSidebarOpen ] = useState(false);
+    const [ userData, setUserData ] = useState({});
+
+    const [ groupData, setGroupData ] = useState({});
+    const [ students, setStudents ] = useState([]);
+    const [ days, setDays ] = useState([]);
+
+    const handleCloseSidebar = () => setIsSidebarOpen(false);
+
     useEffect(() => {
         const getData = async () => {
-            const response = await fetch(`${IP}/get-group-data/${id}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "token": window.localStorage.getItem("token"),
-                },
-            });
+            try {
+                const response = await fetch(`${IP}/get-group-data/${id}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token": window.localStorage.getItem("token"),
+                    },
+                });
+    
+                if (response.ok) {
+                    const { data } = await response.json();
+    
+                    setGroupData(data.group_data);
+                    setStudents(data.group_students);
+                    setDays(data.group_schedule.days);
+                }
+                const userResponse = await fetch(`${IP}/get-user-data`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token": window.localStorage.getItem("token"),
+                    },
+                });
 
-            if (response.ok) {
-                const { data } = await response.json();
+                if (userResponse.ok) {
+                    const data = await userResponse.json();
 
-                console.log(data);
+                    setUserData(await data.data);
+                }                
+            } catch (error) {
+                console.error(error);
             }
         };
 
         getData();
-    }, []);
+    }, [id]);
     
     return (
-        <div class="students-list">
-            <div class="studentItems">
+        <div className="students-list">
+            <div
+                className="sidebar-toggle-btn"
+                onClick={(e) => {
+                    e.stopPropagation();
+                    setIsSidebarOpen(true);
+                }}>
+                <VscMenu />
+            </div>
+            <Sidebar isSidebarOpen={isSidebarOpen} handleClose={handleCloseSidebar} status={userData.status} />
+            <div className="studentItems">
 
-                <div class="students">
+                <div className="students">
 
-                    <div class="list-header">
-                        <div class="group-name">Group A</div>
-                        <div class="current-month">February 2025</div>
+                    <div className="list-header">
+                        <div className="group-name"> {groupData.name} </div>
+                        <div className="current-month"> {months[currentMonth]} {currentYear} </div>
                     </div>
 
-                    <div class="legend">
-                        <p><span class="legend-symbol">✓</span> Present</p>
-                        <p><span class="legend-symbol">✗</span> Absent</p>
-                        <p><span class="legend-symbol">L</span> Late</p>
+                    <div className="legend">
+                        <p><span className="legend-symbol"> <FaCheck /> </span> Present</p>
+                        <p><span className="legend-symbol"> <FaX /> </span> Absent</p>
+                        <p><span className="legend-symbol"> <FaClockRotateLeft /> </span> Late</p>
                     </div>
 
                     <table>
                         <thead>
                             <tr>
                                 <th>Student</th>
-                                <th>1</th>
-                                <th>2</th>
-                                <th>3</th>
-                                <th>4</th>
-                                <th>5</th>
-                                <th>6</th>
+                                {days && days[currentYear] && days[currentYear][months[currentMonth]] && days[currentYear][months[currentMonth]].map((day, index) => (
+                                    <th key={index}> {day} </th>
+                                ))}
                             </tr>
                         </thead>
 
                         <tbody>
-                            <tr>
-                                <td>Akmal</td>
-                                <td class="student-day">✓</td>
-                                <td class="student-day">✓</td>
-                                <td class="student-day">✗</td>
-                                <td class="student-day">✓</td>
-                                <td class="student-day">L</td>
-                                <td class="student-day"></td>
-                            </tr>
+                            {students.length > 0 && students.map((student, index) => (
+                                <tr key={index}>
+                                    <td> {student.student_name_english} </td>
 
-                            <tr>
-                                <td>Fatima</td>
-                                <td class="student-day">✓</td>
-                                <td class="student-day">✓</td>
-                                <td class="student-day">✓</td>
-                                <td class="student-day">✗</td>
-                                <td class="student-day"></td>
-                                <td class="student-day"></td>
-                            </tr>
-
-                            <tr>
-                                <td>Omar</td>
-                                <td class="student-day">✗</td>
-                                <td class="student-day">✓</td>
-                                <td class="student-day">✓</td>
-                                <td class="student-day">✓</td>
-                                <td class="student-day">✓</td>
-                                <td class="student-day"></td>
-                            </tr>
+                                    {days && days['2025'] && days['2025']['December'] && days['2025']['December'].map((day, index) => (
+                                        <td key={index}> </td>
+                                    ))}
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
 
-                    <div class="buttons-wrapper">
-                        <button class="back-button">Back</button>
-                        <button class="save-button">Save</button>
+                    <div className="buttons-wrapper">
+                        <button className="back-button">Back</button>
+                        <button className="save-button">Save</button>
                     </div>
 
                 </div>
