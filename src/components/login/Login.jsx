@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import IP, { getUserData } from "../../config";
+import IP from "../../config";
 import "./Login.css";
 
 function Login() {
@@ -23,18 +23,8 @@ function Login() {
 
             if (response.ok) {
                 const data = await response.json();
-
-                if (data.token) {
-                    localStorage.setItem("token", data.token);
-
-                    const userData = await getUserData(data.token);
-
-                    if (userData.status) {
-                        navigate("/maing-page");
-                    } else {
-                        alert("Неизвестная роль пользователя");
-                    }
-                }
+                navigate("/main-page");
+                window.localStorage.setItem("token", data.token);
             } else {
                 alert("Неверный логин или пароль");
             }
@@ -45,13 +35,6 @@ function Login() {
             setLoading(false);
         }
     };
-
-    
-    useEffect(() => {        
-        if (window.localStorage.getItem("token")) {
-            navigate("/main-page");
-        }
-    }, [navigate]);
 
     return (
         <form className="login" onSubmit={handleLogin}>

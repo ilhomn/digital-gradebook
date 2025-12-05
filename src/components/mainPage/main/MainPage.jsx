@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import "./MainPage.css";
 import Tabs from "../tabs/Tabs";
@@ -67,7 +66,7 @@ function MainPage() {
         };
 
         fetchData();
-    }, []);
+    }, [navigate, token]);
 
     // Loading UI
     if (loading) {

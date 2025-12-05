@@ -1,4 +1,4 @@
-const IP = "http://192.168.0.100:3000";
+const IP = "http://192.168.0.119:3000";
 
 export const getUserData = async (token) => {
     try {
