@@ -215,6 +215,7 @@ const Group = () => {
                                     ))}
                                 </select>
                             </div>
+                            <button className="back-button" onClick={exportMatrix}>Export To Excel</button>
                         </div>
                     </div>
 
@@ -255,7 +256,6 @@ const Group = () => {
                     </table>
 
                     <div className="buttons-wrapper">
-                        <button className="back-button" onClick={exportMatrix}>Export To Excel</button>
                         <button className="save-button" onClick={handleSave}>Save</button>
                     </div>
 
