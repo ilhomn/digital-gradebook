@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import IP from "../../config";
 import "./Login.css";
 
@@ -7,8 +6,6 @@ function Login() {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-
-    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -23,8 +20,10 @@ function Login() {
 
             if (response.ok) {
                 const data = await response.json();
-                navigate("/main-page");
                 window.localStorage.setItem("token", data.token);
+                if (await data.token) {
+                    window.location.reload();
+                }
             } else {
                 alert("Неверный логин или пароль");
             }

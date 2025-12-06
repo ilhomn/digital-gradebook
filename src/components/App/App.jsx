@@ -52,7 +52,7 @@ function App() {
                     </Routes>
                 ) : (
                     <Routes>
-                        <Route path="/" element={<Login />} />
+                        <Route path="/" element={<MainPage />} />
         
                         <Route
                             path="/main-page"

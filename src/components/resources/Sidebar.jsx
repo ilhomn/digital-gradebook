@@ -1,14 +1,13 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Sidebar.css';
 import { VscAccount, VscChromeClose, VscPerson, VscPreview, VscDatabase, VscHome } from 'react-icons/vsc';
 
 const Sidebar = ({ isSidebarOpen, handleClose, status }) => {
-    const navigate = useNavigate();
     
     function handleLogout () {
         window.localStorage.removeItem("token");
-        navigate("/");
+        window.location.reload();
     }
     
     return (
