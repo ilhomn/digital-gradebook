@@ -22,10 +22,14 @@
 }
 
 .groups-list {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    position: relative;
+    display: flex;
+    /* grid-template-columns: repeat(4, 1fr); */
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 30px;
     max-width: 1400px;
+    width: 100%;
 }
 
 .group-card {
@@ -37,6 +41,7 @@
     border-left: 6px solid var(--color-accent);
     cursor: pointer;
     transition: transform 0.3s, box-shadow 0.3s;
+    width: 220px;
 }
 
 .group-card:hover {

@@ -50,6 +50,7 @@
     width: 90%;
     max-width: 1500px;
     max-height: 500px;
+    justify-self: center;
 
     /* max-height: 50%; */
 
@@ -70,6 +71,7 @@
 
     overflow: hidden;
     overflow-y: auto;
+    z-index: 0;
 }
 
 .glass-board::-webkit-scrollbar {
