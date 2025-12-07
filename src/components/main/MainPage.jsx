@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./MainPage.css";
-import Tabs from "../tabs/Tabs";
 import { useNavigate } from "react-router-dom";
-import IP from "../../../config";
-import Navbar from "../../adminPanel/navbarAdminPanel/Navbar";
-import Sidebar from "../../resources/Sidebar";
+import IP from "../../config";
+import Sidebar from "../resources/Sidebar";
 import { VscMenu } from "react-icons/vsc";
 
 function MainPage() {

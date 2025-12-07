@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./Group.css";
 import { useParams } from "react-router-dom";
-import IP from "../../../config";
+import IP from "../../config";
 import { FaCheck, FaClockRotateLeft, FaX } from "react-icons/fa6";
-import Sidebar from "../../resources/Sidebar";
+import Sidebar from "../resources/Sidebar";
 import { VscMenu } from "react-icons/vsc";
-import Dropdown from "../../resources/Dropdown";
 
 let date = new Date(),
     currentYear = date.getFullYear(),

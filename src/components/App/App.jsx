@@ -8,12 +8,12 @@ import {
 } from "react-router-dom";
 
 import Login from "../login/Login";
-import MainPage from "../mainPage/main/MainPage";
+import MainPage from "../main/MainPage";
 import AdminPanel from "../adminPanel/AdminPanel";
-import ManageUsers from "../adminPanel/users/ManageUsers";
+import ManageUsers from "../adminPanel/Manage";
 import './App.css';
 import { getUserData } from "../../config";
-import Group from "../mainPage/main/Group";
+import Group from "../main/Group";
 
 function App() {
     const token = window.localStorage.getItem("token");

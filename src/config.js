@@ -2,7 +2,7 @@ const IP = import.meta.env.VITE_API_URL;
 
 export const getUserData = async (token) => {
     try {
-        const response = await fetch(`${IP}/get-user-data`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/get-user-data`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

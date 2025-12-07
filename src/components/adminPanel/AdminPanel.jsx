@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import Navbar from "./navbarAdminPanel/Navbar";
 import Sidebar from "../resources/Sidebar";
 import { VscMenu } from "react-icons/vsc";
 import IP from "../../config";

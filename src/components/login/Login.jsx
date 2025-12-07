@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import IP from "../../config";
 import "./Login.css";
+import IP from "../../config";
 
 function Login() {
     const [login, setLogin] = useState("");
