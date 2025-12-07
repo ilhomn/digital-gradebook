@@ -31,17 +31,17 @@
 
 .collapsible-content {
     overflow: hidden;
-    max-height: 0;
+    height: 0;
     opacity: 0;
 
     transition: 
-        max-height 0.45s ease,
+        height 0.35s ease,
         opacity 0.35s ease,
         padding 0.35s ease;
 }
 
 .collapsible-content.open {
-    max-height: 2000px; /* large enough */
+    height: auto;
     opacity: 1;
     padding-bottom: 20px;
 }
@@ -113,10 +113,13 @@
 }
 
 .users-grid {
-    display: grid;
+    display: flex;
     gap: 25px;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    /* grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); */
     justify-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    overflow: hidden;
 }
 
 /* ------------------------- USER CARD ------------------------- */
@@ -305,10 +308,11 @@
 }
 
 .timeslots-list {
-    display: grid;
+    display: flex;
     gap: 25px;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    justify-items: center;
+    flex-wrap: wrap;
+    /* grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); */
+    justify-content: center;
 }
 
 .timeslot-card {
