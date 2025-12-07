@@ -53,33 +53,9 @@ function App() {
                 ) : (
                     <Routes>
                         <Route path="/" element={<MainPage />} />
-        
-                        <Route
-                            path="/main-page"
-                            element={
-                                <MainPage />
-                            }
-                        />
-        
-                        <Route
-                            path="/students-list/:id"
-                            element={<Group />}
-                        />
-        
+                        <Route path="/main-page" element={<MainPage />} />
+                        <Route path="/students-list/:id" element={<Group />} />
                         <Route path="/admin-panel/*" element={<AdminPanel />}>
-                            <Route index element={
-                                <ProtectedRoute>
-                                    <PageLayout>
-                                        <MainPageAdmin />
-                                    </PageLayout>
-                                </ProtectedRoute>
-                            } />
-                            <Route path="manage-user" element={<CreateUser />} />
-                            <Route path="create-group" element={<CreateGroup />} />
-                            {/* <Route path="create-time-slots" element={<CreateTimeSlotsModal />} /> */}
-                            <Route path="update-user" element={<UpdateUser />} />
-                            <Route path="update-group" element={<UpdateGroup />} />
-                            <Route path="upload-students" element={<UploadStudents />} />
                             <Route path="manage" element={<ManageUsers />} />
                         </Route>        
                         <Route path="*" element={<Navigate to="/" replace />} />

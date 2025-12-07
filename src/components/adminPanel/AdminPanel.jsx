@@ -30,6 +30,8 @@ const AdminPanel = () => {
                 if (data.status !== "admin") {
                     navigate('/');
                     return null;
+                } else {
+                    navigate('/admin-panel/manage');
                 }
 
                 setUserData(data);
