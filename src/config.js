@@ -1,4 +1,4 @@
-const IP = "http://192.168.0.112:3000";
+const IP = import.meta.env.VITE_API_URL;
 
 export const getUserData = async (token) => {
     try {
