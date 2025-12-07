@@ -267,8 +267,8 @@ const ManageUsers = () => {
 
                     <div className={`collapsible-content ${openTimeslots ? 'open' : ''}`}>
                         <div className="timeslots-list">
-                            {timeslots.length > 0 && timeslots.map(item => 
-                                <div className="timeslot-card">
+                            {timeslots.length > 0 && timeslots.map((item, index) => 
+                                <div className="timeslot-card" key={index}>
                                     <div className="timeslot-id-badge"> {item.id} </div>
                                     <div className="timeslot-name"> {item.name} </div>
                                     <div className="timeslot-actions">

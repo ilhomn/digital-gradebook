@@ -10,21 +10,9 @@ import {
 import Login from "../login/Login";
 import MainPage from "../mainPage/main/MainPage";
 import AdminPanel from "../adminPanel/AdminPanel";
-import StudentsList from "../studentsList/StudentsList";
-import MainPageAdmin from "../adminPanel/mainPageAdmin/MainPageAdmin";
-import CreateUser from "../adminPanel/createUser/CreateUser";
-import CreateGroup from "../adminPanel/createGroup/CreateGroup";
-import UpdateUser from "../adminPanel/updateUser/UpdateUser";
-import UpdateGroup from "../adminPanel/updateGroup/UpdateGroup";
-import UploadStudents from "../adminPanel/uploadStudents/UploadStudents";
-
-import ProtectedRoute from "../ProtectedRoute";
-import PageLayout from "../../layout/PageLayout";
 import ManageUsers from "../adminPanel/users/ManageUsers";
-// import AdminRoute from "../adminPanel/AdminRoute";
 import './App.css';
 import { getUserData } from "../../config";
-import CreateTimeSlotsModal from "../adminPanel/createTimeSlots/CreateTimeSlots";
 import Group from "../mainPage/main/Group";
 
 function App() {
