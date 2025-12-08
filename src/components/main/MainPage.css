@@ -1,0 +1,109 @@
+.main-wrapper {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+
+    background: url("/img/main-background.png") no-repeat center;
+    background-size: contain; /* FULL SCREEN */
+    background-color: #fdf5e1; /* fallback color */
+
+    justify-content: center;
+    align-items: center;
+}
+
+
+.main-content {
+    flex-grow: 1;
+    padding: 30px 40px;
+    position: relative;
+    margin: auto;
+    overflow: hidden;
+    transition: margin-left 0.4s ease;
+}
+
+.groups-list {
+    position: relative;
+    display: flex;
+    /* grid-template-columns: repeat(4, 1fr); */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1400px;
+    width: 100%;
+}
+
+.group-card {
+    background-color: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    border-left: 6px solid var(--color-accent);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    width: 220px;
+}
+
+.group-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.card-group-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-gray-dark);
+    margin-bottom: 5px;
+}
+
+.card-teacher-name {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #666; /* Muted gray for secondary info */
+}
+
+.sidebar-toggle-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;    
+    width: 25px;
+    height: 25px;
+    color: var(--color-gray-dark);
+    backdrop-filter: blur(5px);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 12px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    /* z-index: 2000; */
+}
+
+.toggler {
+    width: 0%;
+    border: 1px solid violet;
+    transition: all .5s ease-in-out;
+}
+
+.toggler.active {
+    width: auto;
+    border: 10px solid violet;
+}
+
+@media (max-width: 1200px) {
+    .groups-list {
+        grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+    }
+}
+
+@media (max-width: 900px) {
+    .groups-list {
+        grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
+    }
+}
+
+@media (max-width: 600px) {
+    .groups-list {
+        grid-template-columns: 1fr; /* 1 card per row on small screens */
+    }
+}
