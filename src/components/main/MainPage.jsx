@@ -25,36 +25,35 @@ function MainPage() {
         // Fetch user data
         const fetchData = async () => {
             try {
-                const response = await fetch(`${IP}/get-user-data`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "token": token,
-                    },
-                });
+                const [userResponse, groupsResponse] = await Promise.all([
+                    fetch(`${IP}/get-user-data`, {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "token": token,
+                        },
+                    }),
+                    fetch(`${IP}/get-groups`, {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "token": token,
+                        },
+                    })
+                ]);
 
-                if (response.ok) {
-                    const data = await response.json();
+                if (userResponse.ok && groupsResponse.ok) {
+                    const userData = await userResponse.json();
+                    const groupsData = await groupsResponse.json();
 
-                    setUserData(await data.data);
-                }
-
-                const groupsResponse = await fetch(`${IP}/get-groups`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "token": token,
-                    },
-                });
-
-                if (groupsResponse.ok) {
-                    const { data } = await groupsResponse.json();
-
-                    setUserData(prev => {
-                        const newData = {...prev, groups: data}
-
-                        return newData;
-                    });
+                    setUserData({ ...userData.data, groups: groupsData.data || [] });
+                } else {
+                    if (!userResponse.ok) {
+                        console.error("Error fetching user data");
+                    }
+                    if (!groupsResponse.ok) {
+                        console.error("Error fetching groups");
+                    }
                 }
             } catch (err) {
                 console.error("User fetch error:", err);
