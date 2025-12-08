@@ -227,6 +227,10 @@ const ManageUsers = () => {
                                     <div className="user-info">
                                         <span className="name">{user.english_last_name} {user.english_first_name}</span>
                                     </div>
+                                    <div className="user-contact">
+                                        <div className="contact-item">{user.email}</div>
+                                        <div className="contact-item">{user.phone_number}</div>
+                                    </div>
                                     <div className="manage">
                                         <button onClick={() => handleEditClick(user)}><VscEdit /></button>
                                         <button><VscTrash /></button>

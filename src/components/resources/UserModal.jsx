@@ -14,6 +14,7 @@ const UserModal = ({ isOpen, onClose, onSubmit, userData }) => {
         korean_last_name: "",
         email: "",
         password: "",
+        phone_number: "",
         status: "teacher",
     });
 
@@ -57,6 +58,9 @@ const UserModal = ({ isOpen, onClose, onSubmit, userData }) => {
                     
                     <label htmlFor="email" className="modal-label"> Email: </label>
                     <input type="email" name="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+
+                    <label htmlFor="phoneNumber" className="modal-label" value={form.phone_number} onChange={(e) => setForm({ ...form, phone_number: e.target.value })}> Phone number: </label>
+                    <input type="number" name="phoneNumber" placeholder="Phone Number" />
                     
                     <label htmlFor="password" className="modal-label"> Password: </label>
                     <input type="password" name="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
