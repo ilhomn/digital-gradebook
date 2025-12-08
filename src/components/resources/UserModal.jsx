@@ -3,7 +3,7 @@ import { VscClose, VscChevronDown } from "react-icons/vsc";
 import "./UserModal.css";
 import Dropdown from "./Dropdown";
 
-const roles = ["teacher", "admin"];
+const roles = ["admin", "teacher",];
 
 const UserModal = ({ isOpen, onClose, onSubmit, userData }) => {
     const [form, setForm] = useState({

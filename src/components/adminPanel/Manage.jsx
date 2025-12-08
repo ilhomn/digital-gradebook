@@ -14,6 +14,7 @@ const ManageUsers = () => {
     const token = window.localStorage.getItem("token");
 
     const [ openUsers, setOpenUsers ] = useState(false);
+    const [ openStudents, setOpenStudents ] = useState(false);
     const [ openGroups, setOpenGroups ] = useState(false);
     const [ openTimeslots, setOpenTimeslots ] = useState(false);
 
@@ -23,6 +24,7 @@ const ManageUsers = () => {
     const [ isUploadModalOpen, setIsUploadModalOpen ] = useState(false);
 
     const [ users, setUsers ] = useState([]);
+    const [ students, setStudents ] = useState([]);
     const [ groups, setGroups ] = useState([]);
     const [ timeslots, setTimeslots ] = useState([]);
 
@@ -171,6 +173,8 @@ const ManageUsers = () => {
 
                     setTimeslots(data);
                 }
+
+                setStudents([]);
             } catch (error) {
                 console.error(error);
             }
@@ -234,6 +238,34 @@ const ManageUsers = () => {
                                     <div className="manage">
                                         <button onClick={() => handleEditClick(user)}><VscEdit /></button>
                                         <button><VscTrash /></button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* STUDENTS SECTION */}
+                <div className="collapsible-section">
+                    <div className="section-header" onClick={() => setOpenStudents(!openStudents)}>
+                        <span> Students </span>
+                        <span className="arrow"> <ArrowToggle open={openStudents} onClick={() => setOpenStudents(!openStudents)} /> </span>
+                    </div>
+
+                    <div className={`collapsible-content ${openStudents ? 'open' : ''}`}>
+                        <div className="users-grid">
+                            {students.length > 0 && students.map((student, index) => (
+                                <div className="user-card" key={index}>
+                                    <div className="status-badge">{student.student_id}</div>
+                                    <div className="user-avatar">
+                                        <VscPerson className="avatar" />
+                                    </div>
+                                    <div className="user-info">
+                                        <span className="name">{student.student_name_english}</span>
+                                    </div>
+                                    <div className="user-contact">
+                                        <div className="contact-item">{student.email}</div>
+                                        <div className="contact-item">{student.phone_number}</div>
                                     </div>
                                 </div>
                             ))}
