@@ -160,6 +160,20 @@ const ManageUsers = () => {
                     setGroups(data);
                 }
 
+                const studentsResponse = await fetch(`${IP}/get-students`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token": token,
+                    },
+                });
+
+                if (studentsResponse.ok) {
+                    const { data } = await studentsResponse.json();
+
+                    setStudents(data);
+                }
+
                 const timeslotsResponse = await fetch(`${IP}/get-timeslots`, {
                     method: "GET",
                     headers: {
@@ -174,7 +188,6 @@ const ManageUsers = () => {
                     setTimeslots(data);
                 }
 
-                setStudents([]);
             } catch (error) {
                 console.error(error);
             }
