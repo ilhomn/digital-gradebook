@@ -3,8 +3,8 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./UserModal.css";
 import "./CreateTimeSlotModal.css";
-import IP from "../../config";
 import { VscClose } from "react-icons/vsc";
+import IP from "../config";
 
 const CreateTimeSlotsModal = ({ isOpen, onClose }) => {
     const [selectedDates, setSelectedDates] = useState([]);

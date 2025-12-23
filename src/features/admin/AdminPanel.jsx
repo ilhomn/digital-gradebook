@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import Sidebar from "../resources/Sidebar";
+import Sidebar from "../../components/Sidebar";
 import { VscMenu } from "react-icons/vsc";
 import IP from "../../config";
 

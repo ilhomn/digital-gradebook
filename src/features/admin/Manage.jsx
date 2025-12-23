@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { VscAccount, VscCalendar, VscEdit, VscMortarBoard, VscOrganization, VscPerson, VscShare, VscTrash } from "react-icons/vsc";
 import "./Manage.css";
-import ArrowToggle from "../resources/ArrowToggle";
+import ArrowToggle from "../../components/ArrowToggle";
 // import { useNavigate } from "react-router-dom";
-import UserModal from "../resources/UserModal";
+import UserModal from "../../components/UserModal";
 import IP from "../../config";
-import GroupsModal from "../resources/GroupsModal";
-import CreateTimeSlotsModal from "../resources/CreateTimeSlotModal";
-import UploadStudentsModal from "../resources/UploadStudentsModal";
+import GroupsModal from "../../components/GroupsModal";
+import CreateTimeSlotsModal from "../../components/CreateTimeSlotModal";
+import UploadStudentsModal from "../../components/UploadStudentsModal";
 
 const ManageUsers = () => {
     // const navigate = useNavigate();

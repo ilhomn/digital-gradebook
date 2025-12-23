@@ -7,13 +7,13 @@ import {
     Navigate,
 } from "react-router-dom";
 
-import Login from "../login/Login";
-import MainPage from "../main/MainPage";
-import AdminPanel from "../adminPanel/AdminPanel";
-import ManageUsers from "../adminPanel/Manage";
+import Login from "./features/auth/Login";
+import MainPage from "./features/main/MainPage";
+import AdminPanel from "./features/admin/AdminPanel";
+import ManageUsers from "./features/admin/Manage";
 import './App.css';
-import { getUserData } from "../../config";
-import Group from "../main/Group";
+import { getUserData } from "./config";
+import Group from "./features/main/Group";
 
 function App() {
     const token = window.localStorage.getItem("token");

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./MainPage.css";
 import { useNavigate } from "react-router-dom";
 import IP from "../../config";
-import Sidebar from "../resources/Sidebar";
+import Sidebar from "../../components/Sidebar";
 import { VscMenu } from "react-icons/vsc";
 
 function MainPage() {

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { VscClose, VscChevronDown } from "react-icons/vsc";
 import "./UserModal.css";
 import Dropdown from "./Dropdown";
-import IP from "../../config";
+import IP from "../config";
 
 const GroupsModal = ({ isOpen, onClose, onSubmit, groupData }) => {
     const [form, setForm] = useState({

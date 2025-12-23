@@ -3,7 +3,7 @@ import "./Group.css";
 import { useParams } from "react-router-dom";
 import IP from "../../config";
 import { FaCheck, FaClockRotateLeft, FaX } from "react-icons/fa6";
-import Sidebar from "../resources/Sidebar";
+import Sidebar from "../../components/Sidebar";
 import { VscMenu } from "react-icons/vsc";
 
 let date = new Date(),
