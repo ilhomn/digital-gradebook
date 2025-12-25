@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import "./MainPage.css";
 import { useNavigate } from "react-router-dom";
@@ -42,19 +43,24 @@ function MainPage() {
                     })
                 ]);
 
-                if (userResponse.ok && groupsResponse.ok) {
+                if (userResponse.ok) {
                     const userData = await userResponse.json();
+
+                    setUserData({ ...userData.data, groups: [] })
+                } else {
+                    console.error("Error fetching user data");
+                    window.localStorage.removeItem("token");
+                    navigate("/");
+                }
+
+                if (groupsResponse.ok) {
                     const groupsData = await groupsResponse.json();
 
-                    setUserData({ ...userData.data, groups: groupsData.data || [] });
+                    setUserData({ ...userData, groups: groupsData.data || [] });
                 } else {
-                    if (!userResponse.ok) {
-                        console.error("Error fetching user data");
-                    }
-                    if (!groupsResponse.ok) {
-                        console.error("Error fetching groups");
-                    }
+                    console.error("Error fetching groups");
                 }
+
             } catch (err) {
                 console.error("User fetch error:", err);
             } finally {
@@ -63,7 +69,7 @@ function MainPage() {
         };
 
         fetchData();
-    }, [navigate, token]);
+    }, []);
 
     // Loading UI
     if (loading) {

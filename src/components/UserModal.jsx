@@ -8,13 +8,15 @@ const roles = ["admin", "teacher",];
 const UserModal = ({ isOpen, onClose, onSubmit, userData }) => {
     const [form, setForm] = useState({
         username: "",
-        english_first_name: "",
-        english_last_name: "",
-        korean_first_name: "",
-        korean_last_name: "",
+        name_tj: "",
+        last_name_tj: "",
+        name_en: "",
+        last_name_en: "",
+        name_kr: "",
+        last_name_kr: "",
         email: "",
         password: "",
-        phone_number: "",
+        phone: "",
         status: "teacher",
     });
 
@@ -44,23 +46,29 @@ const UserModal = ({ isOpen, onClose, onSubmit, userData }) => {
                     <label htmlFor="username" className="modal-label"> Username: </label>
                     <input type="text" name="username" placeholder="Username" value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} required />
                     
+                    <label htmlFor="tajikFirstName" className="modal-label"> Tajik First Name: </label>
+                    <input type="text" name="tajikFirstName" placeholder="Tajik First Name" value={form.name_tj} onChange={(e) => setForm({ ...form, name_tj: e.target.value })} required />
+                    
+                    <label htmlFor="tajikLastName" className="modal-label"> Tajik Last Name: </label>
+                    <input type="text" name="tajikLastName" placeholder="Tajik Last Name" value={form.last_name_tj} onChange={(e) => setForm({ ...form, last_name_tj: e.target.value })} required />
+                    
                     <label htmlFor="englishFirstName" className="modal-label"> English First Name: </label>
-                    <input type="text" name="englishFirstName" placeholder="English First Name" value={form.english_first_name} onChange={(e) => setForm({ ...form, english_first_name: e.target.value })} required />
+                    <input type="text" name="englishFirstName" placeholder="English First Name" value={form.name_en} onChange={(e) => setForm({ ...form, name_en: e.target.value })} required />
                     
                     <label htmlFor="englishLastName" className="modal-label"> English Last Name: </label>
-                    <input type="text" name="englishLastName" placeholder="English Last Name" value={form.english_last_name} onChange={(e) => setForm({ ...form, english_last_name: e.target.value })} required />
+                    <input type="text" name="englishLastName" placeholder="English Last Name" value={form.last_name_en} onChange={(e) => setForm({ ...form, last_name_en: e.target.value })} required />
                     
                     <label htmlFor="koreanFirstName" className="modal-label"> Korean First Name: </label>
-                    <input type="text" name="koreanFirstName" placeholder="Korean First Name" value={form.korean_first_name} onChange={(e) => setForm({ ...form, korean_first_name: e.target.value })} required />
+                    <input type="text" name="koreanFirstName" placeholder="Korean First Name" value={form.name_kr} onChange={(e) => setForm({ ...form, name_kr: e.target.value })} required />
                     
                     <label htmlFor="koreanLastName" className="modal-label"> Korean Last Name: </label>
-                    <input type="text" name="koreanLastName" placeholder="Korean Last Name" value={form.korean_last_name} onChange={(e) => setForm({ ...form, korean_last_name: e.target.value })} />
+                    <input type="text" name="koreanLastName" placeholder="Korean Last Name" value={form.last_name_kr} onChange={(e) => setForm({ ...form, last_name_kr: e.target.value })} />
                     
                     <label htmlFor="email" className="modal-label"> Email: </label>
                     <input type="email" name="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
 
-                    <label htmlFor="phoneNumber" className="modal-label" value={form.phone_number} onChange={(e) => setForm({ ...form, phone_number: e.target.value })}> Phone number: </label>
-                    <input type="number" name="phoneNumber" placeholder="Phone Number" />
+                    <label htmlFor="phoneNumber" className="modal-label"> Phone number: </label>
+                    <input type="number" name="phoneNumber" placeholder="Phone Number" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
                     
                     <label htmlFor="password" className="modal-label"> Password: </label>
                     <input type="password" name="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />

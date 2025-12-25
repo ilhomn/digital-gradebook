@@ -201,3 +201,72 @@
 	color: var(--color-accent);
 }
 
+.student-groups-container {
+    border: 2px var(--color-accent) dashed;
+    border-radius: 14px;
+    width: 94%;
+    min-height: 50px;
+}
+
+.student-groups-container {
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.groups-placeholder {
+    font-size: 14px;
+    color: rgba(0,0,0,0.4);
+    user-select: none;
+}
+
+.group-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0,0,0,0.1);
+    font-size: 14px;
+    color: var(--color-gray-dark);
+    transition: 0.2s;
+}
+
+.group-chip:hover {
+    transform: translateY(-1px);
+}
+
+.remove-group-btn {
+    display: flex;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    color: var(--color-gray-dark);
+    transition: 0.2s;
+}
+
+.remove-group-btn:hover {
+    color: var(--color-accent);
+}
+
+.group-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.group-row-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-accent);
+    min-width: 70px;
+}
+

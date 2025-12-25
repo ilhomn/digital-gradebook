@@ -6,15 +6,16 @@ const AdminRoute = ({ children }) => {
   const token = localStorage.getItem("token");
   const [role, setRole] = useState("");
 
-  const getUserStatus = async () => {
-    const user = await getUserData(token);
-
-    return await user.status;
-  };
-
   useEffect(() => {
-    setRole(getUserStatus());
-  }, []);
+    const fetchUserRole = async () => {
+      const user = await getUserData(token);
+      setRole(user.status);
+    };
+
+    if (token) {
+        fetchUserRole();
+    }
+  }, [token]);
 
   if (!token) return <Navigate to="/" replace />;
   if (role !== "admin") return <Navigate to="/main-page" replace />;
