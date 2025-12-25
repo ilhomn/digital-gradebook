@@ -4,13 +4,15 @@ import "./UserModal.css";
 import Dropdown from "./Dropdown";
 import IP from "../config";
 
+const groupTypes = ["Language", "Topik", "Other"];
+
 const GroupsModal = ({ isOpen, onClose, onSubmit, groupData }) => {
     const [form, setForm] = useState({
         "name": "",
-        "level": "",
         "time": "",
-        "teacher_name": "",
-        "schedule": "",
+        "teacher_name": "Choose Teacher",
+        "schedule": "Choose Schedule",
+        "group_type": "Choose Group Type",
     });
 
     const [ users, setUsers ] = useState([]);
@@ -65,10 +67,10 @@ const GroupsModal = ({ isOpen, onClose, onSubmit, groupData }) => {
         
         setForm({
             "name": "",
-            "level": "",
             "time": "",
             "teacher_name": "",
             "schedule": "",
+            "group_type": "",
         })
         
         onClose();
@@ -87,19 +89,20 @@ const GroupsModal = ({ isOpen, onClose, onSubmit, groupData }) => {
                 <form className="modal-form" onSubmit={handleSubmit}>
                     <label htmlFor="name" className="modal-label"> Name: </label>
                     <input type="text" name="name" placeholder="Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
-                    
-                    <label htmlFor="level" className="modal-label"> Level: </label>
-                    <input type="text" name="level" placeholder="Level" value={form.level} onChange={(e) => setForm({ ...form, level: e.target.value })} required />
-                    
+
                     <label htmlFor="time" className="modal-label"> Time: </label>
                     <input type="time" name="time" placeholder="Time" value={form.time} onChange={(e) => setForm({ ...form, time: e.target.value })} required />
 
                     {/* Custom dropdown */}
+                    <label className="modal-label"> Group Type: </label>
+                    <Dropdown options={groupTypes} value={form.group_type} onChange={val => setForm({ ...form, group_type: val })} />
+
                     <label className="modal-label"> Schedule: </label>
                     <Dropdown options={timeslots.length > 0 && timeslots} value={form.schedule} onChange={val => setForm({ ...form, schedule: val })} />
                     
                     <label className="modal-label"> Teacher: </label>
                     <Dropdown options={users.length > 0 && users} value={form.teacher_name} onChange={val => setForm({ ...form, teacher_name: val })} />
+
 
                     <button type="submit" className="submit-btn">
                         {groupData ? "Save Changes" : "Create Group"}

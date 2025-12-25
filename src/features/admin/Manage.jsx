@@ -9,6 +9,7 @@ import GroupsModal from "../../components/GroupsModal";
 import CreateTimeSlotsModal from "../../components/CreateTimeSlotModal";
 import UploadStudentsModal from "../../components/UploadStudentsModal";
 import { PiStudent } from "react-icons/pi";
+import CreateStudentModal from "../../components/CreateStudentModal";
 
 const ManageUsers = () => {
     // const navigate = useNavigate();
@@ -204,6 +205,7 @@ const ManageUsers = () => {
             <GroupsModal isOpen={isGroupModalOpen} onClose={() => setIsGroupModalOpen(false)} onSubmit={submitGroup} />
             <CreateTimeSlotsModal isOpen={isTimeSlotsOpen} onClose={() => setIsTimeSlotsOpen(false)} />
             <UploadStudentsModal isOpen={isUploadModalOpen} onClose={() => setIsUploadModalOpen(false)} onUpload={onUpload} />
+            <CreateStudentModal isOpen={isCreateStudentOpen} onClose={() => setIsCreateStudentOpen(false)} />
             <div className="glass-board">
 
                 <div className="top-actions-cards">
@@ -223,7 +225,7 @@ const ManageUsers = () => {
                         <VscShare className="card-icon" />
                         <span> Upload Students </span>
                     </div>
-                    <div className="action-card create-user">
+                    <div className="action-card create-user" onClick={() => setIsCreateStudentOpen(true)}>
                         <PiStudent className="card-icon" />
                         <span> Create Student </span>
                     </div>
