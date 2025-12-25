@@ -8,6 +8,7 @@ import IP from "../../config";
 import GroupsModal from "../../components/GroupsModal";
 import CreateTimeSlotsModal from "../../components/CreateTimeSlotModal";
 import UploadStudentsModal from "../../components/UploadStudentsModal";
+import { PiStudent } from "react-icons/pi";
 
 const ManageUsers = () => {
     // const navigate = useNavigate();
@@ -22,6 +23,7 @@ const ManageUsers = () => {
     const [ isGroupModalOpen, setIsGroupModalOpen ] = useState(false);
     const [ isTimeSlotsOpen, setIsTimeSlotsOpen ] = useState(false);
     const [ isUploadModalOpen, setIsUploadModalOpen ] = useState(false);
+    const [ isCreateStudentOpen, setIsCreateStudentOpen ] = useState(false);
 
     const [ users, setUsers ] = useState([]);
     const [ students, setStudents ] = useState([]);
@@ -220,6 +222,10 @@ const ManageUsers = () => {
                     <div className="action-card create-user" onClick={() => setIsUploadModalOpen(true)}>
                         <VscShare className="card-icon" />
                         <span> Upload Students </span>
+                    </div>
+                    <div className="action-card create-user">
+                        <PiStudent className="card-icon" />
+                        <span> Create Student </span>
                     </div>
                 </div>
 
