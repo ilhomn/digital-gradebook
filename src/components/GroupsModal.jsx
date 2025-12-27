@@ -10,7 +10,10 @@ const GroupsModal = ({ isOpen, onClose, onSubmit, groupData }) => {
     const [form, setForm] = useState({
         "name": "",
         "time": "",
-        "teacher_name": "Choose Teacher",
+        "teacher_id": null,
+        "teacher_name_en": "Choose Teacher",
+        "teacher_name_tj": "Choose Teacher",
+        "teacher_name_kr": "Choose Teacher",
         "schedule": "Choose Schedule",
         "group_type": "Choose Group Type",
     });
@@ -32,12 +35,11 @@ const GroupsModal = ({ isOpen, onClose, onSubmit, groupData }) => {
             });
 
             if (usersResponse.ok) {
-                const { data } = await usersResponse.json(),
-                      filteredUsers = [];
+                const { data } = await usersResponse.json();
                 
-                data.map(item => filteredUsers.push(`${item.id} ${item.english_last_name} ${item.english_first_name}`));
+                // data.map(item => filteredUsers.push(`${item.id} ${item.last_name_en} ${item.name_en}`));
                 
-                setUsers(filteredUsers);
+                setUsers(data);
             }
 
             const scheduleResponse = await fetch(`${IP}/get-timeslots`, {
@@ -53,7 +55,6 @@ const GroupsModal = ({ isOpen, onClose, onSubmit, groupData }) => {
                       filteredTimeslots = [];
                     
                 data.map(item => filteredTimeslots.push(item.name));
-
                 setTimeslots(filteredTimeslots);
             }
         }
@@ -68,7 +69,10 @@ const GroupsModal = ({ isOpen, onClose, onSubmit, groupData }) => {
         setForm({
             "name": "",
             "time": "",
-            "teacher_name": "",
+            "teacher_id": null,
+            "teacher_name_en": "",
+            "teacher_name_tj": "",
+            "teacher_name_kr": "",
             "schedule": "",
             "group_type": "",
         })
@@ -101,8 +105,15 @@ const GroupsModal = ({ isOpen, onClose, onSubmit, groupData }) => {
                     <Dropdown options={timeslots.length > 0 && timeslots} value={form.schedule} onChange={val => setForm({ ...form, schedule: val })} />
                     
                     <label className="modal-label"> Teacher: </label>
-                    <Dropdown options={users.length > 0 && users} value={form.teacher_name} onChange={val => setForm({ ...form, teacher_name: val })} />
-
+                    <Dropdown options={users.length > 0 && users.map(user => `${user.last_name_en} ${user.name_en}`)} value={form.teacher_name_en} 
+                        onChange={val => setForm({ 
+                            ...form, 
+                            teacher_id: users.find(user => `${user.last_name_en} ${user.name_en}` === val)?.id,
+                            teacher_name_en: val,
+                            teacher_name_tj: `${users.find(user => `${user.last_name_en} ${user.name_en}` === val)?.last_name_tj} ${users.find(user => `${user.last_name_en} ${user.name_en}` === val)?.name_tj}`,
+                            teacher_name_kr: `${users.find(user => `${user.last_name_en} ${user.name_en}` === val)?.last_name_kr} ${users.find(user => `${user.last_name_en} ${user.name_en}` === val)?.name_kr}`,
+                        })} 
+                    />
 
                     <button type="submit" className="submit-btn">
                         {groupData ? "Save Changes" : "Create Group"}

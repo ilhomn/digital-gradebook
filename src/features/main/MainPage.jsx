@@ -31,38 +31,34 @@ function MainPage() {
                         method: "GET",
                         headers: {
                             "Content-Type": "application/json",
-                            "token": token,
+                            token: token,
                         },
                     }),
                     fetch(`${IP}/get-groups`, {
                         method: "GET",
                         headers: {
                             "Content-Type": "application/json",
-                            "token": token,
+                            token: token,
                         },
-                    })
+                    }),
                 ]);
 
-                if (userResponse.ok) {
-                    const userData = await userResponse.json();
-
-                    setUserData({ ...userData.data, groups: [] })
-                } else {
+                if (!userResponse.ok) {
                     console.error("Error fetching user data");
                     window.localStorage.removeItem("token");
                     navigate("/");
+                    return; 
                 }
 
-                if (groupsResponse.ok) {
-                    const groupsData = await groupsResponse.json();
+                const userDataJson = await userResponse.json();
+                const groupsData = groupsResponse.ok ? await groupsResponse.json() : { data: [] };
 
-                    setUserData({ ...userData, groups: groupsData.data || [] });
-                } else {
-                    console.error("Error fetching groups");
-                }
+                setUserData({ ...userDataJson.data, groups: groupsData.data || [] });
 
             } catch (err) {
                 console.error("User fetch error:", err);
+                window.localStorage.removeItem("token");
+                navigate("/");
             } finally {
                 setLoading(false);
             }
@@ -122,7 +118,7 @@ function MainPage() {
                                 <div key={index} className="group-card" onClick={() => navigate('/students-list/' + group.id)}>
                                     <div className="card-group-name">{group.name || "Name"}</div>
                                     <div className="card-teacher-name">
-                                        {group.teacher_name || "Teacher"}
+                                        {group.teacher_name_en || "Teacher"}
                                     </div>
                                 </div>
                             ))

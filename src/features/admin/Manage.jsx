@@ -81,7 +81,7 @@ const ManageUsers = () => {
             });
 
             if (response.ok) {
-                console.log(await response.json());
+                alert("Success");
             }
         } catch (error) {
             console.error(error);
@@ -101,12 +101,15 @@ const ManageUsers = () => {
                     body: JSON.stringify({
                         "new_username": form.username,
                         "new_password": form.password,
-                        "new_korean_first_name": form.korean_first_name,
-                        "new_korean_last_name": form.korean_last_name,
-                        "new_english_first_name": form.english_first_name,
-                        "new_english_last_name": form.english_last_name,
+                        "new_name_tj": form.name_tj,
+                        "new_last_name_tj": form.last_name_tj,
+                        "new_name_kr": form.name_kr,
+                        "new_last_name_kr": form.last_name_kr,
+                        "new_name_en": form.name_en,
+                        "new_last_name_en": form.last_name_en,
                         "new_status": form.status,
                         "new_email": form.email,
+                        "new_phone": form.phone,
                     }),
                 });
 
@@ -250,11 +253,11 @@ const ManageUsers = () => {
                                         <VscAccount className="avatar" />
                                     </div>
                                     <div className="user-info">
-                                        <span className="name">{user.english_last_name} {user.english_first_name}</span>
+                                        <span className="name">{user.last_name_en} {user.name_en}</span>
                                     </div>
                                     <div className="user-contact">
                                         <div className="contact-item">{user.email}</div>
-                                        <div className="contact-item">{user.phone_number}</div>
+                                        <div className="contact-item">{user.phone}</div>
                                     </div>
                                     <div className="manage">
                                         <button onClick={() => handleEditClick(user)}><VscEdit /></button>
@@ -277,16 +280,16 @@ const ManageUsers = () => {
                         <div className="users-grid">
                             {students.length > 0 && students.map((student, index) => (
                                 <div className="user-card" key={index}>
-                                    <div className="status-badge">{student.student_id}</div>
+                                    <div className="status-badge">{student.id}</div>
                                     <div className="user-avatar">
                                         <VscPerson className="avatar" />
                                     </div>
                                     <div className="user-info">
-                                        <span className="name">{student.student_name_english}</span>
+                                        <span className="name">{student.last_name_en} {student.name_en}</span>
                                     </div>
                                     <div className="user-contact">
                                         <div className="contact-item">{student.email}</div>
-                                        <div className="contact-item">{student.phone_number}</div>
+                                        <div className="contact-item">{student.phone}</div>
                                     </div>
                                 </div>
                             ))}

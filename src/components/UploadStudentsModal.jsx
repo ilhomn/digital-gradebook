@@ -5,6 +5,7 @@ import "./UploadStudentsModal.css";
 const UploadStudentsModal = ({ isOpen, onClose, onUpload }) => {
     const [file, setFile] = useState(null);
     const [isDragging, setIsDragging] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleDragOver = (e) => {
         e.preventDefault();
@@ -28,9 +29,12 @@ const UploadStudentsModal = ({ isOpen, onClose, onUpload }) => {
         if (selectedFile) setFile(selectedFile);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (file) onUpload(file);
+        setLoading(true);
+        if (file) await onUpload(file);
+        setLoading(false);
+        onClose();
     };
 
     return (
@@ -74,7 +78,7 @@ const UploadStudentsModal = ({ isOpen, onClose, onUpload }) => {
                         className="hidden-file-input"
                     />
 
-                    <button type="submit" className="submit-btn" disabled={!file}>
+                    <button type="submit" className="submit-btn" disabled={!file || loading}>
                         Upload Students
                     </button>
                 </form>
