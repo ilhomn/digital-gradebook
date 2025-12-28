@@ -79,7 +79,7 @@ const UploadStudentsModal = ({ isOpen, onClose, onUpload }) => {
                     />
 
                     <button type="submit" className="submit-btn" disabled={!file || loading}>
-                        Upload Students
+                        {loading ? "Uploading..." : "Upload Students"}
                     </button>
                 </form>
             </div>

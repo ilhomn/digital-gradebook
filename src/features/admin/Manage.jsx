@@ -63,6 +63,8 @@ const ManageUsers = () => {
                 const data = await response.json();
     
                 alert(data.message);
+            } else {
+                alert("Error while uploading students");
             }
         } catch (error) {
             console.error(error);
@@ -312,7 +314,7 @@ const ManageUsers = () => {
                             {groups.length > 0 && groups.map((item, i) => (
                                 <div className="group-card" onClick={() => window.open(`/students-list/${item.id}`, '_blank')} key={i}>
                                     <div className="card-group-name">{item.name}</div>
-                                    <div className="card-teacher-name">{item.teacher_name}</div>
+                                    <div className="card-teacher-name">{item.teacher_name_en}</div>
                                 </div>
                             ))}
                         </div>
