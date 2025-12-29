@@ -19,7 +19,7 @@ const CreateStudentModal = ({ isOpen, onClose, studentData }) => {
         phone: "",
         groups: []
     });
-
+    const [ loading, setLoading ] = useState(false);
     const [ groups, setGroups ] = useState([]);
 
     function chooseGroup(group) {
@@ -28,6 +28,15 @@ const CreateStudentModal = ({ isOpen, onClose, studentData }) => {
             if (exists) return prev;
 
             const groupData = groups.filter(item => item.name === group)[0];
+
+            if (groupData.group_type == "language" || groupData.group_type == "topik") {
+                const langGroups = groups.filter(item => item.group_type === groupData.group_type);
+
+                return {
+                    ...prev,
+                    groups: [...prev.groups.filter(item => !langGroups.includes(item)), groupData]
+                };
+            }
 
             return {
                 ...prev,
@@ -47,7 +56,43 @@ const CreateStudentModal = ({ isOpen, onClose, studentData }) => {
     async function onSubmit(e) {
         e.preventDefault();
 
-        console.table(form);
+        setLoading(true);
+
+        try {
+            const response = await fetch(`${IP}/create-student`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    token,
+                },
+                body: JSON.stringify(form),
+            });
+
+            if (response.ok) {
+                const { message } = await response.json();
+                alert(message);
+            } else {
+                alert("Something went wrong");
+            }
+
+            setForm({
+                name_tj: "",
+                last_name_tj: "",
+                name_en: "",
+                last_name_en: "",
+                name_kr: "",
+                last_name_kr: "",
+                email: "",
+                phone: "",
+                groups: []
+            })
+            onClose();
+            window.location.reload();
+        } catch (error) {
+            console.error("try catch error", error);
+        } finally {
+            setLoading(false);
+        }
     }
 
     useEffect(() => {
@@ -77,7 +122,7 @@ const CreateStudentModal = ({ isOpen, onClose, studentData }) => {
 
     const groupedGroups = {
         language: form.groups.filter(g => g.group_type === "language"),
-        topic: form.groups.filter(g => g.group_type === "topic"),
+        topik: form.groups.filter(g => g.group_type === "topik"),
         other: form.groups.filter(g => g.group_type === "other"),
     };
     
@@ -121,7 +166,7 @@ const CreateStudentModal = ({ isOpen, onClose, studentData }) => {
 
                     <div className="student-groups-container">
 
-                        {["language", "topic", "other"].map(type => (
+                        {["language", "topik", "other"].map(type => (
                             <div key={type} className="group-row">
 
                                 <span className="group-row-label">
@@ -159,8 +204,8 @@ const CreateStudentModal = ({ isOpen, onClose, studentData }) => {
                     <label className="modal-label"> Teacher: </label>
                     <Dropdown options={users.length > 0 && users} value={form.teacher_name} onChange={val => setForm({ ...form, teacher_name: val })} /> */}
 
-                    <button type="submit" className="submit-btn">
-                        {studentData ? "Save Changes" : "Create Student"}
+                    <button type="submit" className="submit-btn" disabled={loading}>
+                        {loading ? "Loading..." : studentData ? "Save Changes" : "Create Group"}
                     </button>
                 </form>
             </div>
