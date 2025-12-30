@@ -26,3 +26,4 @@ dist-ssr
 .env
 
 api_routes.txt
+.vercel
