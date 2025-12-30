@@ -32,6 +32,7 @@ const ManageUsers = () => {
     const [ timeslots, setTimeslots ] = useState([]);
 
     const [ userData, setUserData ] = useState(null);
+    const [ studentData, setStudentData ] = useState(null);
 
     const onClose = () => {
         setIsUserModalOpen(false);
@@ -210,7 +211,7 @@ const ManageUsers = () => {
             <GroupsModal isOpen={isGroupModalOpen} onClose={() => setIsGroupModalOpen(false)} onSubmit={submitGroup} />
             <CreateTimeSlotsModal isOpen={isTimeSlotsOpen} onClose={() => setIsTimeSlotsOpen(false)} />
             <UploadStudentsModal isOpen={isUploadModalOpen} onClose={() => setIsUploadModalOpen(false)} onUpload={onUpload} />
-            <CreateStudentModal isOpen={isCreateStudentOpen} onClose={() => setIsCreateStudentOpen(false)} />
+            <CreateStudentModal isOpen={isCreateStudentOpen} onClose={() => setIsCreateStudentOpen(false)} studentData={studentData} />
             <div className="glass-board">
 
                 <div className="top-actions-cards">
@@ -292,6 +293,13 @@ const ManageUsers = () => {
                                     <div className="user-contact">
                                         <div className="contact-item">{student.email}</div>
                                         <div className="contact-item">{student.phone}</div>
+                                    </div>
+                                    <div className="manage">
+                                        <button><VscEdit onClick={() => {
+                                            setStudentData(student);
+                                            setIsCreateStudentOpen(true);
+                                        }} /></button>
+                                        <button><VscTrash /></button>
                                     </div>
                                 </div>
                             ))}

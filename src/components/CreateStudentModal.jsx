@@ -8,7 +8,7 @@ import IP from "../config";
 const CreateStudentModal = ({ isOpen, onClose, studentData }) => {
     const token = localStorage.getItem("token");
 
-    const [ form, setForm ] = useState({
+    const [form, setForm] = useState({
         name_tj: "",
         last_name_tj: "",
         name_en: "",
@@ -17,175 +17,199 @@ const CreateStudentModal = ({ isOpen, onClose, studentData }) => {
         last_name_kr: "",
         email: "",
         phone: "",
-        groups: []
+        groups: [],
     });
-    const [ loading, setLoading ] = useState(false);
-    const [ groups, setGroups ] = useState([]);
 
-    function chooseGroup(group) {
+    const [loading, setLoading] = useState(false);
+    const [groups, setGroups] = useState([]);
+
+    const [groupedGroups, setGroupedGroups] = useState({
+        language: [],
+        topik: [],
+        other: [],
+    });
+
+    /* ===================== GROUP HELPERS ===================== */
+
+    function regroup(groupsArr) {
+        setGroupedGroups({
+            language: groupsArr.filter(g => g.group_type === "language"),
+            topik: groupsArr.filter(g => g.group_type === "topik"),
+            other: groupsArr.filter(g => g.group_type === "other"),
+        });
+    }
+
+    function chooseGroup(groupName) {
         setForm(prev => {
-            const exists = prev.groups.some(g => g.name === group);
+            const exists = prev.groups.some(g => g.group_name === groupName);
             if (exists) return prev;
 
-            const groupData = groups.filter(item => item.name === group)[0];
+            const groupData = groups.find(g => g.group_name === groupName);
+            if (!groupData) return prev;
 
-            if (groupData.group_type == "language" || groupData.group_type == "topik") {
-                const langGroups = groups.filter(item => item.group_type === groupData.group_type);
+            if (groupData.group_type === "language" || groupData.group_type === "topik") {
+                const sameType = prev.groups.filter(
+                    g => g.group_type !== groupData.group_type
+                );
 
-                return {
-                    ...prev,
-                    groups: [...prev.groups.filter(item => !langGroups.includes(item)), groupData]
-                };
+                const updated = [...sameType, groupData];
+                regroup(updated);
+
+                return { ...prev, groups: updated };
             }
 
-            return {
-                ...prev,
-                groups: [...prev.groups, groupData]
-            };
+            const updated = [...prev.groups, groupData];
+            regroup(updated);
+
+            return { ...prev, groups: updated };
         });
     }
 
     function removeGroup(id) {
-        setForm(prev => ({
-            ...prev,
-            groups: prev.groups.filter(g => g.id !== id)
-        }));
+        setForm(prev => {
+            const updated = prev.groups.filter(g => g.id !== id);
+            regroup(updated);
+            return { ...prev, groups: updated };
+        });
     }
 
+    /* ===================== SUBMIT ===================== */
 
     async function onSubmit(e) {
         e.preventDefault();
-
         setLoading(true);
-
         try {
-            const response = await fetch(`${IP}/create-student`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    token,
-                },
-                body: JSON.stringify(form),
-            });
+            if (studentData) {
+                const response = await fetch(`${IP}/update-student`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        token,
+                    },
+                    body: JSON.stringify(form),
+                });
 
-            if (response.ok) {
-                const { message } = await response.json();
-                alert(message);
+                if (response.ok) {
+                    const { message } = await response.json();
+                    alert(message);
+                } else {
+                    alert("Something went wrong");
+                }
             } else {
-                alert("Something went wrong");
+                const response = await fetch(`${IP}/create-student`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        token,
+                    },
+                    body: JSON.stringify(form),
+                });
+    
+                const data = await response.json();
+                alert(data.message || "Success");
+    
+                onClose();
+                window.location.reload();
             }
-
-            setForm({
-                name_tj: "",
-                last_name_tj: "",
-                name_en: "",
-                last_name_en: "",
-                name_kr: "",
-                last_name_kr: "",
-                email: "",
-                phone: "",
-                groups: []
-            })
-            onClose();
-            window.location.reload();
-        } catch (error) {
-            console.error("try catch error", error);
+        } catch (err) {
+            console.error(err);
         } finally {
             setLoading(false);
         }
     }
 
+    /* ===================== LOAD STUDENT ===================== */
+
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const groupsResponse = await fetch(`${IP}/get-groups`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        token,
-                    },
-                });
+        if (!studentData) return;
 
-                if (groupsResponse.ok) {
-                    const { data } = await groupsResponse.json();
-                        // groupNames = data.map(item => item.name);
+        setForm(studentData);
 
-                    setGroups(data);
-                }
-            } catch (error) {
-                console.error("try catch error", error);
+        const loadStudentGroups = async () => {
+            const res = await fetch(`${IP}/get-student-groups/${studentData.id}`, {
+                headers: { token },
+            });
+
+            if (res.ok) {
+                const { data } = await res.json();
+
+                const normalized = data.map(g => ({
+                    ...g,
+                    group_name: g.group_name, // уже правильное имя
+                }));
+
+                setForm(prev => ({ ...prev, groups: normalized }));
+                regroup(normalized);
             }
         };
 
-        fetchData();
+        loadStudentGroups();
+    }, [studentData]);
+
+    /* ===================== LOAD GROUPS ===================== */
+
+    useEffect(() => {
+        const fetchGroups = async () => {
+            const res = await fetch(`${IP}/get-groups`, {
+                headers: { token },
+            });
+
+            if (res.ok) {
+                const { data } = await res.json();
+
+                // 🔴 НОРМАЛИЗАЦИЯ
+                const normalized = data.map(g => ({
+                    ...g,
+                    group_name: g.name,
+                }));
+
+                setGroups(normalized);
+            }
+        };
+
+        fetchGroups();
     }, []);
 
-    const groupedGroups = {
-        language: form.groups.filter(g => g.group_type === "language"),
-        topik: form.groups.filter(g => g.group_type === "topik"),
-        other: form.groups.filter(g => g.group_type === "other"),
-    };
-    
+    /* ===================== UI ===================== */
+
     return (
-        <div className={`modal-backdrop ${isOpen ? 'open' : ''}`} onClick={onClose}>
-            <div className={`modal-card ${isOpen ? 'open' : ''}`} onClick={(e) => e.stopPropagation()}>
+        <div className={`modal-backdrop ${isOpen ? "open" : ""}`} onClick={onClose}>
+            <div className={`modal-card ${isOpen ? "open" : ""}`} onClick={e => e.stopPropagation()}>
                 <div className="modal-header">
-                    <h2>{studentData ? "Edit Group:" : "Create Group:"}</h2>
+                    <h2>{studentData ? "Update Student" : "Create Student"}</h2>
                     <button className="close-btn" onClick={onClose}>
                         <VscClose />
                     </button>
                 </div>
 
                 <form className="modal-form" onSubmit={onSubmit}>
-                    <label htmlFor="name-tj" className="modal-label"> Name (Taj): </label>
-                    <input type="text" name="name-tj" placeholder="First name in Tajik" value={form.name_tj} onChange={(e) => setForm({ ...form, name_tj: e.target.value })} required />
+                    <input placeholder="Name (TJ)" value={form.name_tj} onChange={e => setForm({ ...form, name_tj: e.target.value })} />
+                    <input placeholder="Last Name (TJ)" value={form.last_name_tj} onChange={e => setForm({ ...form, last_name_tj: e.target.value })} />
+                    <input placeholder="Name (EN)" value={form.name_en} onChange={e => setForm({ ...form, name_en: e.target.value })} />
+                    <input placeholder="Last Name (EN)" value={form.last_name_en} onChange={e => setForm({ ...form, last_name_en: e.target.value })} />
+                    <input placeholder="이름" value={form.name_kr} onChange={e => setForm({ ...form, name_kr: e.target.value })} />
+                    <input placeholder="성" value={form.last_name_kr} onChange={e => setForm({ ...form, last_name_kr: e.target.value })} />
+                    <input placeholder="Email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} />
+                    <input placeholder="Phone" value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} />
 
-                    <label htmlFor="last-name-tj" className="modal-label"> Last Name (Taj): </label>
-                    <input type="text" name="last-name-tj" placeholder="Last name in Tajik" value={form.last_name_tj} onChange={(e) => setForm({ ...form, last_name_tj: e.target.value })} required />
-
-                    <label htmlFor="name-en" className="modal-label"> Name (Eng): </label>
-                    <input type="text" name="name-en" placeholder="First name in English" value={form.name_en} onChange={(e) => setForm({ ...form, name_en: e.target.value })} required />
-
-                    <label htmlFor="last-name-en" className="modal-label"> Last Name (Eng): </label>
-                    <input type="text" name="last-name-en" placeholder="Last name in English" value={form.last_name_en} onChange={(e) => setForm({ ...form, last_name_en: e.target.value })} required />
-
-                    <label htmlFor="name-kr" className="modal-label"> Name (Kor): </label>
-                    <input type="text" name="name-kr" placeholder="이름 (한국어)" value={form.name_kr} onChange={(e) => setForm({ ...form, name_kr: e.target.value })} required />
-
-                    <label htmlFor="last-name-kr" className="modal-label"> Last Name (Kor): </label>
-                    <input type="text" name="last-name-kr" placeholder="성 (한국어)" value={form.last_name_kr} onChange={(e) => setForm({ ...form, last_name_kr: e.target.value })} required />
-
-                    <label htmlFor="email" className="modal-label"> Email: </label>
-                    <input type="email" name="email" placeholder="test@example.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
-
-                    <label htmlFor="phone" className="modal-label"> Phone Number: </label>
-                    <input type="tel" name="phone" placeholder="+992000000001" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
-
-                    <label htmlFor="groups" className="modal-label"> Groups: </label>
-                    <Dropdown options={groups.length > 0 && groups.map(group => group.name)} value="Choose Group" onChange={val => chooseGroup(val)} />
+                    <Dropdown
+                        options={groups.map(g => g.group_name)}
+                        value="Choose group"
+                        onChange={chooseGroup}
+                    />
 
                     <div className="student-groups-container">
-
                         {["language", "topik", "other"].map(type => (
                             <div key={type} className="group-row">
-
-                                <span className="group-row-label">
-                                    {type.toUpperCase()}
-                                </span>
+                                <span className="group-row-label">{type.toUpperCase()}</span>
 
                                 {groupedGroups[type].length === 0 ? (
-                                    <span className="groups-placeholder">
-                                        No {type} groups
-                                    </span>
+                                    <span className="groups-placeholder">No groups</span>
                                 ) : (
-                                    groupedGroups[type].map(group => (
-                                        <div key={group.id} className="group-chip">
-                                            {group.name}
-                                            <button
-                                                type="button"
-                                                className="remove-group-btn"
-                                                onClick={() => removeGroup(group.id)}
-                                            >
+                                    groupedGroups[type].map(g => (
+                                        <div key={g.id} className="group-chip">
+                                            {g.group_name}
+                                            <button type="button" className="remove-group-btn" onClick={() => removeGroup(g.id)}>
                                                 <VscClose />
                                             </button>
                                         </div>
@@ -193,23 +217,14 @@ const CreateStudentModal = ({ isOpen, onClose, studentData }) => {
                                 )}
                             </div>
                         ))}
-
                     </div>
 
-
-                    {/* Custom dropdown */}
-                    {/* <label className="modal-label"> Schedule: </label>
-                    <Dropdown options={timeslots.length > 0 && timeslots} value={form.schedule} onChange={val => setForm({ ...form, schedule: val })} />
-                    
-                    <label className="modal-label"> Teacher: </label>
-                    <Dropdown options={users.length > 0 && users} value={form.teacher_name} onChange={val => setForm({ ...form, teacher_name: val })} /> */}
-
-                    <button type="submit" className="submit-btn" disabled={loading}>
-                        {loading ? "Loading..." : studentData ? "Save Changes" : "Create Group"}
+                    <button className="submit-btn" disabled={loading}>
+                        {loading ? "Loading..." : "Save"}
                     </button>
                 </form>
             </div>
-        </div>        
+        </div>
     );
 };
 
