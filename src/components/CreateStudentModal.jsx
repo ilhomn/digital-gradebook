@@ -92,8 +92,10 @@ const CreateStudentModal = ({ isOpen, onClose, studentData }) => {
                 if (response.ok) {
                     const { message } = await response.json();
                     alert(message);
+                    window.location.reload();
                 } else {
                     alert("Something went wrong");
+                    window.location.reload();
                 }
             } else {
                 const response = await fetch(`${IP}/create-student`, {
@@ -123,7 +125,7 @@ const CreateStudentModal = ({ isOpen, onClose, studentData }) => {
     useEffect(() => {
         if (!studentData) return;
 
-        setForm(studentData);
+        setForm({...studentData, groups: []});
 
         const loadStudentGroups = async () => {
             const res = await fetch(`${IP}/get-student-groups/${studentData.id}`, {

@@ -156,6 +156,7 @@ const Group = ({ lang, setLang }) => {
                     setStudents(data.group_students);
                     setDays(data.group_schedule.days);
                     setAttendance(attendanceMap);
+                    console.log(data.group_schedule.days);
                 }
                 const userResponse = await fetch(`${IP}/get-user-data`, {
                     method: "GET",
