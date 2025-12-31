@@ -10,6 +10,7 @@ import {
     VscGlobe,
     VscChevronDown,
 } from "react-icons/vsc";
+import { interfaceLangs } from "../config";
 
 const LANGS = [
     { code: "tj", label: "TJ" },
@@ -17,15 +18,9 @@ const LANGS = [
     { code: "kr", label: "KR" },
 ];
 
-const Sidebar = ({ isSidebarOpen, handleClose, status }) => {
-    const [lang, setLang] = useState("en");
+const Sidebar = ({ isSidebarOpen, handleClose, status, lang, setLang }) => {
     const [langOpen, setLangOpen] = useState(false);
     const langRef = useRef(null);
-
-    useEffect(() => {
-        const savedLang = localStorage.getItem("lang");
-        if (savedLang) setLang(savedLang);
-    }, []);
 
     useEffect(() => {
         function handleClickOutside(e) {
@@ -67,14 +62,14 @@ const Sidebar = ({ isSidebarOpen, handleClose, status }) => {
                 <ul className="sidebar__list">
                     <li className="sidebar__item">
                         <Link to="/main-page">
-                            <VscPreview className="sidebar-icon" /> Dashboard
+                            <VscPreview className="sidebar-icon" /> {interfaceLangs[lang].sidebar.dashboard}
                         </Link>
                     </li>
 
                     {status === "admin" && (
                         <li className="sidebar__item">
                             <Link to="/admin-panel/manage">
-                                <VscPerson className="sidebar-icon" /> Admin Panel
+                                <VscPerson className="sidebar-icon" /> {interfaceLangs[lang].sidebar.adminPanel}
                             </Link>
                         </li>
                     )}
@@ -105,7 +100,7 @@ const Sidebar = ({ isSidebarOpen, handleClose, status }) => {
 
                     <li className="logout-btn">
                         <button onClick={handleLogout}>
-                            <VscHome className="sidebar-icon" /> Logout
+                            <VscHome className="sidebar-icon" /> {interfaceLangs[lang].sidebar.logout}
                         </button>
                     </li>
                 </ul>

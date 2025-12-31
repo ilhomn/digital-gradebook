@@ -4,7 +4,7 @@ import Sidebar from "../../components/Sidebar";
 import { VscMenu } from "react-icons/vsc";
 import IP from "../../config";
 
-const AdminPanel = () => {
+const AdminPanel = ({ lang, setLang }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [userData, setUserData] = useState({});
   const handleCloseSidebar = () => setIsSidebarOpen(false);
@@ -60,8 +60,10 @@ const AdminPanel = () => {
         isSidebarOpen={isSidebarOpen}
         handleClose={handleClose}
         status={userData.status}
+        lang={lang}
+        setLang={setLang}
       />
-      <Outlet />
+      <Outlet context={[lang, setLang]} />
     </div>
   );
 };

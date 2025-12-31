@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
     BrowserRouter as Router,
     Routes,
@@ -17,6 +17,7 @@ import Group from "./features/main/Group";
 
 function App() {
     const token = window.localStorage.getItem("token");
+    const [lang, setLang] = useState(window.localStorage.getItem("lang") || "en");
 
     useEffect(() => {
         async function checkToken() {
@@ -35,15 +36,15 @@ function App() {
         <Router>
                 {!window.localStorage.getItem("token") ? (
                     <Routes>
-                        <Route path="/" element={<Login />} />
+                        <Route path="/" element={<Login lang={lang} setLang={setLang} />} />
                         <Route path="*" element={<Navigate to="/" replace />} />                    
                     </Routes>
                 ) : (
                     <Routes>
-                        <Route path="/" element={<MainPage />} />
-                        <Route path="/main-page" element={<MainPage />} />
-                        <Route path="/students-list/:id" element={<Group />} />
-                        <Route path="/admin-panel/*" element={<AdminPanel />}>
+                        <Route path="/" element={<MainPage lang={lang} setLang={setLang} />} />
+                        <Route path="/main-page" element={<MainPage lang={lang} setLang={setLang} />} />
+                        <Route path="/students-list/:id" element={<Group lang={lang} setLang={setLang} />} />
+                        <Route path="/admin-panel/*" element={<AdminPanel lang={lang} setLang={setLang} />}>
                             <Route path="manage" element={<ManageUsers />} />
                         </Route>        
                         <Route path="*" element={<Navigate to="/" replace />} />

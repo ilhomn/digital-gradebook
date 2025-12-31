@@ -4,14 +4,16 @@ import "./Manage.css";
 import ArrowToggle from "../../components/ArrowToggle";
 // import { useNavigate } from "react-router-dom";
 import UserModal from "../../components/UserModal";
-import IP from "../../config";
+import IP, { interfaceLangs } from "../../config";
 import GroupsModal from "../../components/GroupsModal";
 import CreateTimeSlotsModal from "../../components/CreateTimeSlotModal";
 import UploadStudentsModal from "../../components/UploadStudentsModal";
 import { PiStudent } from "react-icons/pi";
 import CreateStudentModal from "../../components/CreateStudentModal";
+import { useOutletContext } from "react-router-dom";
 
 const ManageUsers = () => {
+    const [lang, setLang] = useOutletContext();
     // const navigate = useNavigate();
     const token = window.localStorage.getItem("token");
 
@@ -217,23 +219,23 @@ const ManageUsers = () => {
                 <div className="top-actions-cards">
                     <div className="action-card create-user" onClick={() => setIsUserModalOpen(true)}>
                         <VscAccount className="card-icon" />
-                        <span> Create User </span>
+                        <span> {interfaceLangs[lang].manage.createUser} </span>
                     </div>
                     <div className="action-card create-group" onClick={() => setIsGroupModalOpen(true)}>
                         <VscMortarBoard className="card-icon" />
-                        <span> Create Group </span>
+                        <span> {interfaceLangs[lang].manage.createGroup} </span>
                     </div>
                     <div className="action-card create-user" onClick={() => setIsTimeSlotsOpen(true)}>
                         <VscCalendar className="card-icon" />
-                        <span> Create Timeslot </span>
+                        <span> {interfaceLangs[lang].manage.createTimeslot} </span>
                     </div>
                     <div className="action-card create-user" onClick={() => setIsUploadModalOpen(true)}>
                         <VscShare className="card-icon" />
-                        <span> Upload Students </span>
+                        <span> {interfaceLangs[lang].manage.uploadStudents} </span>
                     </div>
                     <div className="action-card create-user" onClick={() => setIsCreateStudentOpen(true)}>
                         <PiStudent className="card-icon" />
-                        <span> Create Student </span>
+                        <span> {interfaceLangs[lang].manage.createStudent} </span>
                     </div>
                 </div>
 
@@ -243,7 +245,7 @@ const ManageUsers = () => {
                         className="section-header"
                         onClick={() => setOpenUsers(!openUsers)}
                     >
-                        <span>Users</span>
+                        <span>{interfaceLangs[lang].manage.users}</span>
                         <span className="arrow"> <ArrowToggle open={openUsers} onClick={() => setOpenUsers(!openUsers)} /> </span>
                     </div>
 
@@ -275,7 +277,7 @@ const ManageUsers = () => {
                 {/* STUDENTS SECTION */}
                 <div className="collapsible-section">
                     <div className="section-header" onClick={() => setOpenStudents(!openStudents)}>
-                        <span> Students </span>
+                        <span> {interfaceLangs[lang].manage.students} </span>
                         <span className="arrow"> <ArrowToggle open={openStudents} onClick={() => setOpenStudents(!openStudents)} /> </span>
                     </div>
 
@@ -313,7 +315,7 @@ const ManageUsers = () => {
                         className="section-header"
                         onClick={() => setOpenGroups(!openGroups)}
                     >
-                        <span>Groups</span>
+                        <span>{interfaceLangs[lang].manage.groups}</span>
                         <span className="arrow"> <ArrowToggle open={openGroups} onClick={() => setOpenGroups(!openGroups)} /> </span>
                     </div>
 
@@ -331,7 +333,7 @@ const ManageUsers = () => {
                 {/* TIMESLOTS SECTION */}
                 <div className="collapsible-section">
                     <div className="section-header" onClick={() => setOpenTimeslots(!openTimeslots)}>
-                        <span> Timeslots </span>
+                        <span> {interfaceLangs[lang].manage.timeslots} </span>
                         <span className="arrow"> <ArrowToggle open={openTimeslots} onClick={() => setOpenTimeslots(!openTimeslots)} /> </span>
                     </div>
 

@@ -6,7 +6,7 @@ import IP from "../../config";
 import Sidebar from "../../components/Sidebar";
 import { VscMenu } from "react-icons/vsc";
 
-function MainPage() {
+function MainPage({ lang, setLang }) {
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
 
@@ -104,7 +104,7 @@ function MainPage() {
             </div>
 
             {/* Sidebar */}
-            <Sidebar isSidebarOpen={isSidebarOpen} handleClose={handleCloseSidebar} status={userData.status} />
+            <Sidebar isSidebarOpen={isSidebarOpen} handleClose={handleCloseSidebar} status={userData.status} lang={lang} setLang={setLang} />
 
             {/* Main Content */}
             <div

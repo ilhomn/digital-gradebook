@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Group.css";
 import { useParams } from "react-router-dom";
-import IP from "../../config";
+import IP, { interfaceLangs } from "../../config";
 import { FaCheck, FaClockRotateLeft, FaX } from "react-icons/fa6";
 import Sidebar from "../../components/Sidebar";
 import { VscMenu } from "react-icons/vsc";
@@ -10,42 +10,28 @@ let date = new Date(),
     currentYear = date.getFullYear(),
     currentMonth = date.getMonth();
 
-const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-];
 const monthNumbers = {
-    January: "01",
-    February: "02",
-    March: "03",
-    April: "04",
-    May: "05",
-    June: "06",
-    July: "07",
-    August: "08",
-    September: "09",
-    October: "10",
-    November: "11",
-    December: "12",
+    "January": "01",
+    "February": "02",
+    "March": "03",
+    "April": "04",
+    "May": "05",
+    "June": "06",
+    "July": "07",
+    "August": "08",
+    "September": "09",
+    "October": "10",
+    "November": "11",
+    "December": "12",
 };
 
-const Group = () => {
+const Group = ({ lang, setLang }) => {
     const { id } = useParams();
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [userData, setUserData] = useState({});
     const [selectedYear, setSelectedYear] = useState(currentYear);
-    const [selectedMonth, setSelectedMonth] = useState(months[currentMonth]);
+    const [selectedMonth, setSelectedMonth] = useState(interfaceLangs[lang].group.months[currentMonth]);
     const [attendance, setAttendance] = useState({});
 
     const [groupData, setGroupData] = useState({});
@@ -212,6 +198,8 @@ const Group = () => {
                 isSidebarOpen={isSidebarOpen}
                 handleClose={handleCloseSidebar}
                 status={userData.status}
+                lang={lang}
+                setLang={setLang}
             />
             <div className="studentItems">
                 <div className="students">
@@ -243,7 +231,7 @@ const Group = () => {
                                 </select>
                             </div>
                             <button className="back-button" onClick={exportMatrix}>
-                                Export To Excel
+                                {interfaceLangs[lang].group.exportToExcel}
                             </button>
                         </div>
                     </div>
@@ -254,28 +242,28 @@ const Group = () => {
                                 {" "}
                                 <FaCheck />{" "}
                             </span>{" "}
-                            Present
+                            {interfaceLangs[lang].group.present}
                         </p>
                         <p>
                             <span className="legend-symbol">
                                 {" "}
                                 <FaX />{" "}
                             </span>{" "}
-                            Absent
+                            {interfaceLangs[lang].group.absent}
                         </p>
                         <p>
                             <span className="legend-symbol">
                                 {" "}
                                 <FaClockRotateLeft />{" "}
                             </span>{" "}
-                            Late
+                            {interfaceLangs[lang].group.late}
                         </p>
                     </div>
 
                     <table>
                         <thead>
                             <tr>
-                                <th>Student</th>
+                                <th>{interfaceLangs[lang].group.student}</th>
                                 {days &&
                                     days[selectedYear] &&
                                     days[selectedYear][selectedMonth] &&
@@ -334,7 +322,7 @@ const Group = () => {
 
                     <div className="buttons-wrapper">
                         <button className="save-button" onClick={handleSave}>
-                            Save
+                            {interfaceLangs[lang].group.save}
                         </button>
                     </div>
                 </div>
