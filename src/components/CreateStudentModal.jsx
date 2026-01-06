@@ -123,7 +123,20 @@ const CreateStudentModal = ({ isOpen, onClose, studentData }) => {
     /* ===================== LOAD STUDENT ===================== */
 
     useEffect(() => {
-        if (!studentData) return;
+        if (!studentData) {
+            setForm({
+                name_tj: "",
+                last_name_tj: "",
+                name_en: "",
+                last_name_en: "",
+                name_kr: "",
+                last_name_kr: "",
+                email: "",
+                phone: "",
+                groups: [],
+            });
+            return ;
+        }
 
         setForm({...studentData, groups: []});
 

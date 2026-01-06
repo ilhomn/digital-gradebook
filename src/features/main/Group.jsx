@@ -36,7 +36,7 @@ const Group = ({ lang, setLang }) => {
 
     const [groupData, setGroupData] = useState({});
     const [students, setStudents] = useState([]);
-    const [days, setDays] = useState([]);
+    const [days, setDays] = useState({});
 
     const handleCloseSidebar = () => setIsSidebarOpen(false);
 
@@ -156,7 +156,17 @@ const Group = ({ lang, setLang }) => {
                     setStudents(data.group_students);
                     setDays(data.group_schedule.days);
                     setAttendance(attendanceMap);
-                    console.log(data.group_schedule.days);
+                    
+                    if (data.group_schedule.days) {
+                        const year = Object.keys(data.group_schedule.days)[0];
+                        if (year) {
+                            setSelectedYear(year);
+                            const month = Object.keys(data.group_schedule.days[year])[0];
+                            if (month) {
+                                setSelectedMonth(month);
+                            }
+                        }
+                    }
                 }
                 const userResponse = await fetch(`${IP}/get-user-data`, {
                     method: "GET",
