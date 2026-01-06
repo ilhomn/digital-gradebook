@@ -375,3 +375,16 @@ tr:hover {
 .select-small-wrapper:hover::after {
     color: #c89b3c;
 }
+
+/* Status colors for attendance icons */
+.status-present {
+    color: #28a745; /* Green */
+}
+
+.status-absent {
+    color: #dc3545; /* Red */
+}
+
+.status-late {
+    color: #ffc107; /* Yellow */
+}

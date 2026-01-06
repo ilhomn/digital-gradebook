@@ -249,21 +249,21 @@ const Group = ({ lang, setLang }) => {
 
                     <div className="legend">
                         <p>
-                            <span className="legend-symbol">
+                            <span className="legend-symbol status-present">
                                 {" "}
                                 <FaCheck />{" "}
                             </span>{" "}
                             {interfaceLangs[lang].group.present}
                         </p>
                         <p>
-                            <span className="legend-symbol">
+                            <span className="legend-symbol status-absent">
                                 {" "}
                                 <FaX />{" "}
                             </span>{" "}
                             {interfaceLangs[lang].group.absent}
                         </p>
                         <p>
-                            <span className="legend-symbol">
+                            <span className="legend-symbol status-late">
                                 {" "}
                                 <FaClockRotateLeft />{" "}
                             </span>{" "}
@@ -312,17 +312,17 @@ const Group = ({ lang, setLang }) => {
                                                         `${selectedYear}-${monthNumbers[selectedMonth]
                                                         }-${String(day).padStart(2, "0")}_${student.id}`
                                                     ] === "present" ? (
-                                                        <FaCheck />
+                                                        <FaCheck className="status-present" />
                                                     ) : attendance[
                                                         `${selectedYear}-${monthNumbers[selectedMonth]
                                                         }-${String(day).padStart(2, "0")}_${student.id}`
                                                     ] === "absent" ? (
-                                                        <FaX />
+                                                        <FaX className="status-absent" />
                                                     ) : attendance[
                                                         `${selectedYear}-${monthNumbers[selectedMonth]
                                                         }-${String(day).padStart(2, "0")}_${student.id}`
                                                     ] === "late" ? (
-                                                        <FaClockRotateLeft />
+                                                        <FaClockRotateLeft className="status-late" />
                                                     ) : (
                                                         ""
                                                     )}
