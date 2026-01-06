@@ -331,7 +331,7 @@ const Group = ({ lang, setLang }) => {
                                     </tr>
                                 ))}
                             <tr>
-                                <td colSpan={days[selectedYear][selectedMonth].length + 2} style={{ textAlign: "end" }}>Total Students: {students.length} </td>
+                                <td colSpan={days[selectedYear] && days[selectedYear][selectedMonth] ? days[selectedYear][selectedMonth].length + 2 : 2} style={{ textAlign: "end" }}>{interfaceLangs[lang].group.totalStudents}: {students.length} </td>
                             </tr>
                         </tbody>
                     </table>

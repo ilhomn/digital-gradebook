@@ -19,7 +19,8 @@ export const interfaceLangs = {
             absent: "Ғоиб",
             late: "Дер",
             student: "Донишҷӯ",
-            save: "Захира кардан"
+            save: "Захира кардан",
+            totalStudents: "Ҳамагӣ Донишҷӯён"
         }
     },
     en: {
@@ -40,7 +41,8 @@ export const interfaceLangs = {
             absent: "Absent",
             late: "Late",
             student: "Student",
-            save: "Save"
+            save: "Save",
+            totalStudents: "Total Students"
         }
     },
     kr: {
@@ -61,7 +63,8 @@ export const interfaceLangs = {
             absent: "결석",
             late: "지각",
             student: "학생",
-            save: "저장"
+            save: "저장",
+            totalStudents: "총 학생 수"
         }
     }
 }
