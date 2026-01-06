@@ -274,6 +274,7 @@ const Group = ({ lang, setLang }) => {
                     <table>
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>{interfaceLangs[lang].group.student}</th>
                                 {days &&
                                     days[selectedYear] &&
@@ -288,6 +289,7 @@ const Group = ({ lang, setLang }) => {
                             {students.length > 0 &&
                                 students.map((student, index) => (
                                     <tr key={index}>
+                                        <td>{index + 1}</td>
                                         <td> {student.student_name_en} </td>
 
                                         {days &&
@@ -328,6 +330,9 @@ const Group = ({ lang, setLang }) => {
                                             ))}
                                     </tr>
                                 ))}
+                            <tr>
+                                <td colSpan={days[selectedYear][selectedMonth].length + 2} style={{ textAlign: "end" }}>Total Students: {students.length} </td>
+                            </tr>
                         </tbody>
                     </table>
 
