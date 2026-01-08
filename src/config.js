@@ -20,7 +20,8 @@ export const interfaceLangs = {
             late: "Дер",
             student: "Донишҷӯ",
             save: "Захира кардан",
-            totalStudents: "Ҳамагӣ Донишҷӯён"
+            totalStudents: "Ҳамагӣ Донишҷӯён",
+            attendanceEditNotAllowed: "Шумо ҳаққи таҳрири ҳузурро надоред."
         }
     },
     en: {
@@ -42,7 +43,8 @@ export const interfaceLangs = {
             late: "Late",
             student: "Student",
             save: "Save",
-            totalStudents: "Total Students"
+            totalStudents: "Total Students",
+            attendanceEditNotAllowed: "You do not have permission to edit attendance."
         }
     },
     kr: {
@@ -64,7 +66,8 @@ export const interfaceLangs = {
             late: "지각",
             student: "학생",
             save: "저장",
-            totalStudents: "총 학생 수"
+            totalStudents: "총 학생 수",
+            attendanceEditNotAllowed: "출석을 수정할 권한이 없습니다."
         }
     }
 }

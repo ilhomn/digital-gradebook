@@ -54,6 +54,7 @@ const Group = ({ lang, setLang }) => {
     };
 
     const toggleAttendance = (studentId, year, month, day) => {
+        if (userData.status !== "admin" && userData.status !== "teacher") return;
         const monthNumber = monthNumbers[month];
         const dayPadded = String(day).padStart(2, "0");
         const date = `${year}-${monthNumber}-${dayPadded}`;
@@ -337,9 +338,15 @@ const Group = ({ lang, setLang }) => {
                     </table>
 
                     <div className="buttons-wrapper">
-                        <button className="save-button" onClick={handleSave}>
-                            {interfaceLangs[lang].group.save}
-                        </button>
+                        {userData.status === "admin" || userData.status === "teacher" ? (
+                            <button className="save-button" onClick={handleSave}>
+                                {interfaceLangs[lang].group.save}
+                            </button>
+                        ) : (
+                            <div className="info-text">
+                                {interfaceLangs[lang].group.attendanceEditNotAllowed}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
