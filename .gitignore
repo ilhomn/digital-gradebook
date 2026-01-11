@@ -27,3 +27,4 @@ dist-ssr
 
 api_routes.txt
 .vercel
+src/firebase.js
