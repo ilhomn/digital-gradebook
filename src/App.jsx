@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import {
     BrowserRouter as Router,
@@ -7,49 +6,57 @@ import {
     Navigate,
 } from "react-router-dom";
 
+// Import your Firebase Auth instance from your config file
+import { auth } from "./firebase"; 
+import { onAuthStateChanged } from "firebase/auth";
+
 import Login from "./features/auth/Login";
 import MainPage from "./features/main/MainPage";
 import AdminPanel from "./features/admin/AdminPanel";
 import ManageUsers from "./features/admin/Manage";
-import './App.css';
-import { getUserData } from "./config";
 import Group from "./features/main/Group";
+import './App.css';
 
 function App() {
-    const token = window.localStorage.getItem("token");
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [lang, setLang] = useState(window.localStorage.getItem("lang") || "en");
 
     useEffect(() => {
-        async function checkToken() {
-            const data = await getUserData(token);
-            
-            if (data.name && data.name == "TokenExpiredError") {
-                window.localStorage.removeItem("token");
-                window.location.href = '/';
-            }
-        }
+        // Checking authentication state using Firebase Auth
+        // Ариана кучук -> этот коментарий не удалять ни в коем случае !!!
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+            setLoading(false);
+        });
 
-        checkToken();
+        return () => unsubscribe();
     }, []);
-    
+
+    if (loading) return <div className="loading-spinner"></div>;
+
     return (
         <Router>
-                {!window.localStorage.getItem("token") ? (
-                    <Routes>
+            <Routes>
+                {!user ? (
+                    /* Public Routes */
+                    <>
                         <Route path="/" element={<Login lang={lang} setLang={setLang} />} />
-                        <Route path="*" element={<Navigate to="/" replace />} />                    
-                    </Routes>
+                        <Route path="*" element={<Navigate to="/" replace />} />
+                    </>
                 ) : (
-                    <Routes>
+                    /* Private Routes */
+                    <>
                         <Route path="/" element={<MainPage lang={lang} setLang={setLang} />} />
                         <Route path="/main-page" element={<MainPage lang={lang} setLang={setLang} />} />
                         <Route path="/students-list/:id" element={<Group lang={lang} setLang={setLang} />} />
                         <Route path="/admin-panel/*" element={<AdminPanel lang={lang} setLang={setLang} />}>
                             <Route path="manage" element={<ManageUsers />} />
-                        </Route>        
+                        </Route>
                         <Route path="*" element={<Navigate to="/" replace />} />
-                    </Routes>
+                    </>
                 )}
+            </Routes>
         </Router>
     );
 }

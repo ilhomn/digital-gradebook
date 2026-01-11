@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./Login.css";
 import IP from "../../config";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase.js";
 
 function Login() {
     const [login, setLogin] = useState("");
@@ -15,17 +17,19 @@ function Login() {
             const response = await fetch(`${IP}/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username: login, password }),
+                body: JSON.stringify({ username: login }),
             });
 
             if (response.ok) {
-                const data = await response.json();
-                window.localStorage.setItem("token", data.token);
-                if (await data.token) {
+                const { data } = await response.json();
+                const userCredential = await signInWithEmailAndPassword(auth, data, password);
+                const user = userCredential.user;
+                
+                if (user) {
                     window.location.reload();
+                } else {
+                    alert("Wrong login or password");
                 }
-            } else {
-                alert("Неверный логин или пароль");
             }
         } catch (err) {
             alert("Ошибка при авторизации");
