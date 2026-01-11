@@ -11,6 +11,8 @@ import {
     VscChevronDown,
 } from "react-icons/vsc";
 import { interfaceLangs } from "../config";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
 const LANGS = [
     { code: "tj", label: "TJ" },
@@ -33,8 +35,9 @@ const Sidebar = ({ isSidebarOpen, handleClose, status, lang, setLang }) => {
     }, []);
 
     function handleLogout() {
-        localStorage.removeItem("token");
-        window.location.reload();
+        signOut(auth).then(() => {
+
+        });
     }
 
     function changeLang(code) {

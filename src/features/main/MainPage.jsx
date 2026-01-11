@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 import IP from "../../config";
 import Sidebar from "../../components/Sidebar";
 import { VscMenu } from "react-icons/vsc";
+import { auth } from "../../firebase";
 
 function MainPage({ lang, setLang }) {
     const navigate = useNavigate();
-    const token = localStorage.getItem("token");
 
     const [userData, setUserData] = useState(null);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -17,14 +17,15 @@ function MainPage({ lang, setLang }) {
     const handleCloseSidebar = () => setIsSidebarOpen(false);
 
     useEffect(() => {
-        // Redirect if no token
-        if (!token) {
-            navigate("/");
-            return;
-        }
-
+        
         // Fetch user data
         const fetchData = async () => {
+            const token = auth.currentUser ? await auth.currentUser.getIdToken() : null;
+            // Redirect if no token
+            if (!token) {
+                navigate("/");
+                return;
+            }
             try {
                 const [userResponse, groupsResponse] = await Promise.all([
                     fetch(`${IP}/get-user-data`, {
