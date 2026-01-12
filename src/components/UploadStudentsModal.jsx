@@ -35,6 +35,7 @@ const UploadStudentsModal = ({ isOpen, onClose, onUpload }) => {
         if (file) await onUpload(file);
         setLoading(false);
         onClose();
+        window.location.reload();
     };
 
     return (

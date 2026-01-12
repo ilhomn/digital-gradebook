@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./UserModal.css";
@@ -6,15 +6,9 @@ import "./CreateTimeSlotModal.css";
 import { VscClose } from "react-icons/vsc";
 import IP from "../config";
 
-const CreateTimeSlotsModal = ({ isOpen, onClose }) => {
+const CreateTimeSlotsModal = ({ isOpen, onClose, token }) => {
     const [selectedDates, setSelectedDates] = useState([]);
     const [name, setName] = useState("");
-    const [token, setToken] = useState("");
-
-    useEffect(() => {
-        const storedToken = localStorage.getItem("token");
-        if (storedToken) setToken(storedToken);
-    }, []);
 
     const handleDateClick = (date) => {
         const dateStr = date.toDateString();
@@ -68,6 +62,7 @@ const CreateTimeSlotsModal = ({ isOpen, onClose }) => {
             alert(data.message || "Даты успешно сохранены!");
 
             onClose(); // close modal after saving
+            window.location.reload();
         } catch (err) {
             console.error(err);
             alert("Ошибка отправки данных на сервер");

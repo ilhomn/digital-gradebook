@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import {
     BrowserRouter as Router,
@@ -6,7 +7,6 @@ import {
     Navigate,
 } from "react-router-dom";
 
-// Import your Firebase Auth instance from your config file
 import { auth } from "./firebase"; 
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -21,12 +21,22 @@ function App() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [lang, setLang] = useState(window.localStorage.getItem("lang") || "en");
+    const [token, setToken] = useState(null);
 
     useEffect(() => {
         // Checking authentication state using Firebase Auth
         // Ариана кучук -> этот коментарий не удалять ни в коем случае !!!
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+            if (currentUser) {
+                // 1. Get the token as soon as the user is confirmed
+                const idToken = await currentUser.getIdToken();
+                setToken(idToken);
+                setUser(currentUser);
+            } else {
+                // 2. Clear state if logged out
+                setUser(null);
+                setToken(null);
+            }
             setLoading(false);
         });
 
@@ -39,19 +49,18 @@ function App() {
         <Router>
             <Routes>
                 {!user ? (
-                    /* Public Routes */
                     <>
                         <Route path="/" element={<Login lang={lang} setLang={setLang} />} />
                         <Route path="*" element={<Navigate to="/" replace />} />
                     </>
                 ) : (
-                    /* Private Routes */
                     <>
-                        <Route path="/" element={<MainPage lang={lang} setLang={setLang} />} />
-                        <Route path="/main-page" element={<MainPage lang={lang} setLang={setLang} />} />
-                        <Route path="/students-list/:id" element={<Group lang={lang} setLang={setLang} />} />
-                        <Route path="/admin-panel/*" element={<AdminPanel lang={lang} setLang={setLang} />}>
-                            <Route path="manage" element={<ManageUsers />} />
+                        {/* Pass the token state to your components */}
+                        <Route path="/" element={<MainPage lang={lang} setLang={setLang} token={token} />} />
+                        <Route path="/main-page" element={<MainPage lang={lang} setLang={setLang} token={token} />} />
+                        <Route path="/students-list/:id" element={<Group lang={lang} setLang={setLang} token={token} />} />
+                        <Route path="/admin-panel/*" element={<AdminPanel lang={lang} setLang={setLang} token={token} />}>
+                            <Route path="manage" element={<ManageUsers token={token} />} />
                         </Route>
                         <Route path="*" element={<Navigate to="/" replace />} />
                     </>

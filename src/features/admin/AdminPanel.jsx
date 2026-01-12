@@ -4,7 +4,7 @@ import Sidebar from "../../components/Sidebar";
 import { VscMenu } from "react-icons/vsc";
 import IP from "../../config";
 
-const AdminPanel = ({ lang, setLang }) => {
+const AdminPanel = ({ lang, setLang, token }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [userData, setUserData] = useState({});
   const handleCloseSidebar = () => setIsSidebarOpen(false);
@@ -20,7 +20,7 @@ const AdminPanel = ({ lang, setLang }) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          token: window.localStorage.getItem("token"),
+          "token": token,
         },
       });
 
@@ -29,16 +29,16 @@ const AdminPanel = ({ lang, setLang }) => {
         if (data.status !== "admin") {
           navigate("/");
           return null;
-        } else {
-          navigate("/admin-panel/manage");
         }
 
         setUserData(data);
       }
     };
 
-    checkUser();
-  }, [navigate]);
+    if (token) {
+        checkUser();
+    }
+  }, [navigate, token]);
 
   return (
     <div
@@ -63,7 +63,7 @@ const AdminPanel = ({ lang, setLang }) => {
         lang={lang}
         setLang={setLang}
       />
-      <Outlet context={[lang, setLang]} />
+      <Outlet context={{ lang, setLang, token }} />
     </div>
   );
 };

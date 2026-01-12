@@ -6,7 +6,7 @@ import IP from "../config";
 
 const groupTypes = ["Language", "Topik", "Other"];
 
-const GroupsModal = ({ isOpen, onClose, onSubmit, groupData }) => {
+const GroupsModal = ({ isOpen, onClose, onSubmit, groupData, token }) => {
     const [form, setForm] = useState({
         "name": "",
         "time": "",
@@ -20,7 +20,6 @@ const GroupsModal = ({ isOpen, onClose, onSubmit, groupData }) => {
 
     const [ users, setUsers ] = useState([]);
     const [ timeslots, setTimeslots ] = useState([]);
-    const token = window.localStorage.getItem("token");
 
     useEffect(() => {
         if (groupData) setForm(groupData);

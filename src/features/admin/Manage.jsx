@@ -10,13 +10,13 @@ import CreateTimeSlotsModal from "../../components/CreateTimeSlotModal";
 import UploadStudentsModal from "../../components/UploadStudentsModal";
 import { PiStudent } from "react-icons/pi";
 import CreateStudentModal from "../../components/CreateStudentModal";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 const ManageUsers = () => {
-    const [lang, setLang] = useOutletContext();
+    const { lang, setLang, token } = useOutletContext();
+    const navigate = useNavigate();
     // const navigate = useNavigate();
-    const token = window.localStorage.getItem("token");
-
+    
     const [ openUsers, setOpenUsers ] = useState(false);
     const [ openStudents, setOpenStudents ] = useState(false);
     const [ openGroups, setOpenGroups ] = useState(false);
@@ -27,7 +27,7 @@ const ManageUsers = () => {
     const [ isTimeSlotsOpen, setIsTimeSlotsOpen ] = useState(false);
     const [ isUploadModalOpen, setIsUploadModalOpen ] = useState(false);
     const [ isCreateStudentOpen, setIsCreateStudentOpen ] = useState(false);
-
+    
     const [ users, setUsers ] = useState([]);
     const [ students, setStudents ] = useState([]);
     const [ groups, setGroups ] = useState([]);
@@ -64,7 +64,7 @@ const ManageUsers = () => {
             
             if (response.ok) {
                 const data = await response.json();
-    
+                
                 alert(data.message);
             } else {
                 alert("Error while uploading students");
@@ -73,7 +73,7 @@ const ManageUsers = () => {
             console.error(error);
         }
     };
-
+    
     const submitGroup = async(form) => {
         try {
             const response = await fetch(`${IP}/create-group`, {
@@ -87,12 +87,15 @@ const ManageUsers = () => {
 
             if (response.ok) {
                 alert("Success");
+                window.location.reload();
+            } else {
+                alert("Error while creating group");
             }
         } catch (error) {
             console.error(error);
         }
     };
-
+    
     const onSubmit = async (form) => {
         try {
             let response;
@@ -120,6 +123,7 @@ const ManageUsers = () => {
 
             }
             else {
+                // Register in firesbase auth
                 response = await fetch(`${IP}/register`, {
                     method: "POST",
                     headers: {
@@ -139,9 +143,14 @@ const ManageUsers = () => {
             alert("Error while creating user");
         }
     };
-
+    
     useEffect(() => {
-        async function fetchData() {
+            async function fetchData() {
+            // Redirect if no token
+            if (!token) {
+                navigate("/");
+                return;
+            }
             try {
                 const usersResponse = await fetch(`${IP}/get-all-users`, {
                     method: "GET",
@@ -150,10 +159,12 @@ const ManageUsers = () => {
                         "token": token,
                     }
                 });
-            
+                
                 if (usersResponse.ok) {
                     const { data } = await usersResponse.json();
                     
+                    // sort data by id
+                    await data.sort((a, b) => a.id - b.id);
                     setUsers(data);
                 }
 
@@ -168,6 +179,11 @@ const ManageUsers = () => {
                 if (groupsResponse.ok) {
                     const { data } = await groupsResponse.json();
 
+                    if (data.length === 0) {
+                        console.log("No groups found");
+                    }
+
+                    await data.sort((a, b) => a.id - b.id);
                     setGroups(data);
                 }
 
@@ -182,6 +198,11 @@ const ManageUsers = () => {
                 if (studentsResponse.ok) {
                     const { data } = await studentsResponse.json();
 
+                    if (data.length === 0) {
+                        console.log("No students found");
+                    }
+
+                    await data.sort((a, b) => a.id - b.id);
                     setStudents(data);
                 }
 
@@ -196,6 +217,11 @@ const ManageUsers = () => {
                 if (timeslotsResponse.ok) {
                     const { data } = await timeslotsResponse.json();
 
+                    if (data.length === 0) {
+                        console.log("No timeslots found");
+                    }
+
+                    await data.sort((a, b) => a.id - b.id);
                     setTimeslots(data);
                 }
 
@@ -205,15 +231,15 @@ const ManageUsers = () => {
         }
 
         fetchData();
-    }, [token]);
+    }, [navigate, token]);
 
     return (
         <div className="manage-users-wrapper">
             <UserModal isOpen={isUserModalOpen} onClose={onClose} onSubmit={onSubmit} userData={userData} />
-            <GroupsModal isOpen={isGroupModalOpen} onClose={() => setIsGroupModalOpen(false)} onSubmit={submitGroup} />
-            <CreateTimeSlotsModal isOpen={isTimeSlotsOpen} onClose={() => setIsTimeSlotsOpen(false)} />
+            <GroupsModal token={token} isOpen={isGroupModalOpen} onClose={() => setIsGroupModalOpen(false)} onSubmit={submitGroup} />
+            <CreateTimeSlotsModal token={token} isOpen={isTimeSlotsOpen} onClose={() => setIsTimeSlotsOpen(false)} />
             <UploadStudentsModal isOpen={isUploadModalOpen} onClose={() => setIsUploadModalOpen(false)} onUpload={onUpload} />
-            <CreateStudentModal isOpen={isCreateStudentOpen} onClose={() => setIsCreateStudentOpen(false)} studentData={studentData} />
+            {/* <CreateStudentModal isOpen={isCreateStudentOpen} onClose={() => setIsCreateStudentOpen(false)} studentData={studentData} /> */}
             <div className="glass-board">
 
                 <div className="top-actions-cards">
