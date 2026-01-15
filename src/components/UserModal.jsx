@@ -71,7 +71,7 @@ const UserModal = ({ isOpen, onClose, onSubmit, userData }) => {
                     <input type="number" name="phoneNumber" placeholder="Phone Number" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
                     
                     <label htmlFor="password" className="modal-label"> Password: </label>
-                    <input type="password" name="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
+                    <input type="password" name="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
 
                     {/* Custom dropdown for role */}
                     <label htmlFor="" className="modal-label"> Status: </label>
