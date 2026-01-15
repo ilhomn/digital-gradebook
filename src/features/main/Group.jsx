@@ -152,8 +152,6 @@ const Group = ({ lang, setLang, token }) => {
                         map[`${date}_${item.student_id}`] = item.status;
                     });
 
-                    console.log(data);
-
                     setGroupData(data.group_data);
                     setStudents(data.group_students);
                     setDays(data.group_schedule.days);
@@ -303,17 +301,17 @@ const Group = ({ lang, setLang, token }) => {
                                                 >
                                                     {attendance[
                                                         `${selectedYear}-${monthNumbers[selectedMonth]
-                                                        }-${String(day).padStart(2, "0")}_${student.id}`
+                                                        }-${String(day).padStart(2, "0")}_${student.student_id}`
                                                     ] === "present" ? (
                                                         <FaCheck className="status-present" />
                                                     ) : attendance[
                                                         `${selectedYear}-${monthNumbers[selectedMonth]
-                                                        }-${String(day).padStart(2, "0")}_${student.id}`
+                                                        }-${String(day).padStart(2, "0")}_${student.student_id}`
                                                     ] === "absent" ? (
                                                         <FaX className="status-absent" />
                                                     ) : attendance[
                                                         `${selectedYear}-${monthNumbers[selectedMonth]
-                                                        }-${String(day).padStart(2, "0")}_${student.id}`
+                                                        }-${String(day).padStart(2, "0")}_${student.student_id}`
                                                     ] === "late" ? (
                                                         <FaClockRotateLeft className="status-late" />
                                                     ) : (
