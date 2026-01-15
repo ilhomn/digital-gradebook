@@ -38,6 +38,7 @@ const Group = ({ lang, setLang, token }) => {
     const [groupData, setGroupData] = useState({});
     const [students, setStudents] = useState([]);
     const [days, setDays] = useState({});
+    const [loading, setLoading] = useState(false);
 
     const handleCloseSidebar = () => setIsSidebarOpen(false);
 
@@ -115,6 +116,7 @@ const Group = ({ lang, setLang, token }) => {
         }
 
         try {
+            setLoading(true);
             // console.log(records);
             const res = await fetch(`${IP}/save-attendance`, {
                 method: "POST",
@@ -128,11 +130,15 @@ const Group = ({ lang, setLang, token }) => {
             if (res.ok) {
                 alert("Attendance saved!");
                 setDirtyAttendance({});
+                window.location.reload();
             } else {
                 console.error(await res.json());
+                window.location.reload();
             }
         } catch (err) {
             console.error(err);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -329,8 +335,8 @@ const Group = ({ lang, setLang, token }) => {
 
                     <div className="buttons-wrapper">
                         {userData.status === "admin" || userData.status === "teacher" ? (
-                            <button className="save-button" onClick={handleSave}>
-                                {interfaceLangs[lang].group.save}
+                            <button className="save-button" onClick={handleSave} disabled={loading}>
+                                {loading ? "Loading..." : interfaceLangs[lang].group.save}
                             </button>
                         ) : (
                             <div className="info-text">
