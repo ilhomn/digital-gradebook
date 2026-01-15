@@ -25,7 +25,7 @@ const monthNumbers = {
     "December": "12",
 };
 
-const Group = ({ lang, setLang }) => {
+const Group = ({ lang, setLang, token }) => {
     const { id } = useParams();
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -33,6 +33,7 @@ const Group = ({ lang, setLang }) => {
     const [selectedYear, setSelectedYear] = useState(currentYear);
     const [selectedMonth, setSelectedMonth] = useState(interfaceLangs[lang].group.months[currentMonth]);
     const [attendance, setAttendance] = useState({});
+    const [dirtyAttendance, setDirtyAttendance] = useState({});
 
     const [groupData, setGroupData] = useState({});
     const [students, setStudents] = useState([]);
@@ -55,23 +56,19 @@ const Group = ({ lang, setLang }) => {
 
     const toggleAttendance = (studentId, year, month, day) => {
         if (userData.status !== "admin" && userData.status !== "teacher") return;
-        const monthNumber = monthNumbers[month];
-        const dayPadded = String(day).padStart(2, "0");
-        const date = `${year}-${monthNumber}-${dayPadded}`;
+
+        const date = `${year}-${monthNumbers[month]}-${String(day).padStart(2, "0")}`;
         const key = `${date}_${studentId}`;
         const current = attendance[key];
 
-        let _next;
+        let next;
+        if (!current) next = "present";
+        else if (current === "present") next = "absent";
+        else if (current === "absent") next = "late";
+        else next = "present";
 
-        if (!current) _next = "present";
-        else if (current === "present") _next = "absent";
-        else if (current === "absent") _next = "late";
-        else _next = "present";
-
-        setAttendance((prev) => ({
-            ...prev,
-            [key]: _next,
-        }));
+        setAttendance(prev => ({ ...prev, [key]: next }));
+        setDirtyAttendance(prev => ({ ...prev, [key]: next }));
     };
 
     const exportMatrix = async () => {
@@ -80,7 +77,7 @@ const Group = ({ lang, setLang }) => {
                 `${IP}/export-attendance-matrix/${id}?year=${selectedYear}&month=${monthNumbers[selectedMonth]}&group_name=${groupData.name}`,
                 {
                     method: "GET",
-                    headers: { token: window.localStorage.getItem("token") },
+                    headers: { token },
                 }
             );
 
@@ -98,97 +95,91 @@ const Group = ({ lang, setLang }) => {
     };
 
     const handleSave = async () => {
-        const payload = [];
+        const records = [];
 
-        for (const key in attendance) {
-            if (!attendance[key]) continue;
+        for (const key in dirtyAttendance) {
+            const [date, student_id] = key.split("_");
 
-            const [date, studentId] = key.split("_");
-
-            payload.push({
-                student_id: studentId,
-                group_name: groupData.name,
-                date: date,
-                status: attendance[key],
+            records.push({
+                student_id,
                 group_id: groupData.id,
+                group_name: groupData.name,
+                date,
+                status: dirtyAttendance[key],
             });
         }
 
+        if (!records.length) {
+            alert("Нет изменений");
+            return;
+        }
+
         try {
-            const response = await fetch(`${IP}/save-attendance`, {
+            const res = await fetch(`${IP}/save-attendance`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    token: window.localStorage.getItem("token"),
+                    token,
                 },
-                body: JSON.stringify({ records: payload }),
+                body: JSON.stringify({ records }),
             });
 
-            if (response.ok) alert("Attendance saved!");
-            else console.log(await response.json());
-        } catch (error) {
-            console.error(error);
+            if (res.ok) {
+                alert("Attendance saved!");
+                setDirtyAttendance({});
+            } else {
+                console.error(await res.json());
+            }
+        } catch (err) {
+            console.error(err);
         }
     };
 
     useEffect(() => {
-        const getData = async () => {
+        const loadData = async () => {
             try {
-                const response = await fetch(`${IP}/get-group-data/${id}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        token: window.localStorage.getItem("token"),
-                    },
+                const res = await fetch(`${IP}/get-group-data/${id}`, {
+                    headers: { token },
                 });
 
-                if (response.ok) {
-                    const { data } = await response.json();
-                    const attendanceMap = {};
+                if (res.ok) {
+                    const { data } = await res.json();
+                    const map = {};
 
-                    await data.group_attendance.map((item) => {
-                        const dateOnly = item.date.split("T")[0];
-                        const key = `${dateOnly}_${item.student_id}`;
-
-                        attendanceMap[key] = item.status;
+                    data.group_attendance.forEach(item => {
+                        const date = item.date.split("T")[0];
+                        map[`${date}_${item.student_id}`] = item.status;
                     });
+
+                    console.log(data);
 
                     setGroupData(data.group_data);
                     setStudents(data.group_students);
                     setDays(data.group_schedule.days);
-                    setAttendance(attendanceMap);
-                    
-                    if (data.group_schedule.days) {
-                        const year = Object.keys(data.group_schedule.days)[0];
-                        if (year) {
-                            setSelectedYear(year);
-                            const month = Object.keys(data.group_schedule.days[year])[0];
-                            if (month) {
-                                setSelectedMonth(month);
-                            }
-                        }
-                    }
+                    setAttendance(map);
+
+                    const year = Object.keys(data.group_schedule.days || {})[0];
+                    const month = year ? Object.keys(data.group_schedule.days[year])[0] : "";
+
+                    setSelectedYear(year);
+                    setSelectedMonth(month);
                 }
-                const userResponse = await fetch(`${IP}/get-user-data`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        token: window.localStorage.getItem("token"),
-                    },
+
+                const userRes = await fetch(`${IP}/get-user-data`, {
+                    headers: { token },
                 });
 
-                if (userResponse.ok) {
-                    const data = await userResponse.json();
-
-                    setUserData(await data.data);
+                if (userRes.ok) {
+                    const u = await userRes.json();
+                    setUserData(u.data);
                 }
-            } catch (error) {
-                console.error(error);
+            } catch (err) {
+                console.error(err);
             }
         };
 
-        getData();
-    }, [id]);
+        loadData();
+    }, [id, token]);
 
     return (
         <div

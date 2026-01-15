@@ -43,6 +43,21 @@ function App() {
         return () => unsubscribe();
     }, []);
 
+    useEffect(() => {
+        // if token expires or user logs out from another tab logout here
+        const checkToken = async () => {
+            const token = await user.getIdToken;
+            console.log("Checking token validity:", token);
+            if (!token) {
+                setUser(null);
+                setToken(null);
+                // logout user
+                auth.signOut();
+            }
+        };
+        checkToken();
+    }, [user]);
+
     if (loading) return <div className="loading-spinner"></div>;
 
     return (

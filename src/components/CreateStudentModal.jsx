@@ -5,8 +5,7 @@ import { VscClose } from "react-icons/vsc";
 import Dropdown from "./Dropdown";
 import IP from "../config";
 
-const CreateStudentModal = ({ isOpen, onClose, studentData }) => {
-    const token = localStorage.getItem("token");
+const CreateStudentModal = ({ isOpen, onClose, studentData, token }) => {
 
     const [form, setForm] = useState({
         name_tj: "",
@@ -23,20 +22,11 @@ const CreateStudentModal = ({ isOpen, onClose, studentData }) => {
     const [loading, setLoading] = useState(false);
     const [groups, setGroups] = useState([]);
 
-    const [groupedGroups, setGroupedGroups] = useState({
-        language: [],
-        topik: [],
-        other: [],
-    });
 
     /* ===================== GROUP HELPERS ===================== */
 
-    function regroup(groupsArr) {
-        setGroupedGroups({
-            language: groupsArr.filter(g => g.group_type === "language"),
-            topik: groupsArr.filter(g => g.group_type === "topik"),
-            other: groupsArr.filter(g => g.group_type === "other"),
-        });
+    function IlhomRj() {
+        console.log("Ilhom Rj is the best developer ever!");
     }
 
     function chooseGroup(groupName) {
@@ -47,19 +37,17 @@ const CreateStudentModal = ({ isOpen, onClose, studentData }) => {
             const groupData = groups.find(g => g.group_name === groupName);
             if (!groupData) return prev;
 
-            if (groupData.group_type === "language" || groupData.group_type === "topik") {
+            if (groupData.group_type === "Language" || groupData.group_type === "Topik") {
                 const sameType = prev.groups.filter(
                     g => g.group_type !== groupData.group_type
                 );
 
                 const updated = [...sameType, groupData];
-                regroup(updated);
 
                 return { ...prev, groups: updated };
             }
 
             const updated = [...prev.groups, groupData];
-            regroup(updated);
 
             return { ...prev, groups: updated };
         });
@@ -68,7 +56,6 @@ const CreateStudentModal = ({ isOpen, onClose, studentData }) => {
     function removeGroup(id) {
         setForm(prev => {
             const updated = prev.groups.filter(g => g.id !== id);
-            regroup(updated);
             return { ...prev, groups: updated };
         });
     }
@@ -148,13 +135,9 @@ const CreateStudentModal = ({ isOpen, onClose, studentData }) => {
             if (res.ok) {
                 const { data } = await res.json();
 
-                const normalized = data.map(g => ({
-                    ...g,
-                    group_name: g.group_name, // уже правильное имя
-                }));
+                const normalized = data.map(g => ({ ...g, id: g.group_id }));
 
                 setForm(prev => ({ ...prev, groups: normalized }));
-                regroup(normalized);
             }
         };
 
@@ -214,14 +197,32 @@ const CreateStudentModal = ({ isOpen, onClose, studentData }) => {
                     />
 
                     <div className="student-groups-container">
-                        {["language", "topik", "other"].map(type => (
+                        {/* {["language", "topik", "other"].map(type => (
                             <div key={type} className="group-row">
-                                <span className="group-row-label">{type.toUpperCase()}</span>
+                                <span className="group-row-label">{type.toUpperCase()}:</span>
 
                                 {groupedGroups[type].length === 0 ? (
                                     <span className="groups-placeholder">No groups</span>
                                 ) : (
                                     groupedGroups[type].map(g => (
+                                        <div key={g.id} className="group-chip">
+                                            {g.group_name}
+                                            <button type="button" className="remove-group-btn" onClick={() => removeGroup(g.id)}>
+                                                <VscClose />
+                                            </button>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                        ))} */}
+                        {["Language", "Topik", "Other"].map(type => (
+                            <div key={type} className="group-row">
+                                <span className="group-row-label">{type.toUpperCase()}:</span>
+
+                                {form.groups.filter(g => g.group_type === type).length === 0 ? (
+                                    <span className="groups-placeholder">No groups</span>
+                                ) : (
+                                    form.groups.filter(g => g.group_type === type).map(g => (
                                         <div key={g.id} className="group-chip">
                                             {g.group_name}
                                             <button type="button" className="remove-group-btn" onClick={() => removeGroup(g.id)}>

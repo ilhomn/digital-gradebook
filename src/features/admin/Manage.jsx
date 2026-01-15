@@ -38,6 +38,7 @@ const ManageUsers = () => {
 
     const onClose = () => {
         setIsUserModalOpen(false);
+        setUserData(null);
     };
 
     const handleEditClick = (user) => {
@@ -235,11 +236,17 @@ const ManageUsers = () => {
 
     return (
         <div className="manage-users-wrapper">
-            <UserModal isOpen={isUserModalOpen} onClose={onClose} onSubmit={onSubmit} userData={userData} />
+            <UserModal isOpen={isUserModalOpen} onClose={() => {
+                onClose()
+                setUserData(null);
+            }} onSubmit={onSubmit} userData={userData} />
             <GroupsModal token={token} isOpen={isGroupModalOpen} onClose={() => setIsGroupModalOpen(false)} onSubmit={submitGroup} />
             <CreateTimeSlotsModal token={token} isOpen={isTimeSlotsOpen} onClose={() => setIsTimeSlotsOpen(false)} />
             <UploadStudentsModal isOpen={isUploadModalOpen} onClose={() => setIsUploadModalOpen(false)} onUpload={onUpload} />
-            {/* <CreateStudentModal isOpen={isCreateStudentOpen} onClose={() => setIsCreateStudentOpen(false)} studentData={studentData} /> */}
+            <CreateStudentModal isOpen={isCreateStudentOpen} onClose={() => {
+                setIsCreateStudentOpen(false)
+                setStudentData(null);
+            }} studentData={studentData} token={token} />
             <div className="glass-board">
 
                 <div className="top-actions-cards">
