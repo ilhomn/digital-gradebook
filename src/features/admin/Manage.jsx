@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { VscAccount, VscCalendar, VscEdit, VscMortarBoard, VscOrganization, VscPerson, VscShare, VscTrash } from "react-icons/vsc";
+import { VscAccount, VscArrowUp, VscCalendar, VscEdit, VscMortarBoard, VscOrganization, VscPerson, VscShare, VscTrash } from "react-icons/vsc";
 import "./Manage.css";
 import ArrowToggle from "../../components/ArrowToggle";
 // import { useNavigate } from "react-router-dom";
@@ -16,25 +16,25 @@ const ManageUsers = () => {
     const { lang, setLang, token } = useOutletContext();
     const navigate = useNavigate();
     // const navigate = useNavigate();
-    
-    const [ openUsers, setOpenUsers ] = useState(false);
-    const [ openStudents, setOpenStudents ] = useState(false);
-    const [ openGroups, setOpenGroups ] = useState(false);
-    const [ openTimeslots, setOpenTimeslots ] = useState(false);
 
-    const [ isUserModalOpen, setIsUserModalOpen ] = useState(false);
-    const [ isGroupModalOpen, setIsGroupModalOpen ] = useState(false);
-    const [ isTimeSlotsOpen, setIsTimeSlotsOpen ] = useState(false);
-    const [ isUploadModalOpen, setIsUploadModalOpen ] = useState(false);
-    const [ isCreateStudentOpen, setIsCreateStudentOpen ] = useState(false);
-    
-    const [ users, setUsers ] = useState([]);
-    const [ students, setStudents ] = useState([]);
-    const [ groups, setGroups ] = useState([]);
-    const [ timeslots, setTimeslots ] = useState([]);
+    const [openUsers, setOpenUsers] = useState(false);
+    const [openStudents, setOpenStudents] = useState(false);
+    const [openGroups, setOpenGroups] = useState(false);
+    const [openTimeslots, setOpenTimeslots] = useState(false);
 
-    const [ userData, setUserData ] = useState(null);
-    const [ studentData, setStudentData ] = useState(null);
+    const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+    const [isGroupModalOpen, setIsGroupModalOpen] = useState(false);
+    const [isTimeSlotsOpen, setIsTimeSlotsOpen] = useState(false);
+    const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+    const [isCreateStudentOpen, setIsCreateStudentOpen] = useState(false);
+
+    const [users, setUsers] = useState([]);
+    const [students, setStudents] = useState([]);
+    const [groups, setGroups] = useState([]);
+    const [timeslots, setTimeslots] = useState([]);
+
+    const [userData, setUserData] = useState(null);
+    const [studentData, setStudentData] = useState(null);
 
     const onClose = () => {
         setIsUserModalOpen(false);
@@ -50,7 +50,7 @@ const ManageUsers = () => {
         if (!file) {
             alert("Ты хотябы мяу мяу скажи");
         }
-        
+
         const formData = new FormData();
         formData.append("file", file);
 
@@ -62,10 +62,10 @@ const ManageUsers = () => {
                 },
                 body: formData
             });
-            
+
             if (response.ok) {
                 const data = await response.json();
-                
+
                 alert(data.message);
             } else {
                 alert("Error while uploading students");
@@ -74,8 +74,8 @@ const ManageUsers = () => {
             console.error(error);
         }
     };
-    
-    const submitGroup = async(form) => {
+
+    const submitGroup = async (form) => {
         try {
             const response = await fetch(`${IP}/create-group`, {
                 method: "POST",
@@ -96,7 +96,7 @@ const ManageUsers = () => {
             console.error(error);
         }
     };
-    
+
     const onSubmit = async (form) => {
         try {
             let response;
@@ -131,7 +131,7 @@ const ManageUsers = () => {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify(form),
-                });                
+                });
             }
             if (response.ok) {
                 const data = await response.json();
@@ -144,9 +144,9 @@ const ManageUsers = () => {
             alert("Error while creating user");
         }
     };
-    
+
     useEffect(() => {
-            async function fetchData() {
+        async function fetchData() {
             // Redirect if no token
             if (!token) {
                 navigate("/");
@@ -160,10 +160,10 @@ const ManageUsers = () => {
                         "token": token,
                     }
                 });
-                
+
                 if (usersResponse.ok) {
                     const { data } = await usersResponse.json();
-                    
+
                     // sort data by id
                     await data.sort((a, b) => a.id - b.id);
                     setUsers(data);
@@ -274,7 +274,7 @@ const ManageUsers = () => {
 
                 {/* USERS SECTION */}
                 <div className="collapsible-section">
-                    <div 
+                    <div
                         className="section-header"
                         onClick={() => setOpenUsers(!openUsers)}
                     >
@@ -304,6 +304,10 @@ const ManageUsers = () => {
                                 </div>
                             ))}
                         </div>
+                        {/* Button for scrolling to top glass board */}
+                        {/* <button className="move-up-button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+                            <VscArrowUp />
+                        </button> */}
                     </div>
                 </div>
 
@@ -344,7 +348,7 @@ const ManageUsers = () => {
 
                 {/* GROUPS SECTION */}
                 <div className="collapsible-section">
-                    <div 
+                    <div
                         className="section-header"
                         onClick={() => setOpenGroups(!openGroups)}
                     >
@@ -372,7 +376,7 @@ const ManageUsers = () => {
 
                     <div className={`collapsible-content ${openTimeslots ? 'open' : ''}`}>
                         <div className="timeslots-list">
-                            {timeslots.length > 0 && timeslots.map((item, index) => 
+                            {timeslots.length > 0 && timeslots.map((item, index) =>
                                 <div className="timeslot-card" key={index}>
                                     <div className="timeslot-id-badge"> {item.id} </div>
                                     <div className="timeslot-name"> {item.name} </div>
