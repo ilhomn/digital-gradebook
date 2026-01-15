@@ -115,6 +115,7 @@ const Group = ({ lang, setLang, token }) => {
         }
 
         try {
+            // console.log(records);
             const res = await fetch(`${IP}/save-attendance`, {
                 method: "POST",
                 headers: {
@@ -293,7 +294,7 @@ const Group = ({ lang, setLang, token }) => {
                                                     className="day-cell"
                                                     onClick={() =>
                                                         toggleAttendance(
-                                                            student.id,
+                                                            student.student_id,
                                                             selectedYear,
                                                             selectedMonth,
                                                             day
