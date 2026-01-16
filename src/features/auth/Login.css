@@ -32,7 +32,7 @@
 .login-form__title {
     font-size: 30px;
     font-weight: 700;
-    color: #1C244B;
+    color: var(--color-blue);
     margin-bottom: 10px;
 }
 

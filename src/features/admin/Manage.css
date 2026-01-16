@@ -3,6 +3,10 @@
     display: flex;
     justify-content: center;
     padding: 40px;
+    background-image: url("/img/main-bg.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .section-header {
@@ -16,7 +20,7 @@
     backdrop-filter: blur(14px);
     border: 1px solid rgba(255, 255, 255, 0.4);
 
-    color: var(--color-gray-dark);
+    color: var(--color-blue);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -57,7 +61,7 @@
     padding: 40px;
     border-radius: 10px;
 
-    color: var(--color-gray-dark);
+    color: var(--color-blue);
 
     background: rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(26px) saturate(150%);
@@ -93,7 +97,7 @@
 
     margin-bottom: 15px;
 
-    color: var(--color-gray-dark);
+    color: var(--color-blue);
 
     padding: 8px 14px;
     border-radius: 8px;
@@ -171,7 +175,7 @@
 .user-avatar .avatar {
     width: 55px;
     height: 55px;
-    color: var(--color-gray-dark);
+    color: var(--color-blue);
 }
 
 /* ------------------------- USER INFO ------------------------- */
@@ -184,13 +188,13 @@
 
     margin-bottom: 18px;
     text-align: center;
-    color: var(--color-gray-dark);
+    color: var(--color-blue);
 }
 
 .user-info .name {
     font-size: 20px;
     font-weight: 600;
-    color: var(--color-gray-dark);
+    color: var(--color-blue);
 }
 
 .user-info .status {
@@ -207,7 +211,7 @@
     gap: 4px;
 
     margin-bottom: 16px;
-    color: var(--color-gray-dark);
+    color: var(--color-blue);
 }
 
 .user-contact .contact-item {
@@ -248,7 +252,7 @@
 .manage button svg {
     width: 20px;
     height: 20px;
-    color: var(--color-gray-dark);
+    color: var(--color-blue);
 }
 
 /* Status badge in top-right corner */
@@ -260,15 +264,15 @@
     padding: 4px 10px;
     /* border-radius: 8px; */
 
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--color-blue);
     backdrop-filter: blur(6px);
 
     font-size: 12px;
     font-weight: 600;
-    color: var(--color-gray-dark);
+    color: var(--color-white);
 
     border: 1px solid rgba(255, 255, 255, 0.3);
-    background-color: var(--color-accent);
+    background-color: var(--color-blue);
     border-top-right-radius: 12px;
     border-bottom-left-radius: 12px;
     /* box-shadow: 0 0 8px rgba(0,0,0,0.2); */
@@ -311,24 +315,24 @@
 .card-icon {
     font-size: 36px;
     margin-bottom: 12px;
-    color: var(--color-gray-dark);
+    color: var(--color-blue);
 }
 
 .action-card span {
     font-size: 16px;
     font-weight: 600;
-    color: var(--color-gray-dark);
+    color: var(--color-blue);
     text-align: center;
 }
 
 /* Optional accent colors */
 .create-user {
-    border-top: 4px solid var(--color-accent);
+    border-top: 4px solid var(--color-blue);
     /* blue accent */
 }
 
 .create-group {
-    border-top: 4px solid var(--color-accent);
+    border-top: 4px solid var(--color-blue);
     /* violet accent */
 }
 

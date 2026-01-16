@@ -6,8 +6,11 @@ body {
     --color-white: #fefefe;
     --color-gray-light: #c5c5c5;
     --color-gray-dark: #333333;
-    --color-blue: #1C244B;
+    --color-blue: #34438d;
     --color-accent: #AC5B58;
+    --color-green: #28a745;
+    --color-red: #dc3545;
+    --color-yellow: #ffc107;
     font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
