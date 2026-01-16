@@ -145,6 +145,11 @@ const ManageUsers = () => {
         }
     };
 
+    const moveToTopOfContainer = (name) => {
+        const container = document.getElementById(name);
+        container.scrollIntoView({ behavior: "smooth" });
+    };
+
     useEffect(() => {
         async function fetchData() {
             // Redirect if no token
@@ -273,7 +278,7 @@ const ManageUsers = () => {
                 </div>
 
                 {/* USERS SECTION */}
-                <div className="collapsible-section">
+                <div className="collapsible-section" id="users-section">
                     <div
                         className="section-header"
                         onClick={() => setOpenUsers(!openUsers)}
@@ -305,9 +310,11 @@ const ManageUsers = () => {
                             ))}
                         </div>
                         {/* Button for scrolling to top glass board */}
-                        {/* <button className="move-up-button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-                            <VscArrowUp />
-                        </button> */}
+                        <div className="move-up-button-container">
+                            <button className="move-up-button" onClick={() => moveToTopOfContainer("users-section")}>
+                                <VscArrowUp />
+                            </button>
+                        </div>
                     </div>
                 </div>
 

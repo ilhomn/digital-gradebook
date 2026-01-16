@@ -24,7 +24,7 @@ function Login() {
                 const { data } = await response.json();
                 const userCredential = await signInWithEmailAndPassword(auth, data, password);
                 const user = userCredential.user;
-                
+
                 if (user) {
                     window.location.reload();
                 } else {
@@ -40,11 +40,12 @@ function Login() {
     };
 
     return (
-        <form className="login" onSubmit={handleLogin}>
-            <div className="logiin">
-                <span className="login__title">Digital gradebook</span>
+        <div className="login-page">
+            <form className="login-form" onSubmit={handleLogin}>
+                <h1 className="login-form__title">Digital gradebook</h1>
 
                 <input
+                    className="login-form__input"
                     type="text"
                     placeholder="Login"
                     value={login}
@@ -52,17 +53,22 @@ function Login() {
                 />
 
                 <input
+                    className="login-form__input"
                     type="password"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
 
-                <button type="submit" disabled={loading}>
-                    {loading ? <div className="mini-loader"></div> : "Log in"}
+                <button className="login-form__button" type="submit" disabled={loading}>
+                    {loading ? <div className="mini-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div> : "Log in"}
                 </button>
-            </div>
-        </form>
+            </form>
+        </div>
     );
 }
 

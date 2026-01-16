@@ -444,7 +444,6 @@
 
 .move-up-button {
     top: 0;
-    margin-right: auto;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -455,4 +454,10 @@
     transition: background 0.2s, transform 0.2s;
     color: black;
     font-size: 20px;
+    position: sticky;
+}
+
+.move-up-button:focus {
+    border: none;
+    outline: none;
 }
