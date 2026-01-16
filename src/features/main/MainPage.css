@@ -4,9 +4,11 @@
     width: 100vw;
     overflow: hidden;
 
-    background: url("/img/main-background.png") no-repeat center;
-    background-size: contain; /* FULL SCREEN */
-    background-color: #fdf5e1; /* fallback color */
+    background-image: url('/img/main-bg.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* fallback color */
 
     justify-content: center;
     align-items: center;
@@ -34,7 +36,7 @@
 }
 
 .group-card {
-    background-color: rgba(255, 255, 255, 0.1); 
+    background-color: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border-radius: 8px;
     padding: 20px;
@@ -53,23 +55,24 @@
 .card-group-name {
     font-size: 1.3rem;
     font-weight: 700;
-    color: var(--color-gray-dark);
+    color: var(--color-blue);
     margin-bottom: 5px;
 }
 
 .card-teacher-name {
     font-size: 0.9rem;
     font-weight: 400;
-    color: #666; /* Muted gray for secondary info */
+    color: var(--color-blue);
+    /* Muted gray for secondary info */
 }
 
 .sidebar-toggle-btn {
     position: fixed;
     top: 20px;
-    left: 20px;    
+    left: 20px;
     width: 25px;
     height: 25px;
-    color: var(--color-gray-dark);
+    color: var(--color-blue);
     backdrop-filter: blur(5px);
     border: none;
     border-radius: 10px;
@@ -79,31 +82,23 @@
     /* z-index: 2000; */
 }
 
-.toggler {
-    width: 0%;
-    border: 1px solid violet;
-    transition: all .5s ease-in-out;
-}
-
-.toggler.active {
-    width: auto;
-    border: 10px solid violet;
-}
-
 @media (max-width: 1200px) {
     .groups-list {
-        grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+        grid-template-columns: repeat(3, 1fr);
+        /* 3 cards per row */
     }
 }
 
 @media (max-width: 900px) {
     .groups-list {
-        grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 cards per row */
     }
 }
 
 @media (max-width: 600px) {
     .groups-list {
-        grid-template-columns: 1fr; /* 1 card per row on small screens */
+        grid-template-columns: 1fr;
+        /* 1 card per row on small screens */
     }
 }
