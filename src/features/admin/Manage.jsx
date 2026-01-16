@@ -288,33 +288,34 @@ const ManageUsers = () => {
                     </div>
 
                     <div className={`collapsible-content ${openUsers ? "open" : ""}`}>
-                        <div className="users-grid">
-                            {users.length > 0 && users.map((user, index) => (
-                                <div className="user-card" key={index}>
-                                    <div className="status-badge"> {user.status} </div>
-                                    <div className="user-avatar">
-                                        <VscAccount className="avatar" />
+                        <div className="section-inner">
+                            <div className="users-grid">
+                                {users.length > 0 && users.map((user, index) => (
+                                    <div className="user-card" key={index}>
+                                        <div className="status-badge"> {user.status} </div>
+                                        <div className="user-avatar">
+                                            <VscAccount className="avatar" />
+                                        </div>
+                                        <div className="user-info">
+                                            <span className="name">{user.last_name_en} {user.name_en}</span>
+                                        </div>
+                                        <div className="user-contact">
+                                            <div className="contact-item">{user.email}</div>
+                                            <div className="contact-item">{user.phone}</div>
+                                        </div>
+                                        <div className="manage">
+                                            <button onClick={() => handleEditClick(user)}><VscEdit /></button>
+                                            <button><VscTrash /></button>
+                                        </div>
                                     </div>
-                                    <div className="user-info">
-                                        <span className="name">{user.last_name_en} {user.name_en}</span>
-                                    </div>
-                                    <div className="user-contact">
-                                        <div className="contact-item">{user.email}</div>
-                                        <div className="contact-item">{user.phone}</div>
-                                    </div>
-                                    <div className="manage">
-                                        <button onClick={() => handleEditClick(user)}><VscEdit /></button>
-                                        <button><VscTrash /></button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                        {/* Button for scrolling to top glass board */}
-                        <div className="move-up-button-container">
+                                ))}
+                            </div>
+
                             <button className="move-up-button" onClick={() => moveToTopOfContainer("users-section")}>
                                 <VscArrowUp />
                             </button>
                         </div>
+                        {/* Button for scrolling to top glass board */}
                     </div>
                 </div>
 
@@ -325,30 +326,35 @@ const ManageUsers = () => {
                         <span className="arrow"> <ArrowToggle open={openStudents} onClick={() => setOpenStudents(!openStudents)} /> </span>
                     </div>
 
-                    <div className={`collapsible-content ${openStudents ? 'open' : ''}`}>
-                        <div className="users-grid">
-                            {students.length > 0 && students.map((student, index) => (
-                                <div className="user-card" key={index}>
-                                    <div className="status-badge">{student.id}</div>
-                                    <div className="user-avatar">
-                                        <VscPerson className="avatar" />
+                    <div className={`collapsible-content ${openStudents ? 'open' : ''}`} id="students-section">
+                        <div className="section-inner">
+                            <div className="users-grid">
+                                {students.length > 0 && students.map((student, index) => (
+                                    <div className="user-card" key={index}>
+                                        <div className="status-badge">{student.id}</div>
+                                        <div className="user-avatar">
+                                            <VscPerson className="avatar" />
+                                        </div>
+                                        <div className="user-info">
+                                            <span className="name">{student.last_name_en} {student.name_en}</span>
+                                        </div>
+                                        <div className="user-contact">
+                                            <div className="contact-item">{student.email}</div>
+                                            <div className="contact-item">{student.phone}</div>
+                                        </div>
+                                        <div className="manage">
+                                            <button><VscEdit onClick={() => {
+                                                setStudentData(student);
+                                                setIsCreateStudentOpen(true);
+                                            }} /></button>
+                                            <button><VscTrash /></button>
+                                        </div>
                                     </div>
-                                    <div className="user-info">
-                                        <span className="name">{student.last_name_en} {student.name_en}</span>
-                                    </div>
-                                    <div className="user-contact">
-                                        <div className="contact-item">{student.email}</div>
-                                        <div className="contact-item">{student.phone}</div>
-                                    </div>
-                                    <div className="manage">
-                                        <button><VscEdit onClick={() => {
-                                            setStudentData(student);
-                                            setIsCreateStudentOpen(true);
-                                        }} /></button>
-                                        <button><VscTrash /></button>
-                                    </div>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
+                            <button className="move-up-button" onClick={() => moveToTopOfContainer("students-section")}>
+                                <VscArrowUp />
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -363,14 +369,19 @@ const ManageUsers = () => {
                         <span className="arrow"> <ArrowToggle open={openGroups} onClick={() => setOpenGroups(!openGroups)} /> </span>
                     </div>
 
-                    <div className={`collapsible-content ${openGroups ? "open" : ""}`}>
-                        <div className="groups-list">
-                            {groups.length > 0 && groups.map((item, i) => (
-                                <div className="group-card" onClick={() => window.open(`/students-list/${item.id}`, '_blank')} key={i}>
-                                    <div className="card-group-name">{item.name}</div>
-                                    <div className="card-teacher-name">{item.teacher_name_en}</div>
-                                </div>
-                            ))}
+                    <div className={`collapsible-content ${openGroups ? "open" : ""}`} id="groups-section">
+                        <div className="section-inner">
+                            <div className="groups-list">
+                                {groups.length > 0 && groups.map((item, i) => (
+                                    <div className="group-card" onClick={() => window.open(`/students-list/${item.id}`, '_blank')} key={i}>
+                                        <div className="card-group-name">{item.name}</div>
+                                        <div className="card-teacher-name">{item.teacher_name_en}</div>
+                                    </div>
+                                ))}
+                            </div>
+                            <button className="move-up-button" onClick={() => moveToTopOfContainer("groups-section")}>
+                                <VscArrowUp />
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -381,18 +392,23 @@ const ManageUsers = () => {
                         <span className="arrow"> <ArrowToggle open={openTimeslots} onClick={() => setOpenTimeslots(!openTimeslots)} /> </span>
                     </div>
 
-                    <div className={`collapsible-content ${openTimeslots ? 'open' : ''}`}>
-                        <div className="timeslots-list">
-                            {timeslots.length > 0 && timeslots.map((item, index) =>
-                                <div className="timeslot-card" key={index}>
-                                    <div className="timeslot-id-badge"> {item.id} </div>
-                                    <div className="timeslot-name"> {item.name} </div>
-                                    <div className="timeslot-actions">
-                                        <button> <VscEdit /> </button>
-                                        <button> <VscTrash /> </button>
+                    <div className={`collapsible-content ${openTimeslots ? 'open' : ''}`} id="timeslots-section">
+                        <div className="section-inner">
+                            <div className="timeslots-list">
+                                {timeslots.length > 0 && timeslots.map((item, index) =>
+                                    <div className="timeslot-card" key={index}>
+                                        <div className="timeslot-id-badge"> {item.id} </div>
+                                        <div className="timeslot-name"> {item.name} </div>
+                                        <div className="timeslot-actions">
+                                            <button> <VscEdit /> </button>
+                                            <button> <VscTrash /> </button>
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
+                            </div>
+                            <button className="move-up-button" onClick={() => moveToTopOfContainer("timeslots-section")}>
+                                <VscArrowUp />
+                            </button>
                         </div>
                     </div>
                 </div>
