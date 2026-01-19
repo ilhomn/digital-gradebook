@@ -27,7 +27,8 @@ export const interfaceLangs = {
             student: "Донишҷӯ",
             save: "Захира кардан",
             totalStudents: "Ҳамагӣ Донишҷӯён",
-            attendanceEditNotAllowed: "Шумо ҳаққи таҳрири ҳузурро надоред."
+            attendanceEditNotAllowed: "Шумо ҳаққи таҳрири ҳузурро надоред.",
+            loading: "Сарборӣ...",
         }
     },
     en: {
@@ -50,7 +51,8 @@ export const interfaceLangs = {
             student: "Student",
             save: "Save",
             totalStudents: "Total Students",
-            attendanceEditNotAllowed: "You do not have permission to edit attendance."
+            attendanceEditNotAllowed: "You do not have permission to edit attendance.",
+            loading: "Loading..."
         }
     },
     kr: {
@@ -73,7 +75,8 @@ export const interfaceLangs = {
             student: "학생",
             save: "저장",
             totalStudents: "총 학생 수",
-            attendanceEditNotAllowed: "출석을 수정할 권한이 없습니다."
+            attendanceEditNotAllowed: "출석을 수정할 권한이 없습니다.",
+            loading: "로딩 중..."
         }
     }
 }

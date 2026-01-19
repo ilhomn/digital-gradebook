@@ -336,7 +336,7 @@ const Group = ({ lang, setLang, token }) => {
                     <div className="buttons-wrapper">
                         {userData.status === "admin" || userData.status === "teacher" ? (
                             <button className="save-button" onClick={handleSave} disabled={loading}>
-                                {loading ? "Loading..." : interfaceLangs[lang].group.save}
+                                {loading ? interfaceLangs[lang].group.loading : interfaceLangs[lang].group.save}
                             </button>
                         ) : (
                             <div className="info-text">

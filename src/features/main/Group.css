@@ -148,7 +148,7 @@ tr:hover {
     justify-content: center;
     align-items: center;
 
-    background: rgba(254, 246, 227, 0.7);
+    background: var(--color-accent);
     /* мягкое затемнение */
     backdrop-filter: blur(3px);
 
@@ -159,8 +159,8 @@ tr:hover {
 .loader {
     width: 65px;
     height: 65px;
-    border: 6px solid rgba(200, 155, 60, 0.3);
-    border-top-color: #c89b3c;
+    border: 6px solid var(--color-accent);
+    border-top-color: var(--color-blue);
     border-radius: 50%;
     animation: spin 0.9s linear infinite, pulse 1.5s ease-in-out infinite;
 }

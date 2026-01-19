@@ -284,8 +284,10 @@ const ManageUsers = () => {
                         onClick={() => setOpenUsers(!openUsers)}
                     >
                         <span>{interfaceLangs[lang].manage.users}</span>
+                        <input type="text" placeholder="Search" className="search-input" onClick={(e) => e.stopPropagation()} />
                         <span className="arrow"> <ArrowToggle open={openUsers} onClick={() => setOpenUsers(!openUsers)} /> </span>
                     </div>
+
 
                     <div className={`collapsible-content ${openUsers ? "open" : ""}`}>
                         <div className="section-inner">

@@ -6,7 +6,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-gray-dark);
+    color: var(--color-blue);
 }
 
 .arrow-icon {
