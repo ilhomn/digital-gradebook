@@ -150,6 +150,23 @@ const ManageUsers = () => {
         container.scrollIntoView({ behavior: "smooth" });
     };
 
+    const filterUsers = async (search) => {
+        // filter by name
+        const allUsers = JSON.parse(window.sessionStorage.getItem("users"));
+        if (search) {
+            const filteredUsers = allUsers.filter(user => {
+                return `${user.last_name_en.toLowerCase()} ${user.name_en.toLowerCase()}`.includes(search.toLowerCase()) ||
+                    `${user.last_name_kr.toLowerCase()} ${user.name_kr.toLowerCase()}`.includes(search.toLowerCase()) ||
+                    `${user.last_name_tj.toLowerCase()} ${user.name_tj.toLowerCase()}`.includes(search.toLowerCase());
+            });
+
+            setUsers(filteredUsers);
+        }
+        else {
+            setUsers(JSON.parse(window.sessionStorage.getItem("users")));
+        }
+    };
+
     useEffect(() => {
         async function fetchData() {
             // Redirect if no token
@@ -171,6 +188,7 @@ const ManageUsers = () => {
 
                     // sort data by id
                     await data.sort((a, b) => a.id - b.id);
+                    window.sessionStorage.setItem("users", JSON.stringify(data));
                     setUsers(data);
                 }
 
@@ -284,7 +302,7 @@ const ManageUsers = () => {
                         onClick={() => setOpenUsers(!openUsers)}
                     >
                         <span>{interfaceLangs[lang].manage.users}</span>
-                        <input type="text" placeholder="Search" className="search-input" onClick={(e) => e.stopPropagation()} />
+                        <input type="text" placeholder="Search" className="search-input" onClick={(e) => e.stopPropagation()} onChange={(e) => filterUsers(e.target.value)} />
                         <span className="arrow"> <ArrowToggle open={openUsers} onClick={() => setOpenUsers(!openUsers)} /> </span>
                     </div>
 
@@ -294,7 +312,7 @@ const ManageUsers = () => {
                             <div className="users-grid">
                                 {users.length > 0 && users.map((user, index) => (
                                     <div className="user-card" key={index}>
-                                        <div className="status-badge"> {user.status} </div>
+                                        <div className="status-badge"> {user.username} | {user.status} </div>
                                         <div className="user-avatar">
                                             <VscAccount className="avatar" />
                                         </div>
