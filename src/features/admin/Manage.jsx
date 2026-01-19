@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { VscAccount, VscArrowUp, VscCalendar, VscEdit, VscMortarBoard, VscOrganization, VscPerson, VscShare, VscTrash } from "react-icons/vsc";
 import "./Manage.css";
 import ArrowToggle from "../../components/ArrowToggle";
-// import { useNavigate } from "react-router-dom";
 import UserModal from "../../components/UserModal";
 import IP, { interfaceLangs } from "../../config";
 import GroupsModal from "../../components/GroupsModal";
@@ -15,7 +14,6 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 const ManageUsers = () => {
     const { lang, setLang, token } = useOutletContext();
     const navigate = useNavigate();
-    // const navigate = useNavigate();
 
     const [openUsers, setOpenUsers] = useState(false);
     const [openStudents, setOpenStudents] = useState(false);
@@ -27,6 +25,11 @@ const ManageUsers = () => {
     const [isTimeSlotsOpen, setIsTimeSlotsOpen] = useState(false);
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
     const [isCreateStudentOpen, setIsCreateStudentOpen] = useState(false);
+
+    const [allUsers, setAllUsers] = useState([]);
+    const [allStudents, setAllStudents] = useState([]);
+    const [allGroups, setAllGroups] = useState([]);
+    const [allTimeslots, setAllTimeslots] = useState([]);
 
     const [users, setUsers] = useState([]);
     const [students, setStudents] = useState([]);
@@ -46,105 +49,6 @@ const ManageUsers = () => {
         setUserData(user);
     };
 
-    const onUpload = async (file) => {
-        if (!file) {
-            alert("Ты хотябы мяу мяу скажи");
-        }
-
-        const formData = new FormData();
-        formData.append("file", file);
-
-        try {
-            const response = await fetch(`${IP}/upload-students`, {
-                method: "POST",
-                headers: {
-                    "token": token,
-                },
-                body: formData
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-
-                alert(data.message);
-            } else {
-                alert("Error while uploading students");
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const submitGroup = async (form) => {
-        try {
-            const response = await fetch(`${IP}/create-group`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "token": token,
-                },
-                body: JSON.stringify(form)
-            });
-
-            if (response.ok) {
-                alert("Success");
-                window.location.reload();
-            } else {
-                alert("Error while creating group");
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const onSubmit = async (form) => {
-        try {
-            let response;
-            if (userData) {
-                response = await fetch(`${IP}/update-user/${userData.username}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "token": token,
-                    },
-                    body: JSON.stringify({
-                        "new_username": form.username,
-                        "new_password": form.password,
-                        "new_name_tj": form.name_tj,
-                        "new_last_name_tj": form.last_name_tj,
-                        "new_name_kr": form.name_kr,
-                        "new_last_name_kr": form.last_name_kr,
-                        "new_name_en": form.name_en,
-                        "new_last_name_en": form.last_name_en,
-                        "new_status": form.status,
-                        "new_email": form.email,
-                        "new_phone": form.phone,
-                    }),
-                });
-
-            }
-            else {
-                // Register in firesbase auth
-                response = await fetch(`${IP}/register`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(form),
-                });
-            }
-            if (response.ok) {
-                const data = await response.json();
-                alert(data.message);
-                window.location.reload();
-            }
-        } catch (error) {
-            console.error(error);
-
-            alert("Error while creating user");
-        }
-    };
-
     const moveToTopOfContainer = (name) => {
         const container = document.getElementById(name);
         container.scrollIntoView({ behavior: "smooth" });
@@ -152,18 +56,18 @@ const ManageUsers = () => {
 
     const filterUsers = async (search) => {
         // filter by name
-        const allUsers = JSON.parse(window.sessionStorage.getItem("users"));
         if (search) {
             const filteredUsers = allUsers.filter(user => {
                 return `${user.last_name_en.toLowerCase()} ${user.name_en.toLowerCase()}`.includes(search.toLowerCase()) ||
                     `${user.last_name_kr.toLowerCase()} ${user.name_kr.toLowerCase()}`.includes(search.toLowerCase()) ||
-                    `${user.last_name_tj.toLowerCase()} ${user.name_tj.toLowerCase()}`.includes(search.toLowerCase());
+                    `${user.last_name_tj.toLowerCase()} ${user.name_tj.toLowerCase()}`.includes(search.toLowerCase()) ||
+                    user.username.toLowerCase().includes(search.toLowerCase());
             });
 
             setUsers(filteredUsers);
         }
         else {
-            setUsers(JSON.parse(window.sessionStorage.getItem("users")));
+            setUsers(allUsers);
         }
     };
 
@@ -249,6 +153,10 @@ const ManageUsers = () => {
                     setTimeslots(data);
                 }
 
+                setAllUsers(JSON.parse(window.sessionStorage.getItem("users")));
+                setAllStudents(JSON.parse(window.sessionStorage.getItem("students")));
+                setAllGroups(JSON.parse(window.sessionStorage.getItem("groups")));
+                setAllTimeslots(JSON.parse(window.sessionStorage.getItem("timeslots")));
             } catch (error) {
                 console.error(error);
             }
@@ -262,10 +170,10 @@ const ManageUsers = () => {
             <UserModal isOpen={isUserModalOpen} onClose={() => {
                 onClose()
                 setUserData(null);
-            }} onSubmit={onSubmit} userData={userData} />
-            <GroupsModal token={token} isOpen={isGroupModalOpen} onClose={() => setIsGroupModalOpen(false)} onSubmit={submitGroup} />
+            }} userData={userData} token={token} />
+            <GroupsModal token={token} isOpen={isGroupModalOpen} onClose={() => setIsGroupModalOpen(false)} />
             <CreateTimeSlotsModal token={token} isOpen={isTimeSlotsOpen} onClose={() => setIsTimeSlotsOpen(false)} />
-            <UploadStudentsModal isOpen={isUploadModalOpen} onClose={() => setIsUploadModalOpen(false)} onUpload={onUpload} />
+            <UploadStudentsModal isOpen={isUploadModalOpen} onClose={() => setIsUploadModalOpen(false)} />
             <CreateStudentModal isOpen={isCreateStudentOpen} onClose={() => {
                 setIsCreateStudentOpen(false)
                 setStudentData(null);
@@ -302,7 +210,7 @@ const ManageUsers = () => {
                         onClick={() => setOpenUsers(!openUsers)}
                     >
                         <span>{interfaceLangs[lang].manage.users}</span>
-                        <input type="text" placeholder="Search" className="search-input" onClick={(e) => e.stopPropagation()} onChange={(e) => filterUsers(e.target.value)} />
+                        <input type="text" placeholder="Search" className="search-input" onClick={(e) => { e.stopPropagation() }} onChange={(e) => filterUsers(e.target.value)} />
                         <span className="arrow"> <ArrowToggle open={openUsers} onClick={() => setOpenUsers(!openUsers)} /> </span>
                     </div>
 

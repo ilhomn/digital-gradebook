@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import "./UploadStudentsModal.css";
+import IP from "../config";
 
-const UploadStudentsModal = ({ isOpen, onClose, onUpload }) => {
+const UploadStudentsModal = ({ isOpen, onClose }) => {
     const [file, setFile] = useState(null);
     const [isDragging, setIsDragging] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -36,6 +37,35 @@ const UploadStudentsModal = ({ isOpen, onClose, onUpload }) => {
         setLoading(false);
         onClose();
         window.location.reload();
+    };
+
+    const onUpload = async (file) => {
+        if (!file) {
+            alert("Ты хотябы мяу мяу скажи");
+        }
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            const response = await fetch(`${IP}/upload-students`, {
+                method: "POST",
+                headers: {
+                    "token": token,
+                },
+                body: formData
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+
+                alert(data.message);
+            } else {
+                alert("Error while uploading students");
+            }
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (

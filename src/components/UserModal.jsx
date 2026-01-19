@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { VscClose, VscChevronDown } from "react-icons/vsc";
 import "./UserModal.css";
 import Dropdown from "./Dropdown";
+import IP from "../config";
 
 const roles = ["admin", "teacher", "guest"];
 
-const UserModal = ({ isOpen, onClose, onSubmit, userData }) => {
+const UserModal = ({ isOpen, onClose, userData, token }) => {
     const [form, setForm] = useState({
         username: "",
         name_tj: "",
@@ -32,6 +33,55 @@ const UserModal = ({ isOpen, onClose, onSubmit, userData }) => {
         onClose();
     };
 
+    const onSubmit = async (form) => {
+        try {
+            let response;
+            if (userData) {
+                response = await fetch(`${IP}/update-user/${userData.username}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token": token,
+                    },
+                    body: JSON.stringify({
+                        "new_username": form.username,
+                        "new_password": form.password,
+                        "new_name_tj": form.name_tj,
+                        "new_last_name_tj": form.last_name_tj,
+                        "new_name_kr": form.name_kr,
+                        "new_last_name_kr": form.last_name_kr,
+                        "new_name_en": form.name_en,
+                        "new_last_name_en": form.last_name_en,
+                        "new_status": form.status,
+                        "new_email": form.email,
+                        "new_phone": form.phone,
+                    }),
+                });
+
+            }
+            else {
+                // Register in firesbase auth
+                response = await fetch(`${IP}/register`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(form),
+                });
+            }
+            if (response.ok) {
+                const data = await response.json();
+                alert(data.message);
+                window.location.reload();
+            }
+        } catch (error) {
+            console.error(error);
+
+            alert("Error while creating / editing user");
+        }
+    };
+
+
     return (
         <div className={`modal-backdrop ${isOpen ? 'open' : ''}`} onClick={onClose}>
             <div className={`modal-card ${isOpen ? 'open' : ''}`} onClick={(e) => e.stopPropagation()}>
@@ -45,31 +95,31 @@ const UserModal = ({ isOpen, onClose, onSubmit, userData }) => {
                 <form className="modal-form" onSubmit={handleSubmit}>
                     <label htmlFor="username" className="modal-label"> Username: </label>
                     <input type="text" name="username" placeholder="Username" value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} required />
-                    
+
                     <label htmlFor="tajikFirstName" className="modal-label"> Tajik First Name: </label>
                     <input type="text" name="tajikFirstName" placeholder="Tajik First Name" value={form.name_tj} onChange={(e) => setForm({ ...form, name_tj: e.target.value })} required />
-                    
+
                     <label htmlFor="tajikLastName" className="modal-label"> Tajik Last Name: </label>
                     <input type="text" name="tajikLastName" placeholder="Tajik Last Name" value={form.last_name_tj} onChange={(e) => setForm({ ...form, last_name_tj: e.target.value })} required />
-                    
+
                     <label htmlFor="englishFirstName" className="modal-label"> English First Name: </label>
                     <input type="text" name="englishFirstName" placeholder="English First Name" value={form.name_en} onChange={(e) => setForm({ ...form, name_en: e.target.value })} required />
-                    
+
                     <label htmlFor="englishLastName" className="modal-label"> English Last Name: </label>
                     <input type="text" name="englishLastName" placeholder="English Last Name" value={form.last_name_en} onChange={(e) => setForm({ ...form, last_name_en: e.target.value })} required />
-                    
+
                     <label htmlFor="koreanFirstName" className="modal-label"> Korean First Name: </label>
                     <input type="text" name="koreanFirstName" placeholder="Korean First Name" value={form.name_kr} onChange={(e) => setForm({ ...form, name_kr: e.target.value })} required />
-                    
+
                     <label htmlFor="koreanLastName" className="modal-label"> Korean Last Name: </label>
                     <input type="text" name="koreanLastName" placeholder="Korean Last Name" value={form.last_name_kr} onChange={(e) => setForm({ ...form, last_name_kr: e.target.value })} />
-                    
+
                     <label htmlFor="email" className="modal-label"> Email: </label>
                     <input type="email" name="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
 
                     <label htmlFor="phoneNumber" className="modal-label"> Phone number: </label>
                     <input type="number" name="phoneNumber" placeholder="Phone Number" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
-                    
+
                     <label htmlFor="password" className="modal-label"> Password: </label>
                     <input type="password" name="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
 

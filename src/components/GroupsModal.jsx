@@ -6,7 +6,7 @@ import IP from "../config";
 
 const groupTypes = ["Language", "Topik", "Other"];
 
-const GroupsModal = ({ isOpen, onClose, onSubmit, groupData, token }) => {
+const GroupsModal = ({ isOpen, onClose, groupData, token }) => {
     const [form, setForm] = useState({
         "name": "",
         "time": "",
@@ -18,8 +18,8 @@ const GroupsModal = ({ isOpen, onClose, onSubmit, groupData, token }) => {
         "group_type": "Choose Group Type",
     });
 
-    const [ users, setUsers ] = useState([]);
-    const [ timeslots, setTimeslots ] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [timeslots, setTimeslots] = useState([]);
 
     useEffect(() => {
         if (groupData) setForm(groupData);
@@ -35,9 +35,9 @@ const GroupsModal = ({ isOpen, onClose, onSubmit, groupData, token }) => {
 
             if (usersResponse.ok) {
                 const { data } = await usersResponse.json();
-                
+
                 // data.map(item => filteredUsers.push(`${item.id} ${item.last_name_en} ${item.name_en}`));
-                
+
                 setUsers(data);
             }
 
@@ -51,8 +51,8 @@ const GroupsModal = ({ isOpen, onClose, onSubmit, groupData, token }) => {
 
             if (scheduleResponse.ok) {
                 const { data } = await scheduleResponse.json(),
-                      filteredTimeslots = [];
-                    
+                    filteredTimeslots = [];
+
                 data.map(item => filteredTimeslots.push(item.name));
                 setTimeslots(filteredTimeslots);
             }
@@ -63,8 +63,8 @@ const GroupsModal = ({ isOpen, onClose, onSubmit, groupData, token }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit(form);
-        
+        submitGroup(form);
+
         setForm({
             "name": "",
             "time": "",
@@ -75,9 +75,32 @@ const GroupsModal = ({ isOpen, onClose, onSubmit, groupData, token }) => {
             "schedule": "",
             "group_type": "",
         })
-        
+
         onClose();
     };
+
+    const submitGroup = async (form) => {
+        try {
+            const response = await fetch(`${IP}/create-group`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "token": token,
+                },
+                body: JSON.stringify(form)
+            });
+
+            if (response.ok) {
+                alert("Success");
+                window.location.reload();
+            } else {
+                alert("Error while creating group");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
 
     return (
         <div className={`modal-backdrop ${isOpen ? 'open' : ''}`} onClick={onClose}>
@@ -102,16 +125,16 @@ const GroupsModal = ({ isOpen, onClose, onSubmit, groupData, token }) => {
 
                     <label className="modal-label"> Schedule: </label>
                     <Dropdown options={timeslots.length > 0 && timeslots} value={form.schedule} onChange={val => setForm({ ...form, schedule: val })} />
-                    
+
                     <label className="modal-label"> Teacher: </label>
-                    <Dropdown options={users.length > 0 && users.map(user => `${user.last_name_en} ${user.name_en}`)} value={form.teacher_name_en} 
-                        onChange={val => setForm({ 
-                            ...form, 
+                    <Dropdown options={users.length > 0 && users.map(user => `${user.last_name_en} ${user.name_en}`)} value={form.teacher_name_en}
+                        onChange={val => setForm({
+                            ...form,
                             teacher_id: users.find(user => `${user.last_name_en} ${user.name_en}` === val)?.id,
                             teacher_name_en: val,
                             teacher_name_tj: `${users.find(user => `${user.last_name_en} ${user.name_en}` === val)?.last_name_tj} ${users.find(user => `${user.last_name_en} ${user.name_en}` === val)?.name_tj}`,
                             teacher_name_kr: `${users.find(user => `${user.last_name_en} ${user.name_en}` === val)?.last_name_kr} ${users.find(user => `${user.last_name_en} ${user.name_en}` === val)?.name_kr}`,
-                        })} 
+                        })}
                     />
 
                     <button type="submit" className="submit-btn">
