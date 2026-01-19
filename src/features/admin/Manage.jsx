@@ -210,7 +210,7 @@ const ManageUsers = () => {
                         onClick={() => setOpenUsers(!openUsers)}
                     >
                         <span>{interfaceLangs[lang].manage.users}</span>
-                        <input type="text" placeholder="Search" className="search-input" onClick={(e) => { e.stopPropagation() }} onChange={(e) => filterUsers(e.target.value)} />
+                        <input type="text" placeholder="Search" className="search-input" onClick={(e) => e.stopPropagation()} onChange={(e) => filterUsers(e.target.value)} />
                         <span className="arrow"> <ArrowToggle open={openUsers} onClick={() => setOpenUsers(!openUsers)} /> </span>
                     </div>
 
