@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { VscAccount, VscArrowUp, VscCalendar, VscEdit, VscMortarBoard, VscOrganization, VscPerson, VscShare, VscTrash } from "react-icons/vsc";
 import "./Manage.css";
 import ArrowToggle from "../../components/ArrowToggle";
@@ -14,6 +14,13 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 const ManageUsers = () => {
     const { lang, setLang, token } = useOutletContext();
     const navigate = useNavigate();
+
+    const refs = {
+        "users-section": useRef(null),
+        "students-section": useRef(null),
+        "groups-section": useRef(null),
+        "timeslots-section": useRef(null),
+    };
 
     const [openUsers, setOpenUsers] = useState(false);
     const [openStudents, setOpenStudents] = useState(false);
@@ -50,8 +57,9 @@ const ManageUsers = () => {
     };
 
     const moveToTopOfContainer = (name) => {
-        const container = document.getElementById(name);
-        container.scrollIntoView({ behavior: "smooth" });
+        if (refs[name].current) {
+            refs[name].current.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
     };
 
     const filterUsers = async (search) => {
@@ -92,7 +100,7 @@ const ManageUsers = () => {
 
                     // sort data by id
                     await data.sort((a, b) => a.id - b.id);
-                    window.sessionStorage.setItem("users", JSON.stringify(data));
+                    setAllUsers(data);
                     setUsers(data);
                 }
 
@@ -152,11 +160,6 @@ const ManageUsers = () => {
                     await data.sort((a, b) => a.id - b.id);
                     setTimeslots(data);
                 }
-
-                setAllUsers(JSON.parse(window.sessionStorage.getItem("users")));
-                setAllStudents(JSON.parse(window.sessionStorage.getItem("students")));
-                setAllGroups(JSON.parse(window.sessionStorage.getItem("groups")));
-                setAllTimeslots(JSON.parse(window.sessionStorage.getItem("timeslots")));
             } catch (error) {
                 console.error(error);
             }
@@ -204,7 +207,7 @@ const ManageUsers = () => {
                 </div>
 
                 {/* USERS SECTION */}
-                <div className="collapsible-section" id="users-section">
+                <div className="collapsible-section" ref={refs["users-section"]}>
                     <div
                         className="section-header"
                         onClick={() => setOpenUsers(!openUsers)}
@@ -254,7 +257,7 @@ const ManageUsers = () => {
                         <span className="arrow"> <ArrowToggle open={openStudents} onClick={() => setOpenStudents(!openStudents)} /> </span>
                     </div>
 
-                    <div className={`collapsible-content ${openStudents ? 'open' : ''}`} id="students-section">
+                    <div className={`collapsible-content ${openStudents ? 'open' : ''}`} ref={refs["students-section"]}>
                         <div className="section-inner">
                             <div className="users-grid">
                                 {students.length > 0 && students.map((student, index) => (
@@ -297,7 +300,7 @@ const ManageUsers = () => {
                         <span className="arrow"> <ArrowToggle open={openGroups} onClick={() => setOpenGroups(!openGroups)} /> </span>
                     </div>
 
-                    <div className={`collapsible-content ${openGroups ? "open" : ""}`} id="groups-section">
+                    <div className={`collapsible-content ${openGroups ? "open" : ""}`} ref={refs["groups-section"]}>
                         <div className="section-inner">
                             <div className="groups-list">
                                 {groups.length > 0 && groups.map((item, i) => (
@@ -320,7 +323,7 @@ const ManageUsers = () => {
                         <span className="arrow"> <ArrowToggle open={openTimeslots} onClick={() => setOpenTimeslots(!openTimeslots)} /> </span>
                     </div>
 
-                    <div className={`collapsible-content ${openTimeslots ? 'open' : ''}`} id="timeslots-section">
+                    <div className={`collapsible-content ${openTimeslots ? 'open' : ''}`} ref={refs["timeslots-section"]}>
                         <div className="section-inner">
                             <div className="timeslots-list">
                                 {timeslots.length > 0 && timeslots.map((item, index) =>
