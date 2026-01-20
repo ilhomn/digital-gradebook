@@ -45,6 +45,8 @@ const ManageUsers = () => {
 
     const [userData, setUserData] = useState(null);
     const [studentData, setStudentData] = useState(null);
+    const [groupData, setGroupData] = useState(null);
+    const [timeslotData, setTimeslotData] = useState(null);
 
     const onClose = () => {
         setIsUserModalOpen(false);
@@ -76,6 +78,26 @@ const ManageUsers = () => {
         }
         else {
             setUsers(allUsers);
+        }
+    };
+
+    const handleDeleteTimeslot = async (id) => {
+        try {
+            const response = await fetch(`${IP}/delete-timeslot/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "token": token
+                },
+            });
+
+            if (response.ok) {
+                const { message } = await response.json();
+                alert(message);
+                window.location.reload();
+            }
+        } catch (error) {
+            console.error("error I guess: ", error);
         }
     };
 
@@ -175,7 +197,10 @@ const ManageUsers = () => {
                 setUserData(null);
             }} userData={userData} token={token} />
             <GroupsModal token={token} isOpen={isGroupModalOpen} onClose={() => setIsGroupModalOpen(false)} />
-            <CreateTimeSlotsModal token={token} isOpen={isTimeSlotsOpen} onClose={() => setIsTimeSlotsOpen(false)} />
+            <CreateTimeSlotsModal token={token} isOpen={isTimeSlotsOpen} onClose={() => {
+                setIsTimeSlotsOpen(false)
+                setTimeslotData(null);
+            }} timeslotData={timeslotData} />
             <UploadStudentsModal isOpen={isUploadModalOpen} onClose={() => setIsUploadModalOpen(false)} />
             <CreateStudentModal isOpen={isCreateStudentOpen} onClose={() => {
                 setIsCreateStudentOpen(false)
@@ -331,8 +356,11 @@ const ManageUsers = () => {
                                         <div className="timeslot-id-badge"> {item.id} </div>
                                         <div className="timeslot-name"> {item.name} </div>
                                         <div className="timeslot-actions">
-                                            <button> <VscEdit /> </button>
-                                            <button> <VscTrash /> </button>
+                                            <button onClick={() => {
+                                                setTimeslotData(item)
+                                                setIsTimeSlotsOpen(true)
+                                            }}> <VscEdit /> </button>
+                                            <button onClick={() => handleDeleteTimeslot(item.id)}> <VscTrash /> </button>
                                         </div>
                                     </div>
                                 )}

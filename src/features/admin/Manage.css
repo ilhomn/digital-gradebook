@@ -356,12 +356,10 @@
 /* Optional accent colors */
 .create-user {
     border-top: 4px solid var(--color-blue);
-    /* blue accent */
 }
 
 .create-group {
     border-top: 4px solid var(--color-blue);
-    /* violet accent */
 }
 
 .timeslots-list {
@@ -385,7 +383,6 @@
     padding: 15px;
 
     background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(14px);
 
     border-left: 6px solid var(--color-accent);
@@ -422,15 +419,6 @@
     border-bottom-left-radius: 12px;
 }
 
-/* Название слота */
-.timeslot-name {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--color-gray-dark);
-    text-align: center;
-    margin-bottom: 8px;
-}
-
 /* Контейнер для кнопок */
 .timeslot-actions {
     display: flex;
@@ -456,7 +444,7 @@
 .timeslot-actions button svg {
     width: 16px;
     height: 16px;
-    color: var(--color-gray-dark);
+    color: var(--color-blue);
 }
 
 
@@ -469,7 +457,7 @@
 .timeslot-name {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--color-gray-dark);
+    color: var(--color-blue);
     text-align: center;
     margin-top: auto;
 }

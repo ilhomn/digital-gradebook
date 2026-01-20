@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./UserModal.css";
@@ -6,7 +6,7 @@ import "./CreateTimeSlotModal.css";
 import { VscClose } from "react-icons/vsc";
 import IP from "../config";
 
-const CreateTimeSlotsModal = ({ isOpen, onClose, token }) => {
+const CreateTimeSlotsModal = ({ isOpen, onClose, token, timeslotData }) => {
     const [selectedDates, setSelectedDates] = useState([]);
     const [name, setName] = useState("");
 
@@ -23,51 +23,74 @@ const CreateTimeSlotsModal = ({ isOpen, onClose, token }) => {
 
     const handleSave = async (e) => {
         e.preventDefault();
-        
+
         if (!name) {
-            alert("Хотя бы укажи день!");
+            alert("Хотя бы мяу мяу скажи!");
             return;
         }
         if (selectedDates.length === 0) {
             alert("Выберите хотя бы одну дату!");
             return;
         }
-        
+
         const changedDatesFromUnreadableVariantToReadableSoAsOthersCouldUnderstandThisReadableFormatOfThatUnreadableFormat_yes = selectedDates.map(d => {
             const y = d.getFullYear();
             const m = String(d.getMonth() + 1).padStart(2, "0");
             const day = String(d.getDate()).padStart(2, "0");
             return Number(`${y}${m}${day}`);
-        } 
-            // parseInt(d.toISOString().slice(0, 10).replace(/-/g, ""))
-        );
-        // const datesToSend = selectedDates.map((d) =>
-        //     parseInt(d.toISOString().slice(0, 10).replace(/-/g, ""))
-        // );
+        });
 
         try {
-            const response = await fetch(`${IP}/create-timeslot`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    token: token,
-                },
-                body: JSON.stringify({
-                    name: name,
-                    timeslot: changedDatesFromUnreadableVariantToReadableSoAsOthersCouldUnderstandThisReadableFormatOfThatUnreadableFormat_yes,
-                }),
-            });
+            if (timeslotData) {
+                const response = await fetch(`${IP}/update-timeslot/${timeslotData.id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token": token,
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        timeslot: changedDatesFromUnreadableVariantToReadableSoAsOthersCouldUnderstandThisReadableFormatOfThatUnreadableFormat_yes,
+                    }),
+                });
 
-            const data = await response.json();
-            alert(data.message || "Даты успешно сохранены!");
+                if (response.ok) {
+                    const data = await response.json();
+                    alert(data.message);
+                    onClose();
+                    window.location.reload();
+                }
+            } else {
+                const response = await fetch(`${IP}/create-timeslot`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        token: token,
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        timeslot: changedDatesFromUnreadableVariantToReadableSoAsOthersCouldUnderstandThisReadableFormatOfThatUnreadableFormat_yes,
+                    }),
+                });
 
-            onClose(); // close modal after saving
-            window.location.reload();
+                const data = await response.json();
+                alert(data.message || "Даты успешно сохранены!");
+
+                onClose(); // close modal after saving
+                window.location.reload();
+            }
         } catch (err) {
             console.error(err);
             alert("Ошибка отправки данных на сервер");
         }
     };
+
+    useEffect(() => {
+        if (timeslotData) {
+            setName(timeslotData.name);
+            setSelectedDates([]);
+        }
+    }, [timeslotData]);
 
     return (
         <div className={`modal-backdrop ${isOpen ? "open" : ""}`} onClick={onClose}>
