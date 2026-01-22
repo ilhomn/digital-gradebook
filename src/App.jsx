@@ -5,9 +5,10 @@ import {
     Routes,
     Route,
     Navigate,
+    useNavigate,
 } from "react-router-dom";
 
-import { auth } from "./firebase"; 
+import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
 import Login from "./features/auth/Login";
@@ -47,12 +48,12 @@ function App() {
         // if token expires or user logs out from another tab logout here
         const checkToken = async () => {
             const token = await user.getIdToken;
-            console.log("Checking token validity:", token);
             if (!token) {
                 setUser(null);
                 setToken(null);
                 // logout user
                 auth.signOut();
+                window.location.href = "/login";
             }
         };
         checkToken();
@@ -63,6 +64,7 @@ function App() {
     return (
         <Router>
             <Routes>
+                <Route path="/login" element={<Login lang={lang} setLang={setLang} />} />
                 {!user ? (
                     <>
                         <Route path="/" element={<Login lang={lang} setLang={setLang} />} />

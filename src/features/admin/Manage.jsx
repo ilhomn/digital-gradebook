@@ -60,12 +60,11 @@ const ManageUsers = () => {
 
     const moveToTopOfContainer = (name) => {
         if (refs[name].current) {
-            refs[name].current.scrollIntoView({ behavior: "smooth", block: "start" });
+            refs[name].current.scrollIntoView({ behavior: "smooth" });
         }
     };
 
     const filterUsers = async (search) => {
-        // filter by name
         if (search) {
             const filteredUsers = allUsers.filter(user => {
                 return `${user.last_name_en.toLowerCase()} ${user.name_en.toLowerCase()}`.includes(search.toLowerCase()) ||
@@ -79,6 +78,47 @@ const ManageUsers = () => {
         else {
             setUsers(allUsers);
         }
+    };
+
+    const filterGroups = (search) => {
+        if (!search) {
+            setGroups(allGroups);
+            return;
+        }
+
+        const s = search.toLowerCase();
+
+        const filteredGroups = allGroups.filter(group =>
+            group.name.toLowerCase().includes(s) ||
+            String(group.id) === s ||
+            group.teacher_name_en?.toLowerCase().includes(s) ||
+            group.teacher_name_kr?.toLowerCase().includes(s) ||
+            group.teacher_name_tj?.toLowerCase().includes(s)
+        );
+
+        setGroups(filteredGroups);
+    };
+
+    const filterStudents = (search) => {
+        if (!search) {
+            setStudents(allStudents);
+            return;
+        }
+
+        const s = search.toLowerCase();
+        const filteredStudents = allStudents.filter(student =>
+            `${student.last_name_en.toLowerCase()} ${student.name_en.toLowerCase()}`.includes(s) ||
+            `${student.last_name_kr.toLowerCase()} ${student.name_kr.toLowerCase()}`.includes(s) ||
+            `${student.last_name_tj.toLowerCase()} ${student.name_tj.toLowerCase()}`.includes(s) ||
+            `${student.name_en.toLowerCase()} ${student.last_name_en.toLowerCase()}`.includes(s) ||
+            `${student.name_kr.toLowerCase()} ${student.last_name_kr.toLowerCase()}`.includes(s) ||
+            `${student.name_tj.toLowerCase()} ${student.last_name_tj.toLowerCase()}`.includes(s) ||
+            `${student.email.toLowerCase()}`.includes(s) ||
+            `${student.phone}`.includes(s) ||
+            `${student.id}`.includes(s)
+        );
+
+        setStudents(filteredStudents);
     };
 
     const handleDeleteTimeslot = async (id) => {
@@ -143,6 +183,7 @@ const ManageUsers = () => {
 
                     await data.sort((a, b) => a.id - b.id);
                     setGroups(data);
+                    setAllGroups(data);
                 }
 
                 const studentsResponse = await fetch(`${IP}/get-students`, {
@@ -162,6 +203,7 @@ const ManageUsers = () => {
 
                     await data.sort((a, b) => a.id - b.id);
                     setStudents(data);
+                    setAllStudents(data);
                 }
 
                 const timeslotsResponse = await fetch(`${IP}/get-timeslots`, {
@@ -279,6 +321,7 @@ const ManageUsers = () => {
                 <div className="collapsible-section">
                     <div className="section-header" onClick={() => setOpenStudents(!openStudents)}>
                         <span> {interfaceLangs[lang].manage.students} </span>
+                        <input type="text" placeholder={"Search"} className="search-input" onChange={(e) => filterStudents(e.target.value)} onClick={(e) => e.stopPropagation()} />
                         <span className="arrow"> <ArrowToggle open={openStudents} onClick={() => setOpenStudents(!openStudents)} /> </span>
                     </div>
 
@@ -322,6 +365,7 @@ const ManageUsers = () => {
                         onClick={() => setOpenGroups(!openGroups)}
                     >
                         <span>{interfaceLangs[lang].manage.groups}</span>
+                        <input type="text" placeholder={"Search"} className="search-input" onChange={(e) => filterGroups(e.target.value)} onClick={(e) => e.stopPropagation()} />
                         <span className="arrow"> <ArrowToggle open={openGroups} onClick={() => setOpenGroups(!openGroups)} /> </span>
                     </div>
 
