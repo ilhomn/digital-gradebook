@@ -17,7 +17,7 @@ function MainPage({ lang, setLang }) {
     const handleCloseSidebar = () => setIsSidebarOpen(false);
 
     useEffect(() => {
-        
+
         // Fetch user data
         const fetchData = async () => {
             const token = auth.currentUser ? await auth.currentUser.getIdToken() : null;
@@ -48,11 +48,13 @@ function MainPage({ lang, setLang }) {
                     console.error("Error fetching user data");
                     window.localStorage.removeItem("token");
                     navigate("/");
-                    return; 
+                    return;
                 }
 
                 const userDataJson = await userResponse.json();
                 const groupsData = groupsResponse.ok ? await groupsResponse.json() : { data: [] };
+
+                await groupsData.data.sort((a, b) => a.id - b.id);
 
                 setUserData({ ...userDataJson.data, groups: groupsData.data || [] });
 

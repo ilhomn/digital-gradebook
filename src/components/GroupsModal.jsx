@@ -130,10 +130,10 @@ const GroupsModal = ({ isOpen, onClose, groupData, token }) => {
                     <Dropdown options={users.length > 0 && users.map(user => `${user.last_name_en} ${user.name_en}`)} value={form.teacher_name_en}
                         onChange={val => setForm({
                             ...form,
-                            teacher_id: users.find(user => `${user.last_name_en} ${user.name_en}` === val)?.id,
+                            teacher_id: users.find(user => `${user.last_name_en} ${user.name_en}` === val && user.status !== "guest")?.id,
                             teacher_name_en: val,
-                            teacher_name_tj: `${users.find(user => `${user.last_name_en} ${user.name_en}` === val)?.last_name_tj} ${users.find(user => `${user.last_name_en} ${user.name_en}` === val)?.name_tj}`,
-                            teacher_name_kr: `${users.find(user => `${user.last_name_en} ${user.name_en}` === val)?.last_name_kr} ${users.find(user => `${user.last_name_en} ${user.name_en}` === val)?.name_kr}`,
+                            teacher_name_tj: `${users.find(user => `${user.last_name_en} ${user.name_en}` === val && user.status !== "guest")?.last_name_tj} ${users.find(user => `${user.last_name_en} ${user.name_en}` === val && user.status !== "guest")?.name_tj}`,
+                            teacher_name_kr: `${users.find(user => `${user.last_name_en} ${user.name_en}` === val && user.status !== "guest")?.last_name_kr} ${users.find(user => `${user.last_name_en} ${user.name_en}` === val && user.status !== "guest")?.name_kr}`,
                         })}
                     />
 
