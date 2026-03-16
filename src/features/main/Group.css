@@ -393,3 +393,7 @@ tr:hover {
     color: var(--color-white);
     padding: 10px;
 }
+
+.daily-attendance {
+    text-align: center;
+}

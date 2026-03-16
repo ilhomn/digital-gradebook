@@ -142,6 +142,17 @@ const Group = ({ lang, setLang, token }) => {
         }
     };
 
+    const getDailyCount = (day) => {
+        const dateStr = `${selectedYear}-${monthNumbers[selectedMonth]}-${String(day).padStart(2, "0")}`;
+
+        return students.reduce((acc, student) => {
+            const key = `${dateStr}_${student.student_id}`;
+            const attendanceStatus = attendance[key];
+
+            return attendanceStatus !== 'absent' ? acc + 1 : acc;
+        }, 0);
+    };
+
     useEffect(() => {
         const loadData = async () => {
             try {
@@ -278,7 +289,8 @@ const Group = ({ lang, setLang, token }) => {
                                     days[selectedYear][selectedMonth] &&
                                     days[selectedYear][selectedMonth].map((day, index) => (
                                         <th key={index}> {day} </th>
-                                    ))}
+                                    ))
+                                }
                             </tr>
                         </thead>
 
@@ -327,6 +339,18 @@ const Group = ({ lang, setLang, token }) => {
                                             ))}
                                     </tr>
                                 ))}
+                            <tr className="daily-attendance">
+                                <td colSpan={2} style={{ textAlign: "left" }}>
+                                    {interfaceLangs[lang].group.dailyAttendance}:
+                                </td>
+                                {days &&
+                                    days[selectedYear] &&
+                                    days[selectedYear][selectedMonth] &&
+                                    days[selectedYear][selectedMonth].map((day, index) => (
+                                        <td key={index}> {getDailyCount(day)} </td>
+                                    ))
+                                }
+                            </tr>
                             <tr className="total-students">
                                 <td colSpan={days[selectedYear] && days[selectedYear][selectedMonth] ? days[selectedYear][selectedMonth].length + 2 : 2} style={{ textAlign: "end" }}>{interfaceLangs[lang].group.totalStudents}: {students.length} </td>
                             </tr>

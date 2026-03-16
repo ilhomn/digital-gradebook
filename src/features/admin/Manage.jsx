@@ -12,7 +12,7 @@ import CreateStudentModal from "../../components/CreateStudentModal";
 import { useNavigate, useOutletContext } from "react-router-dom";
 
 const ManageUsers = () => {
-    const { lang, setLang, token } = useOutletContext();
+    const { lang, token } = useOutletContext();
     const navigate = useNavigate();
 
     const refs = {
@@ -36,7 +36,6 @@ const ManageUsers = () => {
     const [allUsers, setAllUsers] = useState([]);
     const [allStudents, setAllStudents] = useState([]);
     const [allGroups, setAllGroups] = useState([]);
-    const [allTimeslots, setAllTimeslots] = useState([]);
 
     const [users, setUsers] = useState([]);
     const [students, setStudents] = useState([]);
@@ -45,7 +44,6 @@ const ManageUsers = () => {
 
     const [userData, setUserData] = useState(null);
     const [studentData, setStudentData] = useState(null);
-    const [groupData, setGroupData] = useState(null);
     const [timeslotData, setTimeslotData] = useState(null);
 
     const onClose = () => {
