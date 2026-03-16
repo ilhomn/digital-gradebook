@@ -3,7 +3,7 @@ import { IoClose } from "react-icons/io5";
 import "./UploadStudentsModal.css";
 import IP from "../config";
 
-const UploadStudentsModal = ({ isOpen, onClose }) => {
+const UploadStudentsModal = ({ isOpen, onClose, token }) => {
     const [file, setFile] = useState(null);
     const [isDragging, setIsDragging] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -32,6 +32,7 @@ const UploadStudentsModal = ({ isOpen, onClose }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Uploading students...");
         setLoading(true);
         if (file) await onUpload(file);
         setLoading(false);

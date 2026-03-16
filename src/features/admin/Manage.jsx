@@ -243,7 +243,7 @@ const ManageUsers = () => {
                 setIsTimeSlotsOpen(false)
                 setTimeslotData(null);
             }} timeslotData={timeslotData} />
-            <UploadStudentsModal isOpen={isUploadModalOpen} onClose={() => setIsUploadModalOpen(false)} />
+            <UploadStudentsModal isOpen={isUploadModalOpen} onClose={() => setIsUploadModalOpen(false)} token={token} />
             <CreateStudentModal isOpen={isCreateStudentOpen} onClose={() => {
                 setIsCreateStudentOpen(false)
                 setStudentData(null);
