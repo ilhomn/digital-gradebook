@@ -149,7 +149,7 @@ const Group = ({ lang, setLang, token }) => {
             const key = `${dateStr}_${student.student_id}`;
             const attendanceStatus = attendance[key];
 
-            return attendanceStatus !== 'absent' ? acc + 1 : acc;
+            return (attendanceStatus === 'present' || attendanceStatus === "late") ? acc + 1 : acc;
         }, 0);
     };
 
