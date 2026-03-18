@@ -39,6 +39,7 @@ const Group = ({ lang, setLang, token }) => {
     const [students, setStudents] = useState([]);
     const [days, setDays] = useState({});
     const [loading, setLoading] = useState(false);
+    const [exceptionDays, setExceptionDays] = useState([]);
 
     const handleCloseSidebar = () => setIsSidebarOpen(false);
 
@@ -110,21 +111,19 @@ const Group = ({ lang, setLang, token }) => {
             });
         }
 
-        if (!records.length) {
-            alert("Нет изменений");
-            return;
-        }
-
         try {
             setLoading(true);
-            // console.log(records);
             const res = await fetch(`${IP}/save-attendance`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     token,
                 },
-                body: JSON.stringify({ records }),
+                body: JSON.stringify({ records, exception_days: {
+                    days: exceptionDays,
+                    group_id: groupData.id,
+                    group_name: groupData.name,
+                }}),
             });
 
             if (res.ok) {
@@ -153,6 +152,21 @@ const Group = ({ lang, setLang, token }) => {
         }, 0);
     };
 
+    const handleExceptionDay = (day) => {
+        if (userData.status === "admin") {
+            setExceptionDays(prev => {
+                const index = prev.findIndex(item => item.year === day.year && item.month === day.month && item.day === day.day);
+                if (index === -1) {
+                    return [...prev, day];
+                } else {
+                    const newDays = [...prev];
+                    newDays.splice(index, 1);
+                    return newDays;
+                }
+            });
+        }
+    };
+
     useEffect(() => {
         const loadData = async () => {
             try {
@@ -169,10 +183,13 @@ const Group = ({ lang, setLang, token }) => {
                         map[`${date}_${item.student_id}`] = item.status;
                     });
 
+                    console.log(data.group_data);
+
                     setGroupData(data.group_data);
                     setStudents(data.group_students);
                     setDays(data.group_schedule.days);
                     setAttendance(map);
+                    setExceptionDays(data.group_data.exception_days || []);
 
                     const year = Object.keys(data.group_schedule.days || {})[0];
                     const month = year ? Object.keys(data.group_schedule.days[year])[0] : "";
@@ -287,9 +304,32 @@ const Group = ({ lang, setLang, token }) => {
                                 {days &&
                                     days[selectedYear] &&
                                     days[selectedYear][selectedMonth] &&
-                                    days[selectedYear][selectedMonth].map((day, index) => (
-                                        <th key={index}> {day} </th>
-                                    ))
+                                    days[selectedYear][selectedMonth].map((day, index) => {
+                                        const isException = exceptionDays.some(
+                                            (item) =>
+                                                item.year === selectedYear &&
+                                                item.month === selectedMonth &&
+                                                item.day === day
+                                        );
+                                        return (
+                                            <th
+                                                key={index}
+                                                onClick={() =>
+                                                    handleExceptionDay({
+                                                        year: selectedYear,
+                                                        month: selectedMonth,
+                                                        day: day,
+                                                    })
+                                                }
+                                                style={{
+                                                    cursor: "pointer",
+                                                    color: isException ? "red" : "var(--color-white)",
+                                                }}
+                                            >
+                                                {day}
+                                            </th>
+                                        );
+                                    })
                                 }
                             </tr>
                         </thead>
