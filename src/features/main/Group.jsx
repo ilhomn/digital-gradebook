@@ -183,8 +183,6 @@ const Group = ({ lang, setLang, token }) => {
                         map[`${date}_${item.student_id}`] = item.status;
                     });
 
-                    console.log(data.group_data);
-
                     setGroupData(data.group_data);
                     setStudents(data.group_students);
                     setDays(data.group_schedule.days);
@@ -331,6 +329,9 @@ const Group = ({ lang, setLang, token }) => {
                                         );
                                     })
                                 }
+                                {days && days[selectedYear] && selectedMonth === Object.keys(days[selectedYear])[Object.keys(days[selectedYear]).length - 1] && (
+                                    <th>{interfaceLangs[lang].group.total}</th>
+                                )}
                             </tr>
                         </thead>
 
@@ -377,6 +378,16 @@ const Group = ({ lang, setLang, token }) => {
                                                     )}
                                                 </td>
                                             ))}
+
+                                            {days && days[selectedYear] && selectedMonth === Object.keys(days[selectedYear])[Object.keys(days[selectedYear]).length - 1] && (
+                                                <td className="monthly-total" style={{ textAlign: "center" }}>
+                                                    {Object.keys(attendance).filter(key => {
+                                                        const [studentId] = key.split("_");
+                                                        const status = attendance[key];
+                                                        return String(studentId) === String(student.student_id) && (status === "present" || status === "late");
+                                                    }).length}
+                                                </td>
+                                            )}
                                     </tr>
                                 ))}
                             <tr className="daily-attendance">
@@ -390,9 +401,12 @@ const Group = ({ lang, setLang, token }) => {
                                         <td key={index}> {getDailyCount(day)} </td>
                                     ))
                                 }
+                                {days && days[selectedYear] && selectedMonth === Object.keys(days[selectedYear])[Object.keys(days[selectedYear]).length - 1] && (
+                                    <td></td>
+                                )}
                             </tr>
                             <tr className="total-students">
-                                <td colSpan={days[selectedYear] && days[selectedYear][selectedMonth] ? days[selectedYear][selectedMonth].length + 2 : 2} style={{ textAlign: "end" }}>{interfaceLangs[lang].group.totalStudents}: {students.length} </td>
+                                <td colSpan={days[selectedYear] && days[selectedYear][selectedMonth] ? (days[selectedYear][selectedMonth].length + (selectedMonth === Object.keys(days[selectedYear])[Object.keys(days[selectedYear]).length - 1] ? 3 : 2)) : 2} style={{ textAlign: "end" }}>{interfaceLangs[lang].group.totalStudents}: {students.length} </td>
                             </tr>
                         </tbody>
                     </table>
