@@ -259,7 +259,7 @@ const Group = ({ lang, setLang, token }) => {
                                         days[selectedYear] &&
                                         Object.keys(days[selectedYear]).map((month) => (
                                             <option key={month} value={month}>
-                                                {month}
+                                                {interfaceLangs[lang].group.months[monthNumbers[month] - 1]}
                                             </option>
                                         ))}
                                 </select>
