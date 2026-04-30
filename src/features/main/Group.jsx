@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import "./Group.css";
 import { useParams } from "react-router-dom";
@@ -382,7 +383,7 @@ const Group = ({ lang, setLang, token }) => {
                                             {days && days[selectedYear] && selectedMonth === Object.keys(days[selectedYear])[Object.keys(days[selectedYear]).length - 1] && (
                                                 <td className="monthly-total" style={{ textAlign: "center" }}>
                                                     {Object.keys(attendance).filter(key => {
-                                                        const [studentId] = key.split("_");
+                                                        const [date, studentId] = key.split("_");
                                                         const status = attendance[key];
                                                         return String(studentId) === String(student.student_id) && (status === "present" || status === "late");
                                                     }).length}
