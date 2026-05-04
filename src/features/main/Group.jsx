@@ -59,6 +59,23 @@ const Group = ({ lang, setLang, token }) => {
 
     const toggleAttendance = (studentId, year, month, day) => {
         if (userData.status !== "admin" && userData.status !== "teacher") return;
+        
+        if (userData.status === "teacher") {
+            const targetDate = new Date(year, monthNumbers[month] - 1, day);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            targetDate.setHours(0, 0, 0, 0);
+
+            const diffTime = today - targetDate;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            console.log(diffDays);
+
+            if (diffDays > 3) {
+                // alert(interfaceLangs[lang].group.attendanceEditDeadlineExceeded);
+                return;
+            }
+        }
 
         const date = `${year}-${monthNumbers[month]}-${String(day).padStart(2, "0")}`;
         const key = `${date}_${studentId}`;

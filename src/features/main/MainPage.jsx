@@ -33,6 +33,7 @@ function MainPage({ lang, setLang }) {
                         headers: {
                             "Content-Type": "application/json",
                             token: token,
+                            "Access-Controle-Allow-Origin": "*",
                         },
                     }),
                     fetch(`${IP}/get-groups`, {
